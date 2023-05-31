@@ -1,4 +1,4 @@
-# ds-infrastrcuture-databases
+# ds-infrastructure-databases
 Initialising EBS for MySQL and PostgreSQL.
 After creating the EBS volume, it will be removed from terraform state to avoid any complications if terraform would change settings of the volume or want to destroy it all together.
 
