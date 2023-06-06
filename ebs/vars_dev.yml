@@ -1,8 +1,8 @@
 ---
 key_name: "temp-pg-ebs-key"
 region: "eu-west-2"
-zone-source: "eu-west-2a"
-zone-replica: "eu-west-2b"
+zone_source: "eu-west-2a"
+zone_replica: "eu-west-2b"
 service: "postgresql"
 env: "dev"
 volume_size: 40
