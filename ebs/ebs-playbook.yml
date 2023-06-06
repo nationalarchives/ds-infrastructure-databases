@@ -27,14 +27,19 @@
           role_session_name: "s-devops"
         register: assumed_role
 
-      - amazon.aws.ec2_vol:
+      - name: set up ebs
+        amazon.aws.ec2_vol:
           aws_access_key: "{{ session_credentials.sts_creds.access_key }}"
           aws_secret_key: "{{ session_credentials.sts_creds.secret_key }}"
-          security_token: "{{ session_credentials.sts_creds.session_token }}"
+          session_token: "{{ session_credentials.sts_creds.session_token }}"
           zone: "{{ zone_source }}"
           multi_attach: false
           volume_size: "{{ ebs_size }}"
           volume_type: "{{ ebs_type }}"
           encrypted: "{{ ebs_encryption }}"
+          state: "present"
+          tags: {
+            Name: "{{ ebs_tag_name }}"
+          }
 
 ...
