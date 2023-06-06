@@ -1,5 +1,5 @@
 ---
-name: Initialse PostgreSQL EBS
+name: Initialise PostgreSQL EBS
 
 permissions:
   id-token: write
