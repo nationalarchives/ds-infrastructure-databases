@@ -1,0 +1,16 @@
+---
+key_name: "temp-pg-ebs-key"
+region: "eu-west-2"
+zone-source: "eu-west-2a"
+zone-replica: "eu-west-2b"
+service: "postgresql"
+env: "dev"
+volume_size: 40
+s3_deployment_bucket: "ds-dev-deployment-source"
+s3_deployment_root: "postgresql"
+ebs_size: 20
+ebs_type: "gp3"
+ebs_device_name: "/dev/sdf"
+ebs_encryption: true
+ebs_tag_name: "postgres-source-ebs"
+...

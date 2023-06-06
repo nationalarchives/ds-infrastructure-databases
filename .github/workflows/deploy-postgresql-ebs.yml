@@ -42,6 +42,7 @@ jobs:
           VPC_ID: ${{ secrets.VPC_ID }}
           SUBNET_ID: ${{ secrets.SUBNET_ID_2A }}
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+          ANSIBLE_VAR_FILE: "vars_dev.yml"
         run: |
           cur_dir=$(pwd)
           cd $cur_dir/ebs
