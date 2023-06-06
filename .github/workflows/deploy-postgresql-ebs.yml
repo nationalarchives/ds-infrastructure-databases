@@ -38,7 +38,7 @@ jobs:
 
       - name: run ansible playbook
         env:
-          AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN_EBS_MGMT }}
+          AWS_ROLE_ARN: ${{ secrets.OIDC_ROLE_ARN }}
           VPC_ID: ${{ secrets.VPC_ID }}
           SUBNET_ID: ${{ secrets.SUBNET_ID_2A }}
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
