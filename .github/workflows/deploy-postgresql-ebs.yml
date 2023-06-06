@@ -1,5 +1,5 @@
 ---
-name: Deploy PostgreSQL EBS
+name: Initialse PostgreSQL EBS
 
 permissions:
   id-token: write
@@ -13,16 +13,16 @@ on:
         description: Environment
         required: true
         options:
-        - dev
+        - dev-source
 
 jobs:
 # ------------------------------------------------------------------------------
 # dev deployment
 # ------------------------------------------------------------------------------
-  ebs-deployment-dev:
-    if: ${{ inputs.deploy-environment  == 'dev' }}
+  ebs-initialise-source-dev:
+    if: ${{ inputs.deploy-environment  == 'dev-source' }}
     runs-on: ubuntu-latest
-    environment: dev
+    environment: ebs-dev
     steps:
       - name: checkout repo
         uses: actions/checkout@v3
@@ -33,10 +33,10 @@ jobs:
 
       - name: aws variable settings
         run: |
-          echo AWS_ROLE_ARN=${{ secrets.AWS_ROLE_ARN }} >> $GITHUB_ENV
+          echo AWS_ROLE_ARN=${{ secrets.OIDC_ROLE_ARN }} >> $GITHUB_ENV
           echo AWS_DEFAULT_REGION=eu-west-2 >> $GITHUB_ENV
-          echo AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} >> $GITHUB_ENV
-          echo AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} >> $GITHUB_ENV
+          # echo AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} >> $GITHUB_ENV
+          # echo AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} >> $GITHUB_ENV
 
       - name: install python
         uses: actions/setup-python@v4
@@ -49,14 +49,14 @@ jobs:
 
       - name: run ansible playbook
         env:
-          AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN_DEV }}
-          VPC_ID: ${{ secrets.VPC_ID_DEV }}
-          SUBNET_ID: ${{ secrets.SUBNET_ID_DEV }}
-          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID_DEV }}
+          AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+          VPC_ID: ${{ secrets.VPC_ID }}
+          SUBNET_ID: ${{ secrets.SUBNET_ID_2A }}
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
         run: |
           cur_dir=$(pwd)
           cd $cur_dir/ebs
-          export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID_DEV }}
-          export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_DEV }}
+          export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+          export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
           export AWS_DEFAULT_REGION=eu-west-2
-          ansible-playbook --extra-vars "ansible_var_file='${{ env.ANSIBLE_VAR_FILE }}'" --private-key $cur_dir/${{ env.SSH_KEY_FILE }} nginx-playbook.yml
+          ansible-playbook --extra-vars "ansible_var_file='${{ env.ANSIBLE_VAR_FILE }}'" --private-key $cur_dir/${{ env.SSH_KEY_FILE }} ebs-playbook.yml
