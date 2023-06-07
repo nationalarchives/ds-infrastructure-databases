@@ -110,6 +110,9 @@
 
   - name: get secrets
     amazon.aws.secretsmanager_secret:
+      access_key: "{{ assumed_role.sts_creds.access_key }}"
+      secret_key: "{{ assumed_role.sts_creds.secret_key }}"
+      session_token: "{{ assumed_role.sts_creds.session_token }}"
       set_fact:
         source_secret: >
           {{ lookup('amazon.aws.aws_secret', '{{ credentials_key }}', region=region, access_key={{ assumed_role.sts_creds.access_key }}, secret_key={{ assumed_role.sts_creds.secret_key }}, aws_session_token={{ assumed_role.sts_creds.session_token }}, on_denied='warn') | from_json }}
