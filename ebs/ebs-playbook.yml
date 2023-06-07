@@ -44,9 +44,8 @@
           volume_type: "{{ ebs_type }}"
           encrypted: "{{ ebs_encryption }}"
           state: "present"
-          tags: {
+          tags:
             Name: "{{ ebs_tag_name }}"
-          }
         register: source_ebs
 
 ...
