@@ -24,48 +24,38 @@ if [[ -z "$attachedVolume" ]]; then
   else
     if [ ! -d "/postgres" ]; then
       sudo mkdir /postgres
-#      sudo mkdir /postgres/data
-#      sudo mkdir /postgres/log
     fi
     aws ec2 attach-volume --region $region --volume-id $ebsvolume --instance-id $instanceid --device /dev/sdf
     sleep 10
-    sudo mkfs -t xfs /dev/xvdf
     sudo mount /dev/xvdf /postgres
-    sudo chown -R postgres:postgres /postgres
-    sudo chmod -R 0700 /postgres/data
+    volumeFormatted=$(sudo file -s /dev/xvdf | grep "filesystem data")
+    if [[ -z "$volumeFormatted" ]]; then
+      sudo mkfs -t xfs /dev/xvdf
+      sudo mkdir /postgres/log
+      sudo chown -R postgres:postgres /postgres
+      sudo chmod -R 0700 /postgres/data
+    fi
   fi
 else
   echo "Volume $attachedVolume already attached"
 fi
-avzone=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)
-ebsvolume=$(aws ec2 describe-volumes --region eu-west-2 --filters Name=tag:Name,Values=postgres-init Name=availability-zone,Values=$avzone --query 'Volumes[*].[VolumeId, State==`available`]' --output text  | grep True | awk '{print $1}' | head -n 1)
-sudo mkdir /postgres
-
-
-aws ec2 attach-volume --region eu-west-2 --volume-id $ebsvolume --instance-id $instanceid --device /dev/sdf
-sleep 10    # mount ebs to /mnt
-sudo mkfs -t xfs /dev/xvdf
-sudo mount /dev/xvdf /postgres
-
-mntDriveID="$(sudo blkid /dev/xvdf | grep -oP 'UUID="(.*?)"' | grep -oP '"(.*?)"' | sed 's/"//g')"
-echo "UUID=$mntDriveID  /postgres  xfs  defaults,nofail  0  2" | sudo tee -a /etc/fstab > /dev/null
 
 # Install Cloudwatch agent
-sudo yum install amazon-cloudwatch-agent -y
-sudo amazon-linux-extras install -y collectd
-sudo aws s3 cp s3://{{ s3_deployment_bucket }}/{{ service }}/cloudwatch/cloudwatch-agent-config.json /opt/aws/amazon-cloudwatch-agent/bin/config.json
-sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json
-
+#sudo yum install amazon-cloudwatch-agent -y
+#sudo amazon-linux-extras install -y collectd
+#sudo aws s3 cp s3://{{ s3_deployment_bucket }}/{{ service }}/cloudwatch/cloudwatch-agent-config.json /opt/aws/amazon-cloudwatch-agent/bin/config.json
+#sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json
 
 DATA_DIR="/postgres/data"
 LOG_DIR="/postgres/log"
-sudo chown -R postgres:postgres /postgres
-sudo chmod -R 0700 /postgres/data
 
 # Install PostgreSQL
 sudo amazon-linux-extras enable postgresql14
 sudo yum install postgresql-server -y
 sudo postgresql-setup initdb
+
+sudo cp /var/lib/pgsql/data /postgres
+
 sudo systemctl start postgresql
 #sudo systemctl enable postgresql
 
@@ -108,29 +98,3 @@ cat << EOF > /var/finish-init.txt
 [status]
 finished = true
 EOF
-
-
-
-#########
- Stop PostgreSQL service
-sudo systemctl stop postgresql
-
-# Remove existing PostgreSQL data
-sudo rm -rf ${DATA_DIR}
-
-# Initialize replica from primary server backup
-sudo -u postgres pg_basebackup -h primary_server_ip_address -D ${DATA_DIR} -U replication_user -v -P --wal-method=stream
-
-# Configure replica to connect to primary server
-sudo sed -i "s|#data_directory = '/var/lib/postgresql/14/main'|data_directory = '${DATA_DIR}'|" /etc/postgresql/14/main/postgresql.conf
-sudo sed -i "s|#logging_directory = '/var/log/postgresql'|logging_directory = '${LOG_DIR}'|" /etc/postgresql/14/main/postgresql.conf
-sudo sed -i "s|#primary_conninfo = ''|primary_conninfo = 'host=primary_server_ip_address port=5432 user=replication_user password=replication_password application_name=replica_server'|" /etc/postgresql/14/main/postgresql.conf
-
-# Restart PostgreSQL service
-sudo systemctl restart postgresql
-
-# Enable replication slots
-sudo -u postgres psql -c "SELECT * FROM pg_create_physical_replication_slot('replica_slot');"
-
-# Start PostgreSQL service
-sudo systemctl start postgresql
