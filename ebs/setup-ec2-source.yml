@@ -41,7 +41,7 @@
       secret_key: "{{ assumed_role.sts_creds.secret_key }}"
       session_token: "{{ assumed_role.sts_creds.session_token }}"
       policy_name: "ansible-postgres-s3-policy"
-      policy: "{{ lookup('file', './instance-role-policy.json') }}"
+      policy: "{{ lookup('file', './templates/instance-role-policy.json') }}"
       state: "present"
     register: s3_policy
 
@@ -52,7 +52,7 @@
       session_token: "{{ assumed_role.sts_creds.session_token }}"
       name: "ansible-ami-postgres-role"
       region: "{{ region }}"
-      assume_role_policy_document: "{{ lookup('file', './instance-role-policy.json') }}"
+      assume_role_policy_document: "{{ lookup('file', './templates/ec2-role-policy.json') }}"
       managed_policies: ["{{ s3_policy.policy.arn }}", "arn:aws:iam::aws:policy/SecretsManagerReadWrite"]
       create_instance_profile: yes
       delete_instance_profile: yes
