@@ -23,7 +23,7 @@
       size: 2048
       comment: "temp@nationalarchives.gov.uk"
       mode: '0644'
-      state: "present""
+      state: "present"
       type: "rsa"
 
   - name: create key pair for instance
