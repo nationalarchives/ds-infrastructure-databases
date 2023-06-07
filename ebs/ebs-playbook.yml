@@ -43,7 +43,10 @@
             Service: "PostgreSQL"
             Owner: "Digital Services"
             CostCentre: "53"
-
         register: source_ebs
+
+      - name: setup ec2 instance initialising ebs
+        ansible.builtin.include_tasks:
+          file: setup-ec2-source.yml
 
 ...
