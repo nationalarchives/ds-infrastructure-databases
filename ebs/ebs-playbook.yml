@@ -27,12 +27,6 @@
           role_session_name: "s-devops"
         register: assumed_role
 
-      - ansible.builtin.debug:
-          msg:
-            - "====================================================================="
-            - "{{ assumed_role }}"
-            - "====================================================================="
-
       - name: set up ebs
         amazon.aws.ec2_vol:
           access_key: "{{ assumed_role.sts_creds.access_key }}"
@@ -46,6 +40,10 @@
           state: "present"
           tags:
             Name: "{{ ebs_tag_name }}"
+            Service: "PostgreSQL"
+            Owner: "Digital Services"
+            CostCentre: "53"
+
         register: source_ebs
 
 ...
