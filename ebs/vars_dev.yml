@@ -13,4 +13,5 @@ ebs_type: "gp3"
 ebs_device_name: "/dev/sdf"
 ebs_encryption: true
 ebs_tag_name: "postgres-source-ebs"
+credentials_key: "devops/credentials/postgres/private-beta"
 ...
