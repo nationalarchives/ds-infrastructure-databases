@@ -30,6 +30,5 @@
     amazon.aws.ec2_key:
       name: "{{ key_name_source }}"
       key_material: "{{ lookup('file', '/tmp/id_ssh_rsa_source.pub') }}"
-      key_type: "rsa"
       state: "present"
 ...
