@@ -3,8 +3,8 @@
   block:
   - name: get linux2 AMI
     amazon.aws.ec2_ami_info:
-      aws_access_key: "{{ assumed_role.sts_creds.access_key }}"
-      aws_secret_key: "{{ assumed_role.sts_creds.secret_key }}"
+      access_key: "{{ assumed_role.sts_creds.access_key }}"
+      secret_key: "{{ assumed_role.sts_creds.secret_key }}"
       session_token: "{{ assumed_role.sts_creds.session_token }}"
       owners: amazon
       region: "{{ region }}"
@@ -28,6 +28,9 @@
 
   - name: create key pair for instance
     amazon.aws.ec2_key:
+      access_key: "{{ assumed_role.sts_creds.access_key }}"
+      secret_key: "{{ assumed_role.sts_creds.secret_key }}"
+      session_token: "{{ assumed_role.sts_creds.session_token }}"
       name: "{{ key_name_source }}"
       key_material: "{{ lookup('file', '/tmp/id_ssh_rsa_source.pub') }}"
       state: "present"
