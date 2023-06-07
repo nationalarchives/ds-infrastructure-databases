@@ -35,9 +35,9 @@
 
       - name: set up ebs
         amazon.aws.ec2_vol:
-          access_key: "{{ assumed_role.access_key }}"
-          secret_key: "{{ assumed_role.secret_key }}"
-          session_token: "{{ assumed_role.session_token }}"
+          access_key: "{{ assumed_role.sts_creds.access_key }}"
+          secret_key: "{{ assumed_role.sts_creds.secret_key }}"
+          session_token: "{{ assumed_role.sts_credssession_token }}"
           zone: "{{ zone_source }}"
           multi_attach: false
           volume_size: "{{ ebs_size }}"
