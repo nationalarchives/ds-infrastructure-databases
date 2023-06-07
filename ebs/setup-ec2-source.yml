@@ -35,13 +35,22 @@
       key_material: "{{ lookup('file', '/tmp/id_ssh_rsa_source.pub') }}"
       state: "present"
 
+  - name: template userdata source
+    vars:
+      s3_deployment_bucket: "{{ s3_deployment_bucket }}"
+      s3_deployment_root: "{{ s3_deployment_root }}"
+    template:
+      src: "./templates/instance-role-policy.json.j2"
+      dest: "./instance-role-policy.json"
+      force: yes
+
   - name: create deployment policy
     community.aws.iam_managed_policy:
       access_key: "{{ assumed_role.sts_creds.access_key }}"
       secret_key: "{{ assumed_role.sts_creds.secret_key }}"
       session_token: "{{ assumed_role.sts_creds.session_token }}"
       policy_name: "ansible-postgres-s3-policy"
-      policy: "{{ lookup('file', './templates/instance-role-policy.json') }}"
+      policy: "{{ lookup('file', './instance-role-policy.json') }}"
       state: "present"
     register: s3_policy
 
