@@ -22,7 +22,7 @@
       path: /tmp/id_ssh_rsa_source
       size: 2048
       comment: "temp@nationalarchives.gov.uk"
-      mode: "u=rw,g=r,o=r"
+      mode: '0644'
       state: "present""
       type: "rsa"
 
