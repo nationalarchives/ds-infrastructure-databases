@@ -70,7 +70,7 @@
     register: ec2_iam_role
 
   - name: create security group - allowing updates and downloads
-    amazon.aws.ec2_group:
+    amazon.aws.ec2_security_group:
       access_key: "{{ assumed_role.sts_creds.access_key }}"
       secret_key: "{{ assumed_role.sts_creds.secret_key }}"
       session_token: "{{ assumed_role.sts_creds.session_token }}"
