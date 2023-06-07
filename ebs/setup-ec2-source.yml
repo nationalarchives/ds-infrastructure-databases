@@ -1,35 +1,35 @@
 ---
 - name: initiate ec2 elements
-block:
-- name: get linux2 AMI
-  amazon.aws.ec2_ami_info:
-    aws_access_key: "{{ assumed_role.sts_creds.access_key }}"
-    aws_secret_key: "{{ assumed_role.sts_creds.secret_key }}"
-    session_token: "{{ assumed_role.sts_creds.session_token }}"
-    owners: amazon
-    region: "{{ region }}"
-    filters:
-      name: "amzn2-ami-hvm*"
-  register: findami
+  block:
+  - name: get linux2 AMI
+    amazon.aws.ec2_ami_info:
+      aws_access_key: "{{ assumed_role.sts_creds.access_key }}"
+      aws_secret_key: "{{ assumed_role.sts_creds.secret_key }}"
+      session_token: "{{ assumed_role.sts_creds.session_token }}"
+      owners: amazon
+      region: "{{ region }}"
+      filters:
+        name: "amzn2-ami-hvm*"
+    register: findami
 
-- name: set latest AMI
-  set_fact:
-    latest_ami: >
-      {{ findami.images | sort(attribute='creation_date') | last }}
+  - name: set latest AMI
+    set_fact:
+      latest_ami: >
+        {{ findami.images | sort(attribute='creation_date') | last }}
 
-- name: create temp ssh key
-  community.crypto.openssh_keypair:
-    path: /tmp/id_ssh_rsa_source
-    size: 2048
-    comment: "temp@nationalarchives.gov.uk"
-    mode: "u=rw,g=r,o=r"
-    state: "present""
-    type: "rsa"
+  - name: create temp ssh key
+    community.crypto.openssh_keypair:
+      path: /tmp/id_ssh_rsa_source
+      size: 2048
+      comment: "temp@nationalarchives.gov.uk"
+      mode: "u=rw,g=r,o=r"
+      state: "present""
+      type: "rsa"
 
-- name: create key pair for instance
-  amazon.aws.ec2_key:
-    name: "{{ key_name_source }}"
-    key_material: "{{ lookup('file', '/tmp/id_ssh_rsa_source.pub') }}"
-    key_type: "rsa"
-    state: "present"
+  - name: create key pair for instance
+    amazon.aws.ec2_key:
+      name: "{{ key_name_source }}"
+      key_material: "{{ lookup('file', '/tmp/id_ssh_rsa_source.pub') }}"
+      key_type: "rsa"
+      state: "present"
 ...
