@@ -108,10 +108,18 @@
       state: "present"
     register: ec2_sec_group
 
+      - name: set environment variables
+        run: |
+          echo "set vars"
+          export AWS_ACCESS_KEY=${{ assumed_role.sts_creds.access_key }}
+          export AWS_SECRET_KEY=${{ assumed_role.sts_creds.secret_key }}
+          export AWS_SESSION_TOKEN=${{ assumed_role.sts_creds.session_token }}
+          export AWS_DEFAULT_REGION=eu-west-2
+
   - name: get secrets
     ansible.builtin.set_fact:
       source_secret: >
-        "{{ lookup('amazon.aws.aws_secret', credentials_key, on_denied='error') | from_json }}"
+        "{{ lookup('amazon.aws.aws_secret', credentials_key, access_key=assumed_role.sts_creds.access_key on_denied='error') | from_json }}"
 
   - name: set secrets
     set_fact:

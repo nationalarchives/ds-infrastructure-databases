@@ -27,14 +27,6 @@
           role_session_name: "s-devops"
         register: assumed_role
 
-      - name: set environment variables
-        run: |
-          echo "set vars"
-          export AWS_ACCESS_KEY=${{ assumed_role.sts_creds.access_key }}
-          export AWS_SECRET_KEY=${{ assumed_role.sts_creds.secret_key }}
-          export AWS_SESSION_TOKEN=${{ assumed_role.sts_creds.session_token }}
-          export AWS_DEFAULT_REGION=eu-west-2
-
       - name: set up ebs
         amazon.aws.ec2_vol:
           access_key: "{{ assumed_role.sts_creds.access_key }}"
