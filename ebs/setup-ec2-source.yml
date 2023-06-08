@@ -109,9 +109,16 @@
     register: ec2_sec_group
 
   - name: get secrets
-    set_fact:
+    ansible.builtin.set_fact:
       source_secret: >
-        "{{ lookup('amazon.aws.aws_secret', '{{ credentials_key }}', region='{{ region }}', aws_access_key='{{ assumed_role.sts_creds.access_key }}', aws_secret_key='{{ assumed_role.sts_creds.secret_key }}', aws_session_token='{{ assumed_role.sts_creds.session_token }}', on_denied='error') | from_json }}"
+        "{{ lookup('amazon.aws.aws_secret', 'secret_key', 'region=' + aws_region, 'aws_access_key=' + aws_a_key, 'aws_secret_key=' + aws_s_key, 'aws_session_token=' + aws_token, 'on_denied='error') | from_json }}
+      vars:
+        secret_key: "{{ credentials_key }}"
+        aws_region: "{{ region }}"
+        aws_a_key: "{{ assumed_role.sts_creds.access_key }}"
+        aws_s_key: "{{ assumed_role.sts_creds.secret_key }}"
+        aws_token: "{{ assumed_role.sts_creds.session_token }}"
+
   - name: set secrets
     set_fact:
       root_password: "{{ source_secret.root_password }}"
