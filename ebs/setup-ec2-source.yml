@@ -112,21 +112,14 @@
     ansible.builtin.set_fact:
       source_secret: "{{ lookup('amazon.aws.aws_secret', credentials_key, access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, on_denied='error') | to_json }}"
 
-  - ansible.builtin.debug:
-      msg:
-        - "====================================================================="
-        - "{{ source_secret }}"
-        - "====================================================================="
-
   - name: set secrets
     set_fact:
-      #root_password: "{{ source_secret.root_password }}"
       root_password: "{{ source_secret | from_json | json_query('root_password')}}"
-      admin_user: "{{ source_secret.admin_user }}"
-      admin_pass: "{{ source_secret.admin_password }}"
-      repl_user: "{{ source_secret.repl_user }}"
-      repl_pass: "{{ source_secret.repl_password }}"
-      network_cidr: "{{ source_secret.network_cidr }}"
+      admin_user: "{{ source_secret | from_json | json_query('admin_user') }}"
+      admin_pass: "{{ source_secret | from_json | json_query('admin_password') }}"
+      repl_user: "{{ source_secret | from_json | json_query('repl_user') }}"
+      repl_pass: "{{ source_secret | from_json | json_query('repl_password') }}"
+      network_cidr: "{{ source_secret | from_json | json_query('network_cidr') }}"
 
   - name: template userdata source
     vars:
