@@ -111,7 +111,7 @@
   - name: get secrets
     ansible.builtin.set_fact:
       source_secret: >
-        "{{ lookup('amazon.aws.aws_secret', credentials_key, access_key=assumed_role.sts_creds.access_key on_denied='error') | from_json }}"
+        "{{ lookup('amazon.aws.aws_secret', credentials_key, access_key=assumed_role.sts_creds.access_key, on_denied='error') | from_json }}"
 
   - name: set secrets
     set_fact:
