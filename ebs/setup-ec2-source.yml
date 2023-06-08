@@ -111,7 +111,7 @@
   - name: get secrets
     ansible.builtin.set_fact:
       source_secret: >
-        "{{ lookup('amazon.aws.aws_secret', 'secret_key', 'region=' + aws_region, 'aws_access_key=' + aws_a_key, 'aws_secret_key=' + aws_s_key, 'aws_session_token=' + aws_token, 'on_denied='error') | from_json }}"
+        "{{ lookup('amazon.aws.aws_secret', 'secret_key', 'region=\"' + aws_region + '\"', 'aws_access_key=\"' + aws_a_key + '\"', 'aws_secret_key=\"' + aws_s_key + '\"', 'aws_session_token=\"' + aws_token + '\"', 'on_denied=\"error\"') | from_json }}"
       vars:
         secret_key: "{{ credentials_key }}"
         aws_region: "{{ region }}"
