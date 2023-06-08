@@ -120,7 +120,8 @@
 
   - name: set secrets
     set_fact:
-      root_password: "{{ source_secret.root_password }}"
+      #root_password: "{{ source_secret.root_password }}"
+      root_password: "{{ source_secret | from_json | json_query('root_password')}}"
       admin_user: "{{ source_secret.admin_user }}"
       admin_pass: "{{ source_secret.admin_password }}"
       repl_user: "{{ source_secret.repl_user }}"
