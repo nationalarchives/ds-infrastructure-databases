@@ -46,6 +46,11 @@
         register: source_ebs
 
       - name: setup ec2 instance initialising ebs
+        env:
+          AWS_ACCESS_KEY: "{{ assumed_role.sts_creds.access_key }}"
+          AWS_SECRET_KEY: "{{ assumed_role.sts_creds.secret_key }}"
+          AWS_SESSION_TOKEN: "{{ assumed_role.sts_creds.session_token }}"
+          AWS_REGION: "{{ region }}"
         ansible.builtin.include_tasks:
           file: setup-ec2-source.yml
 
