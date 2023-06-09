@@ -13,7 +13,14 @@ on:
         description: Environment
         required: true
         options:
-        - dev-source
+          - dev-source
+      ebs-set:
+        type: choice
+        description: Source or Source/Replica set
+        required: true
+        options:
+          - source
+          - source-replica-set
 
 jobs:
 # ------------------------------------------------------------------------------

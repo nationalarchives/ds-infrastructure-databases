@@ -87,7 +87,7 @@ EOF
 
 psql -U postgres < db_user.sql
 
-sudo sed -i "s/listen_addresses=/c\\\nlisten_addresses='{{ list_ips }}'\n/g" /etc/my.cnf
+sudo sed -i "s/listen_addresses=/c\\\nlisten_addresses='{{ network_cidr }}'\n/g" /etc/my.cnf
 #echo "host    all          all            0.0.0.0/0  md5" | sudo tee -a /var/lib/pgsql/data/pg_hba.conf > /dev/null
 
 sed -i "s|local all postgres trust|local all postgres md5" /var/lib/pgsql/data/pg_hba.conf

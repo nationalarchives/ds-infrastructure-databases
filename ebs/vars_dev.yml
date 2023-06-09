@@ -12,6 +12,14 @@ ebs_size: 20
 ebs_type: "gp3"
 ebs_device_name: "/dev/sdf"
 ebs_encryption: true
-ebs_tag_name: "postgres-source-ebs"
+
+source_ebs_tag_name: "postgres-source-ebs"
+replica_ebs_tag_name: "postgres-replica-ebs"
+
 credentials_key: "devops/credentials/postgres/private-beta"
+
+deployment_policy_name: "ansible-postgres-s3-policy"
+iam_role_name: "ansible-postgres-role"
+ec2_sg_name: "ansible-postgres-sg"
+instance_name: "postgres-primer-source"
 ...
