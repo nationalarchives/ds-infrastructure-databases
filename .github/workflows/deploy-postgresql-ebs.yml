@@ -1,5 +1,5 @@
 ---
-name: Initialse PostgreSQL EBS
+name: Initialise PostgreSQL EBS
 
 permissions:
   id-token: write
@@ -13,7 +13,17 @@ on:
         description: Environment
         required: true
         options:
-        - dev-source
+          - dev-source
+      ebs-set:
+        type: choice
+        description: Source or Source/Replica set
+        required: true
+        options:
+          - source
+          - source-replica-set
+      prefix:
+        description: Prefix used for ebs (-source or -replica)
+        required: true
 
 jobs:
 # ------------------------------------------------------------------------------
@@ -40,15 +50,15 @@ jobs:
 
       - name: run ansible playbook
         env:
-          AWS_ROLE_ARN: ${{ secrets.OIDC_ROLE_ARN }}
-          VPC_ID: ${{ secrets.VPC_ID }}
-          SUBNET_ID: ${{ secrets.SUBNET_ID_2A }}
-          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
           ANSIBLE_VAR_FILE: "vars_dev.yml"
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID_DEV }}
+          AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN_EBS_MGMT }}
+          SUBNET_ID_A: ${{ secrets.SUBNET_ID_2A }}
+          VPC_ID: ${{ secrets.VPC_ID }}
         run: |
           cur_dir=$(pwd)
           cd $cur_dir/ebs
-          export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
-          export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID_EBS }}
+          export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_EBS }}
           export AWS_DEFAULT_REGION=eu-west-2
-          ansible-playbook --extra-vars "ansible_var_file='${{ env.ANSIBLE_VAR_FILE }}'" --private-key $cur_dir/${{ env.SSH_KEY_FILE }} ebs-playbook.yml
+          ansible-playbook --extra-vars "ansible_var_file='${{ env.ANSIBLE_VAR_FILE }}'" ebs-playbook.yml

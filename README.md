@@ -1,6 +1,6 @@
 # ds-infrastructure-databases
-Initialising EBS for MySQL and PostgreSQL.
-After creating the EBS volume, it will be removed from terraform state to avoid any complications if terraform would change settings of the volume or want to destroy it all together.
+## Initialising EBS for MySQL and PostgreSQL.
+Use GitHub Actions to create either a single or a source/replica EBS. 
 
 The volume could contain data and to avoid data loss no automated delete or change of settings will be done from this repository by running terraform apply.
 
