@@ -21,6 +21,9 @@ on:
         options:
           - source
           - source-replica-set
+      prefix:
+        description: Prefix used for ebs (-source or -replica)
+        required: true
 
 jobs:
 # ------------------------------------------------------------------------------
