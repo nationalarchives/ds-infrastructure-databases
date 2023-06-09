@@ -26,11 +26,11 @@
           role_session_name: "s-devops"
         register: assumed_role
 
+      # setting up the environment including security groups, iam roles, userdata scripts
+      # policies and retrieving secrets from secrets manager
       - name: initialise environment
-        any_errors_fatal: true
-        block:
-          ansible.builtin.include_tasks:
-            file: initialise-environment.yml
+        ansible.builtin.include_tasks:
+          file: initialise-environment.yml
 
       - name: set variables for source ebs
         set_fact:
@@ -44,5 +44,6 @@
 #        block:
 #          ansible.builtin.include_tasks:
 #            file: initialise-ebs.yml
+
 
 ...
