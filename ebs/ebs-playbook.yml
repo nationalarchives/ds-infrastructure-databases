@@ -1,6 +1,5 @@
 # EBS playbook
 ---
-
 - name: Initialise PostgreSQL EBS
   hosts: localhost
   gather_facts: false
@@ -27,23 +26,26 @@
           role_session_name: "s-devops"
         register: assumed_role
 
+# setting up the environment including security groups, iam roles, userdata scripts
+# policies and retrieving secrets from secrets manager
     - name: initialise environment
       any_errors_fatal: true
       block:
         ansible.builtin.include_tasks:
           file: initialise-environment.yml
 
-    - name: set secrets
+    - name: set variables for source ebs
       set_fact:
         ebs_target_zone: "{{ zone_source }}"
         ebs_tag_name: "{{ lookup ('env', 'EBS_PREFIX') }}-source-ebs"
         subnet_id: "{{ subnet_id_a }}"
 
-    - name: initialise source ebs
-      any_errors_fatal: true
-      block:
-        ansible.builtin.include_tasks:
-          file: initialise-ebs.yml
+# create source ebs and instance to run initialsation of ebs as source db
+#    - name: initialise source ebs
+#      any_errors_fatal: true
+#      block:
+#        ansible.builtin.include_tasks:
+#          file: initialise-ebs.yml
 
 
 ...

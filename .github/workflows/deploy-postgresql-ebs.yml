@@ -55,7 +55,7 @@ jobs:
           AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN_EBS_MGMT }}
           SUBNET_ID_A: ${{ secrets.SUBNET_ID_2A }}
           VPC_ID: ${{ secrets.VPC_ID }}
-          EBS_PREFIX: ${{ env.prefix
+          EBS_PREFIX: ${{ env.prefix }}
         run: |
           cur_dir=$(pwd)
           cd $cur_dir/ebs

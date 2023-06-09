@@ -119,15 +119,21 @@
     repl_pass: "{{ db_secret | from_json | json_query('repl_password') }}"
     network_cidr: "{{ db_secret | from_json | json_query('network_cidr') }}"
 
-- name: get network secrets
+- name: get network information
   ansible.builtin.set_fact:
-    nw_secret: "{{ lookup('amazon.aws.aws_secret', network_details_key, access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, on_denied='error') | to_json }}"
+    nw_details: "{{ lookup('amazon.aws.aws_ssm', network_detail_keys, access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, bypath=true, recursive=true, on_denied='error') | to_json }}"
+
+- ansible.builtin.debug:
+    msg:
+      - "====================================================================="
+      - "{{ nw_details }}"
+      - "====================================================================="
 
 - name: set secrets
   set_fact:
-    vpc_id: "{{ nw_secret | from_json | json_query('vpc_id')}}"
-    subnet_id_a: "{{ nw_secret | from_json | json_query('subnet_id_a') }}"
-    subnet_id_b: "{{ nw_secret | from_json | json_query('subnet_id_b') }}"
+    vpc_id: "{{ nw_details | from_json | json_query('vpc_id')}}"
+    subnet_id_a: "{{ nw_details | from_json | json_query('subnet_id_a') }}"
+    subnet_id_b: "{{ nw_details | from_json | json_query('subnet_id_b') }}"
 
 - name: template userdata source
   vars:
