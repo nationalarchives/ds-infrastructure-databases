@@ -16,7 +16,9 @@ ebs_encryption: true
 source_ebs_tag_name: "postgres-source-ebs"
 replica_ebs_tag_name: "postgres-replica-ebs"
 
-credentials_key: "devops/credentials/postgres/private-beta"
+# secrets
+postgres_credentials_key: "devops/private-beta/credentials/postgres"
+network_details_key: "devops/private-beta/network"
 
 deployment_policy_name: "ansible-postgres-s3-policy"
 iam_role_name: "ansible-postgres-role"
