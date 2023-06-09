@@ -26,8 +26,7 @@
           role_session_name: "s-devops"
         register: assumed_role
 
-      # setting up the environment including security groups, iam roles, userdata scripts
-      # policies and retrieving secrets from secrets manager
+      # setting up the environment including security groups, iam roles, userdata scripts policies and retrieving secrets from secrets manager
       - name: initialise environment
         any_errors_fatal: true
         block:
