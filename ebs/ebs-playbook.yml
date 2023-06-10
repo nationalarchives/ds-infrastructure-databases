@@ -24,10 +24,8 @@
     register: assumed_role
 
   - name: initialise environment
-    any_errors_fatal: true
-    block:
-      ansible.builtin.include_tasks:
-        file: initialise-environment.yml
+    ansible.builtin.include_tasks:
+      file: initialise-environment.yml
 
   - name: set variables for source ebs
     set_fact:
