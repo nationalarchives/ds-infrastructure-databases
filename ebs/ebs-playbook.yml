@@ -5,42 +5,42 @@
   gather_facts: false
 
   tasks:
-    - name: load variables
-      ansible.builtin.include_vars:
-        file: "{{ ansible_var_file }}"
+  - name: load variables
+    ansible.builtin.include_vars:
+      file: "{{ ansible_var_file }}"
 
-    - name: get AWS session token
-      community.aws.sts_session_token:
-        duration_seconds: 3600
-      register: session_credentials
+  - name: get AWS session token
+    community.aws.sts_session_token:
+      duration_seconds: 3600
+    register: session_credentials
 
-    - name: switch role credentials
-      community.aws.sts_assume_role:
-        access_key: "{{ session_credentials.sts_creds.access_key }}"
-        secret_key: "{{ session_credentials.sts_creds.secret_key }}"
-        session_token: "{{ session_credentials.sts_creds.session_token }}"
-        role_arn: "{{ lookup ('env', 'AWS_ROLE_ARN') }}"
-        role_session_name: "s-devops"
-      register: assumed_role
+  - name: switch role credentials
+    community.aws.sts_assume_role:
+      access_key: "{{ session_credentials.sts_creds.access_key }}"
+      secret_key: "{{ session_credentials.sts_creds.secret_key }}"
+      session_token: "{{ session_credentials.sts_creds.session_token }}"
+      role_arn: "{{ lookup ('env', 'AWS_ROLE_ARN') }}"
+      role_session_name: "s-devops"
+    register: assumed_role
 
-    # setting up the environment including security groups, iam roles, userdata scripts
-    # policies and retrieving secrets from secrets manager
-    - name: initialise environment
-      ansible.builtin.include_tasks:
-        file: initialise-environment.yml
+  # setting up the environment including security groups, iam roles, userdata scripts
+  # policies and retrieving secrets from secrets manager
+  - name: initialise environment
+    ansible.builtin.include_tasks:
+      file: initialise-environment.yml
 
-    - name: set variables for source ebs
-      set_fact:
-        ebs_target_zone: "{{ zone_source }}"
-        ebs_tag_name: "{{ lookup ('env', 'EBS_PREFIX') }}-source-ebs"
-        subnet_id: "{{ subnet_id_a }}"
+  - name: set variables for source ebs
+    set_fact:
+      ebs_target_zone: "{{ zone_source }}"
+      ebs_tag_name: "{{ lookup ('env', 'EBS_PREFIX') }}-source-ebs"
+      subnet_id: "{{ subnet_id_a }}"
 
-#    # create source ebs and instance to run initialsation of ebs as source db
-#    - name: initialise source ebs
-#      any_errors_fatal: true
-#      block:
-#        ansible.builtin.include_tasks:
-#          file: initialise-ebs.yml
+  ## create source ebs and instance to run initialsation of ebs as source db
+  #- name: initialise source ebs
+  #  any_errors_fatal: true
+  #  block:
+  #    ansible.builtin.include_tasks:
+  #      file: initialise-ebs.yml
 
 
 ...
