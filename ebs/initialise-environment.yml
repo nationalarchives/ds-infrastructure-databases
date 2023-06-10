@@ -121,19 +121,17 @@
 
   - name: get network information
     ansible.builtin.set_fact:
-      nw_details: "{{ lookup('amazon.aws.aws_ssm', network_detail_keys, access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, bypath=true, recursive=true, on_denied='error') | to_json }}"
-
-  - ansible.builtin.debug:
-      msg:
-        - "====================================================================="
-        - "{{ nw_details }}"
-        - "====================================================================="
+      nw_vpc_id: "{{ lookup('amazon.aws.aws_ssm', network_detail_keys + '/vpc_id', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token on_denied='error') }}"
+      nw_subnet_id_a: "{{ lookup('amazon.aws.aws_ssm', network_detail_keys + '/private_db_subnet_2a_id', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, on_denied='error') }}"
+      nw_subnet_id_b: "{{ lookup('amazon.aws.aws_ssm', network_detail_keys + '/private_db_subnet_2b_id, access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token,  on_denied='error') }}"
+      nw_public_subnet_id_a: "{{ lookup('amazon.aws.aws_ssm', network_detail_keys + '/public_subnet_2a_id, access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token,  on_denied='error') }}"
 
   - name: set secrets
     set_fact:
-      vpc_id: "{{ nw_details | from_json | json_query('vpc_id')}}"
-      subnet_id_a: "{{ nw_details | from_json | json_query('subnet_id_a') }}"
-      subnet_id_b: "{{ nw_details | from_json | json_query('subnet_id_b') }}"
+      vpc_id: "{{ nw_vpc_id }}"
+      subnet_id_a: "{{ nw_subnet_id_a }}"
+      subnet_id_b: "{{ nw_subnet_id_b }}"
+      public_subnet_id: "{{ nw_public_subnet_id_a }}"
 
   - name: template userdata source
     vars:
