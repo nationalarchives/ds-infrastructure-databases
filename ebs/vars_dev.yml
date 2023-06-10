@@ -18,7 +18,7 @@ replica_ebs_tag_name: "postgres-replica-ebs"
 
 # secrets
 postgres_credentials_key: "devops/private-beta/credentials/postgres"
-network_detail_keys: "/infrastructure/network/base"
+prefix_network_keys: "/infrastructure/network/base"
 
 deployment_policy_name: "ansible-postgres-s3-policy"
 iam_role_name: "ansible-postgres-role"

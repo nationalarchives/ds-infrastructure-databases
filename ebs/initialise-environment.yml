@@ -121,10 +121,10 @@
 
   - name: get network information
     ansible.builtin.set_fact:
-      nw_vpc_id: "{{ lookup('amazon.aws.aws_ssm', network_detail_keys + '/vpc_id', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token on_denied='error') }}"
-      nw_subnet_id_a: "{{ lookup('amazon.aws.aws_ssm', network_detail_keys + '/private_db_subnet_2a_id', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, on_denied='error') }}"
-      nw_subnet_id_b: "{{ lookup('amazon.aws.aws_ssm', network_detail_keys + '/private_db_subnet_2b_id, access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token,  on_denied='error') }}"
-      nw_public_subnet_id_a: "{{ lookup('amazon.aws.aws_ssm', network_detail_keys + '/public_subnet_2a_id, access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token,  on_denied='error') }}"
+      nw_vpc_id: "{{ lookup('amazon.aws.aws_ssm', prefix_network_keys + '/vpc_id', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token on_denied='error') }}"
+      nw_subnet_id_a: "{{ lookup('amazon.aws.aws_ssm', prefix_network_keys + '/private_db_subnet_2a_id', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, on_denied='error') }}"
+      nw_subnet_id_b: "{{ lookup('amazon.aws.aws_ssm', prefix_network_keys + '/private_db_subnet_2b_id', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token,  on_denied='error') }}"
+      nw_public_subnet_id_a: "{{ lookup('amazon.aws.aws_ssm', prefix_network_keys + '/public_subnet_2a_id', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token,  on_denied='error') }}"
 
   - name: set secrets
     set_fact:
