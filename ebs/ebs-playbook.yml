@@ -23,17 +23,6 @@
       role_session_name: "s-devops"
     register: assumed_role
 
-- name: set credentials
-  hosts: localhost
-  gather_facts: false
-
-  environment:
-    AWS_ACCESS_KEY: "{{ assumed_role.sts_creds.access_key }}"
-    AWS_SECRET_KEY: "{{ assumed_role.sts_creds.secret_key }}"
-    AWS_SESSION_TOKEN: "{{ assumed_role.sts_creds.session_token }}"
-    AWS_REGION: "{{ region }}"
-
-  tasks:
   - name: initialise environment
     ansible.builtin.include_tasks:
       file: initialise-environment.yml
@@ -44,7 +33,7 @@
       ebs_tag_name: "{{ lookup ('env', 'EBS_PREFIX') }}-source-ebs"
       subnet_id: "{{ subnet_id_a }}"
 
-  ## create source ebs and instance to run initialsation of ebs as source db
+  ## create source ebs and instance to run initialisation of ebs as source db
   #- name: initialise source ebs
   #  any_errors_fatal: true
   #  block:
