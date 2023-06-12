@@ -108,7 +108,13 @@
 
   - name: get db secrets
     ansible.builtin.set_fact:
-      db_secret: "{{ lookup('amazon.aws.aws_secret', postgres_credentials_key, access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, on_denied='error') }}"
+      db_secret: "{{ lookup('amazon.aws.aws_secret', postgres_credentials_key, access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, on_denied='error') | to_nice_json }}"
+
+  - ansible.builtin.debug:
+      msg:
+        - "====================================================================="
+        - "{{ db_secret }}"
+        - "====================================================================="
 
   - name: set secrets
     set_fact:
