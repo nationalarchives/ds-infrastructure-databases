@@ -112,12 +112,12 @@
 
   - name: set secrets
     set_fact:
-      root_password: "{{ db_secret | from_json | json_query('root_password')}}"
-      admin_user: "{{ db_secret | from_json | json_query('admin_user') }}"
-      admin_pass: "{{ db_secret | from_json | json_query('admin_password') }}"
-      repl_user: "{{ db_secret | from_json | json_query('repl_user') }}"
-      repl_pass: "{{ db_secret | from_json | json_query('repl_password') }}"
-      network_cidr: "{{ db_secret | from_json | json_query('network_cidr') }}"
+      root_password: "{{ db_secret | json_query('root_password')}}"
+      admin_user: "{{ db_secret | json_query('admin_user') }}"
+      admin_pass: "{{ db_secret | json_query('admin_password') }}"
+      repl_user: "{{ db_secret | json_query('repl_user') }}"
+      repl_pass: "{{ db_secret | json_query('repl_password') }}"
+      network_cidr: "{{ db_secret | json_query('network_cidr') }}"
 
   - name: get network information
     ansible.builtin.set_fact:
