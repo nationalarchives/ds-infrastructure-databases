@@ -115,26 +115,6 @@
       repl_pass: "{{ lookup('amazon.aws.aws_secret', postgres_credentials_key + '.repl_pass', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, nested=true, on_denied='error') }}"
       network_cidr: "{{ lookup('amazon.aws.aws_secret', postgres_credentials_key + '.network_cidr', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, nested=true, on_denied='error') }}"
 
-#  - name: set secrets
-#    set_fact:
-#      root_password: "{{ db_secret | from_json | json_query('root_password')}}"
-#      admin_user: "{{ db_secret | from_json | json_query('admin_user') }}"
-#      admin_pass: "{{ db_secret | from_json | json_query('admin_password') }}"
-#      repl_user: "{{ db_secret | from_json | json_query('repl_user') }}"
-#      repl_pass: "{{ db_secret | from_json | json_query('repl_password') }}"
-#      network_cidr: "{{ db_secret | from_json | json_query('network_cidr') }}"
-
-  - ansible.builtin.debug:
-      msg:
-        - "====================================================================="
-        - "{{ root_password }}"
-        - "{{ admin_user }}"
-        - "{{ admin_pass }}"
-        - "{{ repl_user }}"
-        - "{{ repl_pass }}"
-        - "{{ network_cidr }}"
-        - "====================================================================="
-
   - name: get network information
     ansible.builtin.set_fact:
       nw_vpc_id: "{{ lookup('amazon.aws.ssm_parameter', prefix_network_keys + '/vpc_id', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, on_denied='error') }}"
