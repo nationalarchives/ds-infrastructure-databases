@@ -1,5 +1,5 @@
 ---
-key_name_source: "temp-pg-ebs-source-key"
+key_name: "temp-pg-ebs-source-key"
 region: "eu-west-2"
 zone_source: "eu-west-2a"
 zone_replica: "eu-west-2b"

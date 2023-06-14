@@ -13,7 +13,7 @@ on:
         description: Environment
         required: true
         options:
-          - dev-source
+          - dev-ebs
       ebs-set:
         type: choice
         description: Source or Source/Replica set
@@ -30,7 +30,7 @@ jobs:
 # dev deployment
 # ------------------------------------------------------------------------------
   ebs-initialise-source-dev:
-    if: ${{ inputs.deploy-environment  == 'dev-source' }}
+    if: ${{ inputs.deploy-environment  == 'dev-ebs' }}
     runs-on: ubuntu-latest
     environment: ebs-dev
     steps:
@@ -53,9 +53,7 @@ jobs:
           ANSIBLE_VAR_FILE: "vars_dev.yml"
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID_DEV }}
           AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN_EBS_MGMT }}
-          SUBNET_ID_A: ${{ secrets.SUBNET_ID_2A }}
-          VPC_ID: ${{ secrets.VPC_ID }}
-          EBS_PREFIX: ${{ env.prefix }}
+          EBS_PREFIX: ${{ inputs.prefix }}
         run: |
           cur_dir=$(pwd)
           cd $cur_dir/ebs
