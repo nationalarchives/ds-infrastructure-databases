@@ -44,7 +44,7 @@
 
   - name: create temp ssh key
     community.crypto.openssh_keypair:
-      path: /tmp/id_ssh_rsa_tmp
+      path: "/tmp/{{ key_name }}"
       size: 2048
       comment: "temp@nationalarchives.gov.uk"
       mode: '0644'
@@ -57,7 +57,7 @@
       secret_key: "{{ assumed_role.sts_creds.secret_key }}"
       session_token: "{{ assumed_role.sts_creds.session_token }}"
       name: "{{ key_name }}"
-      key_material: "{{ lookup('file', '/tmp/id_ssh_rsa_tmp.pub') }}"
+      key_material: "{{ lookup('file', '/tmp/' + key_name + '.pub') }}"
       state: "present"
 
   - name: template userdata source
