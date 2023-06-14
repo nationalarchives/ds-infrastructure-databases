@@ -61,6 +61,10 @@
       remote_user: ec2-user
       gather_facts: no
 
+  - name: 'you name it'
+    ansible.builtin.set_fact:
+      ansible_ssh_private_key_file: "/tmp/id_ssh_rsa_tmp"
+
   - name: wait for SSH service to bind on new instance
     wait_for:
       host: "{{ instance_public_ip }}"
