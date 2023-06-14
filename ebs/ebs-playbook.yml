@@ -61,6 +61,7 @@
     ansible.builtin.stat:
       path: "/var/finish-init.txt"
     remote_user: ec2-user
+    ansible_ssh_private_key_file: "/tmp/{{ key_name }}"
     register: init_finished
     until: "init_finished.stat.exists"
     retries: 15
