@@ -47,7 +47,7 @@
       path: "/tmp/{{ key_name }}"
       size: 2048
       comment: "temp@nationalarchives.gov.uk"
-      mode: '644'
+      mode: '600'
       state: "present"
       type: "rsa"
 
