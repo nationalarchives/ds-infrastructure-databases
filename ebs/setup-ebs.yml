@@ -2,7 +2,7 @@
   - amazon.aws.ec2_vol:
       zone: "{{ zone_source }}"
       multi_attach: false
-      volume_size: {{ ebs_size }}
+      volume_size: "{{ ebs_size }}"
       volume_type: "{{ ebs_type }}"
-      encrypted: {{ ebs_type }}
+      encrypted: "{{ ebs_encryption }}"
 ...
