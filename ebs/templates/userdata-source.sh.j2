@@ -9,6 +9,12 @@ sudo chmod 0600 /var/swap.1
 sudo /sbin/mkswap /var/swap.1
 sudo /sbin/swapon /var/swap.1
 
+# Install Cloudwatch agent
+sudo yum install amazon-cloudwatch-agent -y
+sudo amazon-linux-extras install -y collectd
+sudo aws s3 cp s3://{{ s3_deployment_bucket }}/{{ service }}/cloudwatch/cloudwatch-agent-config.json /opt/aws/amazon-cloudwatch-agent/bin/config.json
+sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json
+
 # attach the volume to instance
 region="eu-west-2"
 volumeName="${ebs_name}"
@@ -39,12 +45,6 @@ if [[ -z "$attachedVolume" ]]; then
 else
   echo "Volume $attachedVolume already attached"
 fi
-
-# Install Cloudwatch agent
-#sudo yum install amazon-cloudwatch-agent -y
-#sudo amazon-linux-extras install -y collectd
-#sudo aws s3 cp s3://{{ s3_deployment_bucket }}/{{ service }}/cloudwatch/cloudwatch-agent-config.json /opt/aws/amazon-cloudwatch-agent/bin/config.json
-#sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json
 
 DATA_DIR="/postgres/data"
 LOG_DIR="/postgres/log"

@@ -33,6 +33,10 @@
       ebs_tag_name: "{{ lookup ('env', 'EBS_PREFIX') }}-source-ebs"
       subnet_id: "{{ subnet_id_a }}"
 
+  - name: setup ebs
+    ansible.builtin.include_tasks:
+      file: setup-ebs.yml
+
   - name: launch temp instance
     ansible.builtin.include_tasks:
       file: temp-instance.yml
