@@ -2,8 +2,8 @@
 
 # attach the volume to instance
 touch ~/source-attach.log
-region="{{ region }}"
-volumeName="{{ ebs_name }}"
+region="{{region}}"
+volumeName="{{ebs_name}}"
 instanceid=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
 attachedVolume=$(aws ec2 describe-volumes --region $region --filters Name=tag:Name,Values=$volumeName Name=attachment.instance-id,Values=$instanceid --query "Volumes[*].VolumeId" --output text)
 if [[ -z "$attachedVolume" ]]; then
