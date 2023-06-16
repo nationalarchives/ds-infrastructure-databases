@@ -87,10 +87,12 @@
       mode: '0744'
 
   - name: Run attachment script
-    ansible.builtin.script: /home/ec2-user/attach-source-ebs.sh
+    ansible.builtin.shell: |
+      /home/ec2-user/attach-source-ebs.sh
 
   - name: Run preparation script
-    ansible.builtin.script: /home/ec2-user/prep-ebs-source.sh
+    ansible.builtin.shell: |
+      /home/ec2-user/prep-ebs-source.sh
 
   ## create source ebs and instance to run initialisation of ebs as source db
   #- name: initialise source ebs
