@@ -35,13 +35,9 @@
 
   - name: template userdata source
     vars:
-      root_password: "{{ root_password }}"
-      adm_user: "{{ admin_user }}"
-      adm_password: "{{ admin_pass }}"
-      rep_user: "{{ repl_user }}"
-      rep_password: "{{ repl_pass }}"
+      s3_deployment_bucket: "{{ s3_deployment_bucket }}"
+      service: "{{ s3_deployment_root }}"
       network_cidr: "{{ network_cidr }}"
-      ebs_name: "{{ ebs_tag_name }}"
     template:
       src: "./templates/userdata-source.sh.j2"
       dest: "./userdata-source.sh"
@@ -59,10 +55,10 @@
   - name: template prepare ebs source source
     vars:
       root_password: "{{ root_password }}"
-      admin_user: "{{ admin_user }}"
-      admin_password: "{{ admin_password }}"
-      repl_user: "{{ repl_user }}"
-      repl_password: "{{ repl_password }}"
+      adm_user: "{{ admin_user }}"
+      adm_password: "{{ admin_password }}"
+      rep_user: "{{ repl_user }}"
+      rep_password: "{{ repl_password }}"
       network_cidr: "{{ network_cidr }}"
     template:
       src: "./templates/prep-ebs-source.sh.j2"
