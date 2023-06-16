@@ -50,7 +50,7 @@
   - name: template attach source ebs source
     vars:
       ebs_name: "{{ ebs_tag_name }}"
-      region: "{{ region }"
+      region: "{{ region }}"
     template:
       src: "./templates/attach-source-ebs.sh.j2"
       dest: "./attach-source-ebs.sh"

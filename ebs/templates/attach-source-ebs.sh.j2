@@ -1,17 +1,17 @@
 #!/bin/bash
 
 # attach the volume to instance
-sudo touch /source-attach.log
+touch ~/source-attach.log
 region="${region}"
 volumeName="${ebs_name}"
 instanceid=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
 attachedVolume=$(aws ec2 describe-volumes --region $region --filters Name=tag:Name,Values=$volumeName Name=attachment.instance-id,Values=$instanceid --query "Volumes[*].VolumeId" --output text)
 if [[ -z "$attachedVolume" ]]; then
-  sudo echo "try to mount EBS  $attachedVolume" >> /source-attach.log
+  echo "try to mount EBS  $attachedVolume" >> ~/source-attach.log
   avzone=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)
   ebsvolume=$(aws ec2 describe-volumes --region $region --filters Name=tag:Name,Values=$volumeName Name=availability-zone,Values=$avzone --query 'Volumes[*].[VolumeId, State==`available`]' --output text  | grep True | awk '{print $1}' | head -n 1)
   if [[ -z "$ebsvolume" ]]; then
-    sudo echo "error: no volume with name $volumeName found" >> /source-attach.log
+    echo "error: no volume with name $volumeName found" >> ~/source-attach.log
     exit 1
   else
     if [ ! -d "/postgres" ]; then
@@ -22,7 +22,7 @@ if [[ -z "$attachedVolume" ]]; then
     sudo mount /dev/xvdf /postgres
     volumeFormatted=$(sudo file -s /dev/xvdf | grep "filesystem data")
     if [[ -z "$volumeFormatted" ]]; then
-      sudo echo "format volume $attachedVolume" >> /source-attach.log
+      echo "format volume $attachedVolume" >> ~/source-attach.log
       sudo mkfs -t xfs /dev/xvdf
       sudo mkdir /postgres/log
       sudo chown -R postgres:postgres /postgres
@@ -30,7 +30,7 @@ if [[ -z "$attachedVolume" ]]; then
     fi
   fi
 else
-  sudo echo "Volume $attachedVolume already attached" >> /source-attach.log
+  echo "Volume $attachedVolume already attached" >> ~/source-attach.log
 fi
 
 cat << EOF > /source-attach.txt
