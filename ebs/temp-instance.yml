@@ -56,9 +56,9 @@
     vars:
       root_password: "{{ root_password }}"
       adm_user: "{{ admin_user }}"
-      adm_password: "{{ admin_password }}"
+      adm_password: "{{ admin_pass }}"
       rep_user: "{{ repl_user }}"
-      rep_password: "{{ repl_password }}"
+      rep_password: "{{ repl_pass }}"
       network_cidr: "{{ network_cidr }}"
     template:
       src: "./templates/prep-ebs-source.sh.j2"
