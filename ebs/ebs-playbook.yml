@@ -70,6 +70,12 @@
     retries: 15
     delay: 20
 
+  - name: Run attachment script
+    ansible.builtin.script: /home/ec2-user/attach-source-ebs.sh
+
+  - name: Run preparation script
+    ansible.builtin.script: /home/ec2-user/prep-ebs-source.sh
+
   ## create source ebs and instance to run initialisation of ebs as source db
   #- name: initialise source ebs
   #  any_errors_fatal: true
