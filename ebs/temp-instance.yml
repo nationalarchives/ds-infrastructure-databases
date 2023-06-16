@@ -47,6 +47,28 @@
       force: yes
       state: "present"
 
+  - name: template attach source ebs source
+    vars:
+      ebs_name: "{{ ebs_tag_name }}"
+      region: "{{ region }"
+    template:
+      src: "./templates/attach-source-ebs.sh.j2"
+      dest: "./attach-source-ebs.sh"
+      force: yes
+
+  - name: template prepare ebs source source
+    vars:
+      root_password: "{{ root_password }}"
+      admin_user: "{{ admin_user }}"
+      admin_password: "{{ admin_password }}"
+      repl_user: "{{ repl_user }}"
+      repl_password: "{{ repl_password }}"
+      network_cidr: "{{ network_cidr }}"
+    template:
+      src: "./templates/prep-ebs-source.sh.j2"
+      dest: "./prep-ebs-source.sh"
+      force: yes
+
   - name: provisioning temp instance
     amazon.aws.ec2_instance:
       aws_access_key: "{{ assumed_role.sts_creds.access_key }}"
@@ -118,6 +140,28 @@
       timeout: 600
       state: started
     tags: [ami]
+
+  - name: Copy bash script to attach volume
+    ansible.builtin.copy:
+      src: ./attach-source-ebs.sh
+      dest: /home/users/ec2-user/attach-source-ebs.sh
+      owner: ec2-user
+      group: ec2-user
+      mode: '0744'
+
+  - name: Copy bash script to prepare volume
+    ansible.builtin.copy:
+      src: ./prep-ebs-source.sh.sh
+      dest: /home/users/ec2-user/prep-ebs-source.sh
+      owner: ec2-user
+      group: ec2-user
+      mode: '0744'
+
+  - name: Run attachment script
+    ansible.builtin.script: /home/users/ec2-user/attach-source-ebs.sh
+
+  - name: Run preparation script
+    ansible.builtin.script: /home/users/ec2-user/prep-ebs-source.sh
 
 ...
 

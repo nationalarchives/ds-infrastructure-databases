@@ -1,0 +1,48 @@
+#!/bin/bash
+
+DATA_DIR="/postgres/data"
+LOG_DIR="/postgres/log"
+
+sudo systemctl stop postgresql
+
+sudo cp /var/lib/pgsql/data /postgres
+
+# Configure PostgreSQL for replication
+# the directories are specific for the version of postgres and linux 2 from AWS
+sudo sed -i "s|#data_directory = 'ConfigDir'|data_directory = '${DATA_DIR}'|" /var/lib/pgsql/data/postgresql.conf
+sudo sed -i "s|#logging_directory = 'log'|logging_directory = '${LOG_DIR}'|" /var/lib/pgsql/data/postgresql.conf
+sudo sed -i 's/#wal_level = replica/wal_level = logical/' /var/lib/pgsql/data/postgresql.conf
+sudo sed -i 's/#wal_log_hints = off/wal_log_hints = on/' /var/lib/pgsql/data/postgresql.conf
+sudo sed -i 's/#max_replication_slots = 10/max_replication_slots = 10/' /var/lib/pgsql/data/postgresql.conf
+sudo sed -i 's/#max_wal_senders = 10/max_wal_senders = 10/' /var/lib/pgsql/data/postgresql.conf
+
+# Set up access to postgres
+sudo sed -i "/# TYPE/a host all replica_admin 10.128.212.0/23 md5\n" /var/lib/pgsql/data/pg_hba.conf
+sudo sed -i "/# TYPE/a host all postgres 10.128.224.0/22 md5\n" /var/lib/pgsql/data/pg_hba.conf
+sudo sed -i "/# TYPE/a local all postgres trust\n" /var/lib/pgsql/data/pg_hba.conf
+
+# sql statements to secure the instance
+cat << EOF > ~/secure_installation.sql
+ALTER USER postgres PASSWORD '{{ root_password }}';
+EOF
+
+psql -U postgres < secure_installation.sql
+
+cat << EOF > ~/db_user.sql
+CREATE ROLE ${admin_user} WITH ADMINISTRATOR LOGIN PASSWORD '${admin_password}';
+CREATE ROLE ${repl_user} WITH REPLICATION LOGIN PASSWORD '${repl_password}';
+EOF
+
+psql -U postgres < db_user.sql
+
+sudo sed -i "s/listen_addresses=/c\\\nlisten_addresses='{{ network_cidr }}'\n/g" /etc/my.cnf
+#echo "host    all          all            0.0.0.0/0  md5" | sudo tee -a /var/lib/pgsql/data/pg_hba.conf > /dev/null
+
+sed -i "s|local all postgres trust|local all postgres md5" /var/lib/pgsql/data/pg_hba.conf
+
+sudo systemctl restart postgresql
+
+cat << EOF > /prep-ebs.txt
+[status]
+finished = true
+EOF

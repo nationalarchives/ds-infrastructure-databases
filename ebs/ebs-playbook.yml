@@ -63,7 +63,7 @@
 
   - name: check if ec2 instance is ready
     ansible.builtin.stat:
-      path: "/var/finish-init.txt"
+      path: "/finish-init.txt"
     remote_user: ec2-user
     register: init_finished
     until: "init_finished.stat.exists"
