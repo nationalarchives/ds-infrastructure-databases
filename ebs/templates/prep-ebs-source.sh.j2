@@ -9,8 +9,8 @@ sudo cp /var/lib/pgsql/data /postgres
 
 # Configure PostgreSQL for replication
 # the directories are specific for the version of postgres and linux 2 from AWS
-sudo sed -i "s|#data_directory = 'ConfigDir'|data_directory = '${DATA_DIR}'|" /var/lib/pgsql/data/postgresql.conf
-sudo sed -i "s|#logging_directory = 'log'|logging_directory = '${LOG_DIR}'|" /var/lib/pgsql/data/postgresql.conf
+sudo sed -i "s|#data_directory = 'ConfigDir'|data_directory = '$DATA_DIR'|" /var/lib/pgsql/data/postgresql.conf
+sudo sed -i "s|#logging_directory = 'log'|logging_directory = '$LOG_DIR'|" /var/lib/pgsql/data/postgresql.conf
 sudo sed -i 's/#wal_level = replica/wal_level = logical/' /var/lib/pgsql/data/postgresql.conf
 sudo sed -i 's/#wal_log_hints = off/wal_log_hints = on/' /var/lib/pgsql/data/postgresql.conf
 sudo sed -i 's/#max_replication_slots = 10/max_replication_slots = 10/' /var/lib/pgsql/data/postgresql.conf
