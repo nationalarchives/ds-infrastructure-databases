@@ -31,6 +31,7 @@
       session_token: "{{ assumed_role.sts_creds.session_token }}"
       name: "{{ key_name }}"
       key_material: "{{ lookup('file', '/tmp/' + key_name + '.pub') }}"
+      state: "present"
 
   - name: template userdata source
     vars:
@@ -45,7 +46,6 @@
       src: "./templates/userdata-source.sh.j2"
       dest: "./userdata-source.sh"
       force: yes
-      state: "present"
 
   - name: template attach source ebs source
     vars:
