@@ -37,9 +37,9 @@
     vars:
       root_password: "{{ root_password }}"
       admin_user: "{{ admin_user }}"
-      admin_password: "{{ admin_password }}"
+      admin_password: "{{ admin_pass }}"
       repl_user: "{{ repl_user }}"
-      repl_password: "{{ repl_password }}"
+      repl_password: "{{ repl_pass }}"
       network_cidr: "{{ network_cidr }}"
       ebs_name: "{{ ebs_tag_name }}"
     template:
