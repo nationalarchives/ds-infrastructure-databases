@@ -13,9 +13,6 @@ ebs_type: "gp3"
 ebs_device_name: "/dev/sdf"
 ebs_encryption: true
 
-source_ebs_tag_name: "postgres-source-ebs"
-replica_ebs_tag_name: "postgres-replica-ebs"
-
 # secrets
 postgres_credentials_key: "devops/private-beta/credentials/postgres"
 prefix_network_keys: "/infrastructure/network/base"
