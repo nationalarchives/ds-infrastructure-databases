@@ -8,4 +8,6 @@
       volume_size: "{{ ebs_size }}"
       volume_type: "{{ ebs_type }}"
       encrypted: "{{ ebs_encryption }}"
+      tags:
+            Name: "{{ ebs_tag_name }}"
 ...

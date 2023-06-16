@@ -1,20 +1,4 @@
 ---
-  - name: get linux2 AMI
-    amazon.aws.ec2_ami_info:
-      access_key: "{{ assumed_role.sts_creds.access_key }}"
-      secret_key: "{{ assumed_role.sts_creds.secret_key }}"
-      session_token: "{{ assumed_role.sts_creds.session_token }}"
-      owners: amazon
-      region: "{{ region }}"
-      filters:
-        name: "amzn2-ami-hvm*"
-    register: findami
-
-  - name: set latest AMI
-    set_fact:
-      latest_ami: >
-        {{ findami.images | sort(attribute='creation_date') | last }}
-
   - name: set secrets
     vars:
       secret_data: "{{ lookup('amazon.aws.aws_secret', '{{ postgres_credentials_key }}', region=region, aws_access_key=assumed_role.sts_creds.access_key, aws_secret_key=assumed_role.sts_creds.secret_key, aws_session_token=assumed_role.sts_creds.session_token, on_denied='warn') | from_json }}"
@@ -42,25 +26,7 @@
       subnet_id_b: "{{ lookup('amazon.aws.ssm_parameter', prefix_network_keys + '/private_db_subnet_2b_id', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, on_denied='error') }}"
       public_subnet_id: "{{ lookup('amazon.aws.ssm_parameter', prefix_network_keys + '/public_subnet_2a_id', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, on_denied='error') }}"
 
-  - name: create temp ssh key
-    community.crypto.openssh_keypair:
-      path: "/tmp/{{ key_name }}"
-      size: 2048
-      comment: "temp@nationalarchives.gov.uk"
-      mode: '600'
-      state: "present"
-      type: "rsa"
-
-  - name: create key pair for instance
-    amazon.aws.ec2_key:
-      access_key: "{{ assumed_role.sts_creds.access_key }}"
-      secret_key: "{{ assumed_role.sts_creds.secret_key }}"
-      session_token: "{{ assumed_role.sts_creds.session_token }}"
-      name: "{{ key_name }}"
-      key_material: "{{ lookup('file', '/tmp/' + key_name + '.pub') }}"
-      state: "present"
-
-  - name: template userdata source
+  - name: template instance role source
     vars:
       s3_deployment_bucket: "{{ s3_deployment_bucket }}"
       s3_deployment_root: "{{ s3_deployment_root }}"
@@ -132,18 +98,4 @@
           rule_desc: "allow replies"
       state: "present"
     register: ec2_sec_group
-
-  - name: template userdata source
-    vars:
-      root_password: "{{ root_password }}"
-      admin_user: "{{ admin_user }}"
-      admin_password: "{{ admin_password }}"
-      repl_user: "{{ repl_user }}"
-      repl_password: "{{ repl_password }}"
-      network_cidr: "{{ network_cidr }}"
-      ebs_name: "{{ ebs_tag_name }}"
-    template:
-      src: "./templates/userdata-source.sh.j2"
-      dest: "./userdata.sh"
-      force: yes
 ...
