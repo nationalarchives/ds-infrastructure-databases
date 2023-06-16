@@ -46,15 +46,15 @@
   gather_facts: false
 
   tasks:
+  - name: load variables
+    ansible.builtin.include_vars:
+      file: "{{ ansible_var_file }}"
+
   - name: set variables for source ebs
     set_fact:
       ebs_target_zone: "{{ zone_source }}"
       ebs_tag_name: "{{ lookup ('env', 'EBS_PREFIX') }}-source-ebs"
       subnet_id: "{{ subnet_id_a }}"
-
-  - name: load variables
-    ansible.builtin.include_vars:
-      file: "{{ ansible_var_file }}"
 
   - name: set ssh file
     ansible.builtin.set_fact:
