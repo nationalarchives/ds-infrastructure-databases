@@ -28,10 +28,7 @@ if [[ -z "$attachedVolume" ]]; then
     echo "check drive" >> ~/source-attach.log
     if [[ -z "$volumeFormatted" ]]; then
       echo "format volume $attachedVolume" >> ~/source-attach.log
-      sudo mkfs -t xfs /dev/xvdf
-      sudo mkdir /postgres/log
-      sudo chown -R postgres:postgres /postgres
-      sudo chmod -R 0700 /postgres/data
+      sudo mkfs -t xfs /dev/nvme1n1
     fi
     sudo mount /dev/nvme1n1 /postgres
     echo "mount volume" >> ~/source-attach.log
