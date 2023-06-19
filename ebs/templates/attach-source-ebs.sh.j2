@@ -18,12 +18,16 @@ if [[ -z "$attachedVolume" ]]; then
     exit 1
   else
     if [ ! -d "/postgres" ]; then
+      echo "create postgres mount directory" >> ~/source-attach.log
       sudo mkdir /postgres
     fi
     aws ec2 attach-volume --region $region --volume-id $ebsvolume --instance-id $instanceid --device /dev/sdf
+    echo "attach volume $ebsvolume" >> ~/source-attach.log
     sleep 10
     sudo mount /dev/xvdf /postgres
+    echo "mount volume" >> ~/source-attach.log
     volumeFormatted=$(sudo file -s /dev/xvdf | grep "filesystem data")
+    echo "check drive" >> ~/source-attach.log
     if [[ -z "$volumeFormatted" ]]; then
       echo "format volume $attachedVolume" >> ~/source-attach.log
       sudo mkfs -t xfs /dev/xvdf
