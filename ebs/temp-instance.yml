@@ -89,7 +89,7 @@
       user_data: "{{ lookup('file', './userdata-source.sh') }}"
       wait: true
       volumes:
-        - device_name: "/dev/xvda"
+        - device_name: "/dev/sda"
           ebs:
             delete_on_termination: true
             encrypted: true
