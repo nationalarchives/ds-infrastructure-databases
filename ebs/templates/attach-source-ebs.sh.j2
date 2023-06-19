@@ -6,12 +6,12 @@ region="{{region}}"
 volumeName="{{ebs_name}}"
 TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" -H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
 #instanceid=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
-instanceid=$(curl -H "X-aws-ec2-metaoken: $TOKEN" -v http://169.254.169.254/latest/meta-data/instance-id)
+instanceid=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/instance-id)
 attachedVolume=$(aws ec2 describe-volumes --region $region --filters Name=tag:Name,Values=$volumeName Name=attachment.instance-id,Values=$instanceid --query "Volumes[*].VolumeId" --output text)
 if [[ -z "$attachedVolume" ]]; then
   echo "try to mount EBS  $volumeName" >> ~/source-attach.log
   #avzone=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)
-  avzone=$(curl -H "X-aws-ec2-metaoken: $TOKEN" -v http://169.254.169.254/latest/meta-data/placement/availability-zone)
+  avzone=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/placement/availability-zone)
   ebsvolume=$(aws ec2 describe-volumes --region $region --filters Name=tag:Name,Values=$volumeName Name=availability-zone,Values=$avzone --query "Volumes[*].[VolumeId, State=='available']" --output text  | grep True | awk '{print $1}' | head -n 1)
   if [[ -z "$ebsvolume" ]]; then
     echo "error: no volume with name $volumeName found" >> ~/source-attach.log
