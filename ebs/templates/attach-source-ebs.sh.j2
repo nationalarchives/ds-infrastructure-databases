@@ -21,12 +21,10 @@ if [[ -z "$attachedVolume" ]]; then
       echo "create postgres mount directory" >> ~/source-attach.log
       sudo mkdir /postgres
     fi
-    aws ec2 attach-volume --region $region --volume-id $ebsvolume --instance-id $instanceid --device /dev/sdf
+    aws ec2 attach-volume --region $region --volume-id $ebsvolume --instance-id $instanceid --device /dev/xvdf
     echo "attach volume $ebsvolume" >> ~/source-attach.log
     sleep 10
-    sudo mount /dev/xvdf /postgres
-    echo "mount volume" >> ~/source-attach.log
-    volumeFormatted=$(sudo file -s /dev/xvdf | grep "filesystem data")
+    volumeFormatted=$(sudo file -s /dev/nvme1n1 | grep "filesystem data")
     echo "check drive" >> ~/source-attach.log
     if [[ -z "$volumeFormatted" ]]; then
       echo "format volume $attachedVolume" >> ~/source-attach.log
@@ -35,6 +33,8 @@ if [[ -z "$attachedVolume" ]]; then
       sudo chown -R postgres:postgres /postgres
       sudo chmod -R 0700 /postgres/data
     fi
+    sudo mount /dev/nvme1n1 /postgres
+    echo "mount volume" >> ~/source-attach.log
   fi
 else
   echo "Volume $attachedVolume already attached" >> ~/source-attach.log
