@@ -35,7 +35,7 @@
 
   - name: template userdata source
     vars:
-      s3_deployment_bucket: "{{ s3_deployment_bucket }}"
+      s3_deployment_bucket: "ds-{{ lookup( 'env', 'ENVIRONMENT') }}-deployment-source"
       service: "{{ s3_deployment_root }}"
       network_cidr: "{{ network_cidr }}"
     template:
