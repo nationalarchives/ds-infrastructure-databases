@@ -22,10 +22,10 @@ sudo cp -r /var/lib/pgsql/data /postgres
 # the directories are specific for the version of postgres and linux 2 from AWS
 sudo sed -i "s|#data_directory = 'ConfigDir'|data_directory = '$DATA_DIR'|" /var/lib/pgsql/data/postgresql.conf
 sudo sed -i "s|#log_directory = 'log'|log_directory = '$LOG_DIR'|" /var/lib/pgsql/data/postgresql.conf
-sudo sed -i 's/#wal_level = replica/wal_level = logical/' /var/lib/pgsql/data/postgresql.conf
-sudo sed -i 's/#wal_log_hints = off/wal_log_hints = on/' /var/lib/pgsql/data/postgresql.conf
-sudo sed -i 's/#max_replication_slots = 10/max_replication_slots = 10/' /var/lib/pgsql/data/postgresql.conf
-sudo sed -i 's/#max_wal_senders = 10/max_wal_senders = 10/' /var/lib/pgsql/data/postgresql.conf
+sudo sed -i "s/#wal_level = replica/wal_level = logical/" /var/lib/pgsql/data/postgresql.conf
+sudo sed -i "s/#wal_log_hints = off/wal_log_hints = on/" /var/lib/pgsql/data/postgresql.conf
+sudo sed -i "s/#max_replication_slots = 10/max_replication_slots = 10/" /var/lib/pgsql/data/postgresql.conf
+sudo sed -i "s/#max_wal_senders = 10/max_wal_senders = 10/" /var/lib/pgsql/data/postgresql.conf
 
 # Set up access to postgres
 #sudo sed -i "/# TYPE/a host replication {{rep_user}} 10.128.212.0/23 trust\n" /var/lib/pgsql/data/pg_hba.conf
@@ -43,7 +43,7 @@ sudo chown -R postgres:postgres /postgres
 sudo chmod -R 0700 /postgres/data
 
 cat << EOF > ~/db_user.sql
-CREATE ROLE {{adm_user}} WITH ADMINISTRATOR LOGIN PASSWORD '{{adm_password}}';
+CREATE ROLE {{adm_user}} WITH SUPERUSER LOGIN PASSWORD '{{adm_password}}';
 CREATE ROLE {{rep_user}} WITH REPLICATION LOGIN PASSWORD '{{rep_password}}';
 EOF
 
