@@ -20,6 +20,7 @@ on:
         required: true
         options:
           - source
+          - replica
           - source-replica-set
       prefix:
         description: Prefix used for ebs (-source-ebs or -replica-ebs)
