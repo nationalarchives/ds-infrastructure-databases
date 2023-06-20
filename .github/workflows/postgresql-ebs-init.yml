@@ -13,7 +13,9 @@ on:
         description: Environment
         required: true
         options:
-          - dev-ebs
+          - dev
+          - staging
+          - live
       ebs-set:
         type: choice
         description: Source or Source/Replica set
@@ -52,17 +54,32 @@ jobs:
 
       - run: pip install -r ${{ github.workspace }}/.github/workflows/postgresql-ebs-req.txt
 
+      - name: set environment values for dev
+        ansible.builtin.set_fact:
+          aws_account_id: "${{ secrets.AWS_ACCOUNT_ID_DEV }}"
+        when: inputs.deploy-environment == "dev"
+
+      - name: set environment values for staging
+        ansible.builtin.set_fact:
+          aws_account_id: "${{ secrets.AWS_ACCOUNT_ID_STAGING }}"
+        when: inputs.deploy-environment == "staging"
+
+      - name: set environment values for live
+        ansible.builtin.set_fact:
+          aws_account_id: "${{ secrets.AWS_ACCOUNT_ID_LIVE }}"
+        when: inputs.deploy-environment == "live"
+
       - name: run ansible playbook
         env:
-          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID_DEV }}
-          AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN_EBS_MGMT }}
-          EBS_PREFIX: ${{ inputs.prefix }}
-          SERVICE_NAME: ${{ inputs.service }}
-          VAR_FILE: "vars-ebs-init.yml"
+          AWS_ACCOUNT_ID: "${{ aws_account_id }}"
+          AWS_ROLE_ARN: "${{ secrets.AWS_ROLE_ARN_EBS_MGMT }}"
+          EBS_PREFIX: "${{ inputs.prefix }}"
+          SERVICE_NAME: "${{ inputs.service }}"
+          ENVIRONMENT: "${{ inputs.deploy-environment }}"
         run: |
           cur_dir=$(pwd)
           cd $cur_dir/postgresql
           export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID_EBS }}
           export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_EBS }}
           export AWS_DEFAULT_REGION=eu-west-2
-          ansible-playbook -vvv "ansible_var_file=''" playbook-ebs-init.yml
+          ansible-playbook -vvv playbook-ebs-init.yml
