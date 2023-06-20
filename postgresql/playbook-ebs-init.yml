@@ -7,7 +7,7 @@
   tasks:
   - name: load variables
     ansible.builtin.include_vars:
-      file: "{{ ansible_var_file }}"
+      file: "{{ lookup('env', 'VAR_FILE' }}"
 
   - name: get AWS session token
     community.aws.sts_session_token:
@@ -25,7 +25,7 @@
 
   - name: initialise environment
     ansible.builtin.include_tasks:
-      file: initialise-environment.yml
+      file: ./includes/init-env.yml
 
   - name: set variables for source ebs
     set_fact:
@@ -35,11 +35,11 @@
 
   - name: setup ebs
     ansible.builtin.include_tasks:
-      file: setup-ebs.yml
+      file: ./includes/setup-ebs.yml
 
   - name: launch temp instance
     ansible.builtin.include_tasks:
-      file: temp-instance.yml
+      file: ./includes/setup-temp-ec2.yml
 
 - name: switch to ec2hosts - checking if setup has finished
   hosts: ec2hosts
@@ -48,16 +48,13 @@
   tasks:
   - name: load variables
     ansible.builtin.include_vars:
-      file: "{{ ansible_var_file }}"
+      file: "{{ lookup('env', 'VAR_FILE' }}"
 
   - name: set variables for source ebs
-    set_fact:
+    ansible.builtin.set_fact:
       ebs_target_zone: "{{ zone_source }}"
       ebs_tag_name: "{{ lookup ('env', 'EBS_PREFIX') }}-source-ebs"
       subnet_id: "{{ hostvars['localhost']['subnet_id_a'] }}"
-
-  - name: set ssh file
-    ansible.builtin.set_fact:
       ansible_ssh_private_key_file: "/tmp/{{ key_name }}"
 
   - ansible.builtin.debug:
@@ -76,36 +73,16 @@
     retries: 15
     delay: 20
 
-  - name: Copy bash script to attach volume
-    ansible.builtin.copy:
-      src: ./attach-source-ebs.sh
-      dest: /home/ec2-user/attach-source-ebs.sh
-      owner: ec2-user
-      group: ec2-user
-      mode: '0744'
+  - name: setup bash scripts
+    ansible.builtin.include_tasks:
+      file: ./includes/setup-bash-scripts.yml
 
-  - name: Copy bash script to prepare volume
-    ansible.builtin.copy:
-      src: ./prep-ebs-source.sh
-      dest: /home/ec2-user/prep-ebs-source.sh
-      owner: ec2-user
-      group: ec2-user
-      mode: '0744'
+- name: Cleanup
+  hosts: localhost
+  gather_facts: false
 
-  - name: Run attachment script
-    ansible.builtin.shell: |
-      /home/ec2-user/attach-source-ebs.sh
-
-  - name: Run preparation script
-    ansible.builtin.shell: |
-      /home/ec2-user/prep-ebs-source.sh
-
-  ## create source ebs and instance to run initialisation of ebs as source db
-  #- name: initialise source ebs
-  #  any_errors_fatal: true
-  #  block:
-  #    ansible.builtin.include_tasks:
-  #      file: initialise-ebs.yml
-
-
+  tasks:
+  - name: remove resources
+    ansible.builtin.include_tasks:
+      file: ./includes/cleanup.yml
 ...

@@ -1,5 +1,5 @@
 ---
-- name: set up ebs
+- name: initiate ebs
   amazon.aws.ec2_vol:
     access_key: "{{ assumed_role.sts_creds.access_key }}"
     secret_key: "{{ assumed_role.sts_creds.secret_key }}"
@@ -17,7 +17,7 @@
       CostCentre: "53"
   register: source_ebs
 
-- name: provisioning primer instance
+- name: provisioning instance
   amazon.aws.ec2_instance:
     access_key: "{{ assumed_role.sts_creds.access_key }}"
     secret_key: "{{ assumed_role.sts_creds.secret_key }}"
@@ -33,7 +33,7 @@
     network:
       assign_public_ip: no
       delete_on_termination: yes
-      subnet_id: "{{ lookup('env', 'SUBNET_ID_A') }}"
+      subnet_id: "{{ subnet_id }}"
     region: "{{ region }}"
     security_groups: ["{{ ec2_sec_group.group_id }}", "{{ db_sg.security_groups[0].group_id }}"]
     state: "running"
@@ -46,7 +46,7 @@
           delete_on_termination: true
           encrypted: true
           volume_size: "{{ volume_size }}"
-    vpc_subnet_id: "{{ lookup('env', 'SUBNET_ID_A') }}"
+    vpc_subnet_id: "{{ subnet_id }}"
     tags:
       Environment: "{{ env }}"
       Service: "{{ service }}"
@@ -56,7 +56,7 @@
       Terraform: false
   register: ec2
 
-- name: set up ebs
+- name: connect ebs to instance
   amazon.aws.ec2_vol:
     access_key: "{{ assumed_role.sts_creds.access_key }}"
     secret_key: "{{ assumed_role.sts_creds.secret_key }}"
@@ -65,4 +65,57 @@
     id: source_ebs.volume_id
     device_name: /dev/sdf
     delete_on_termination: false
+
+- name: get instance ip address
+  set_fact:
+    instance_private_ip: "{{ ec2.instances[0].private_ip_address }}"
+    instance_public_ip: "{{ ec2.instances[0].public_ip_address }}"
+    instance_id: "{{ ec2.instances[0].instance_id }}"
+
+- ansible.builtin.debug:
+    msg:
+      - "====================================================================="
+      - "instance started up"
+      - "instance private ip: {{ instance_private_ip }}"
+      - "instance id: {{ instance_id }}"
+      - "instance public ip {{ instance_public_ip }}"
+      - "====================================================================="
+
+- name: register new ec2 as host
+  add_host:
+    hostname: "{{ instance_public_ip }}"
+    groups: ec2hosts
+    ansible_user: ec2-user
+    remote_user: ec2-user
+    gather_facts: no
+
+- name: wait for SSH service to bind on new instance
+  wait_for:
+    host: "{{ instance_public_ip }}"
+    port: 22
+    delay: 90
+    timeout: 600
+    state: started
+  tags: [ami]
+
+- name: switch to ec2hosts - checking if setup has finished
+  hosts: ec2hosts
+  gather_facts: false
+  tasks:
+  - ansible.builtin.debug:
+      msg:
+        - "====================================================================="
+        - "checking status of new instance before ami can be build"
+        - "20 second interval with max duration of 15 minutes"
+        - "====================================================================="
+
+- name: check if ec2 instance is ready
+  ansible.builtin.stat:
+    path: "/var/finish-init.txt"
+  remote_user: ec2-user
+  register: init_finished
+  until: "init_finished.stat.exists"
+  retries: 45
+  delay: 20
+
 ...

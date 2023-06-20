@@ -14,7 +14,7 @@ ebs_device_name: "/dev/sdf"
 ebs_encryption: true
 
 # secrets
-postgres_credentials_key: "devops/private-beta/credentials/postgres"
+#postgres_credentials_key: "devops/private-beta/credentials/postgres"
 prefix_network_keys: "/infrastructure/network/base"
 
 deployment_policy_name: "ansible-postgres-s3-policy"
