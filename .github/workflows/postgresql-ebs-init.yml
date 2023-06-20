@@ -1,5 +1,5 @@
 ---
-name: Initialise PostgreSQL EBS
+name: PostgreSQL EBS
 
 permissions:
   id-token: write
@@ -32,10 +32,7 @@ on:
         required: true
 
 jobs:
-# ------------------------------------------------------------------------------
-# dev deployment
-# ------------------------------------------------------------------------------
-  ebs-initialise-source-dev:
+  ebs-initialise-source:
     if: ${{ inputs.deploy-environment  == 'dev-ebs' }}
     runs-on: ubuntu-latest
     environment: ebs-dev
