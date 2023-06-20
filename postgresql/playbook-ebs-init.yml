@@ -5,22 +5,7 @@
   gather_facts: false
 
   tasks:
-  - name: set environment values for dev
-    ansible.builtin.set_fact:
-      aws_account_id: "${{ secrets.AWS_ACCOUNT_ID_DEV }}"
-    when: {{ lookup('env', 'ENVIRONMENT') }} == "dev"
-
-  - name: set environment values for staging
-    ansible.builtin.set_fact:
-      aws_account_id: "${{ secrets.AWS_ACCOUNT_ID_STAGING }}"
-    when: {{ lookup('env', 'ENVIRONMENT') }} == "staging"
-
-  - name: set environment values for live
-    ansible.builtin.set_fact:
-      aws_account_id: "${{ secrets.AWS_ACCOUNT_ID_LIVE }}"
-    when: {{ lookup('env', 'ENVIRONMENT') }} == "live"
-
-  - name: set credential key
+  - name: set var file name
     ansible.builtin.set_fact:
       var_file: 'vars_' + {{ lookup('env', 'ENVIRONMENT') }} + '.yml'
 
