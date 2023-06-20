@@ -52,7 +52,7 @@
   tasks:
   - name: load variables
     ansible.builtin.include_vars:
-      file: "{{ var_file }}"
+      file: "{{ hostvars['localhost']['var_file'] }}"
 
   - name: set variables for source ebs
     ansible.builtin.set_fact:
