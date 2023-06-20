@@ -1,5 +1,5 @@
 ---
-name: PostgreSQL EBS
+name: Initialise PostgreSQL EBS
 
 permissions:
   id-token: write
@@ -33,9 +33,9 @@ on:
 
 jobs:
   ebs-initialise-source:
-    if: ${{ inputs.deploy-environment  == 'dev-ebs' }}
+    if: ${{ inputs.deploy-environment  == 'dev' }}
     runs-on: ubuntu-latest
-    environment: ebs-dev
+    environment: dev
     steps:
       - name: checkout repo
         uses: actions/checkout@v3
@@ -51,24 +51,9 @@ jobs:
 
       - run: pip install -r ${{ github.workspace }}/.github/workflows/postgresql-ebs-req.txt
 
-      - name: set environment values for dev
-        ansible.builtin.set_fact:
-          aws_account_id: "${{ secrets.AWS_ACCOUNT_ID_DEV }}"
-        when: inputs.deploy-environment == "dev"
-
-      - name: set environment values for staging
-        ansible.builtin.set_fact:
-          aws_account_id: "${{ secrets.AWS_ACCOUNT_ID_STAGING }}"
-        when: inputs.deploy-environment == "staging"
-
-      - name: set environment values for live
-        ansible.builtin.set_fact:
-          aws_account_id: "${{ secrets.AWS_ACCOUNT_ID_LIVE }}"
-        when: inputs.deploy-environment == "live"
-
       - name: run ansible playbook
         env:
-          AWS_ACCOUNT_ID: "${{ aws_account_id }}"
+          AWS_ACCOUNT_ID: "${{ secrets.AWS_ACCOUNT_ID_DEV }}"
           AWS_ROLE_ARN: "${{ secrets.AWS_ROLE_ARN_EBS_MGMT }}"
           EBS_PREFIX: "${{ inputs.prefix }}"
           SERVICE_NAME: "${{ inputs.service }}"
