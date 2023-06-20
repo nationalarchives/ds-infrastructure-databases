@@ -1,12 +1,11 @@
 ---
-key_name: "temp-pg-ebs-source-key"
+key_name: "temp-pg-ebs-ec2-key"
 region: "eu-west-2"
 zone_source: "eu-west-2a"
 zone_replica: "eu-west-2b"
 service: "postgresql"
 env: "dev"
 volume_size: 40
-s3_deployment_bucket: "ds-dev-deployment-source"
 s3_deployment_root: "postgresql"
 ebs_size: 20
 ebs_type: "gp3"
@@ -14,11 +13,9 @@ ebs_device_name: "/dev/sdf"
 ebs_encryption: true
 
 # secrets
-postgres_credentials_key: "devops/private-beta/credentials/postgres"
 prefix_network_keys: "/infrastructure/network/base"
 
 deployment_policy_name: "ansible-postgres-s3-policy"
 iam_role_name: "ansible-postgres-role"
 ec2_sg_name: "ansible-postgres-sg"
-instance_name: "postgres-primer-source"
 ...
