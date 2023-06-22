@@ -33,7 +33,7 @@ on:
 
 jobs:
   ebs-initialise-source:
-    if: ${{ inputs.deploy-environment  == 'dev' }}
+    if: ${{ inputs.deploy-environment  == 'dev' && (inputs.ebs-set == "source" || inputs.ebs-set == "source-replica-set") }}
     runs-on: ubuntu-latest
     environment: dev
     steps:
@@ -65,4 +65,4 @@ jobs:
           export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_EBS }}
           export AWS_DEFAULT_REGION=eu-west-2
           export ANSIBLE_HOST_KEY_CHECKING=False
-          ansible-playbook -vvv playbook-ebs-init.yml
+          ansible-playbook -vvv playbook-source-ebs-init.yml

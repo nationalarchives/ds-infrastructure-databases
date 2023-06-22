@@ -1,6 +1,6 @@
 # EBS playbook
 ---
-- name: Initialise PostgreSQL EBS
+- name: Initialise PostgreSQL Source EBS
   hosts: localhost
   gather_facts: false
 
@@ -8,6 +8,7 @@
   - name: set var file name
     ansible.builtin.set_fact:
       var_file: "vars_{{ lookup('env', 'ENVIRONMENT') }}.yml"
+      target_ebs: "source"
 
   - name: load variables
     ansible.builtin.include_vars:
