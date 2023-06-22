@@ -24,23 +24,23 @@
       state: "present"
       type: "rsa"
 
-  - name: create key pair for instance
+  - name: create key pair in AWS for instance
     amazon.aws.ec2_key:
       access_key: "{{ assumed_role.sts_creds.access_key }}"
       secret_key: "{{ assumed_role.sts_creds.secret_key }}"
       session_token: "{{ assumed_role.sts_creds.session_token }}"
-      name: "{{ key_name }}"
-      key_material: "{{ lookup('file', '/tmp/' + key_name + '.pub') }}"
+      name: "{{ key_name }}-{{ target_ebs }}"
+      key_material: "{{ lookup('file', '/tmp/' + key_name +'-' + target_ebs + '.pub') }}"
       state: "present"
 
   - name: template userdata source
     vars:
-      s3_deployment_bucket: "{{ s3_deployment_bucket }}"
+      s3_deployment_bucket: "ds-{{ lookup( 'env', 'ENVIRONMENT') }}-deployment-source"
       service: "{{ s3_deployment_root }}"
       network_cidr: "{{ network_cidr }}"
     template:
-      src: "./templates/userdata-source.sh.j2"
-      dest: "./userdata-source.sh"
+      src: "./templates/userdata-{{ target_ebs }}.sh.j2"
+      dest: "./userdata-{{ target_ebs }}.sh"
       force: yes
 
   - name: template attach source ebs source
@@ -48,8 +48,8 @@
       ebs_name: "{{ ebs_tag_name }}"
       region: "{{ region }}"
     template:
-      src: "./templates/attach-source-ebs.sh.j2"
-      dest: "./attach-source-ebs.sh"
+      src: "./templates/attach-{{ target_ebs }}-ebs.sh.j2"
+      dest: "./attach-{{ target_ebs }}-ebs.sh"
       force: yes
 
   - name: template prepare ebs source source
@@ -63,6 +63,15 @@
     template:
       src: "./templates/prep-ebs-source.sh.j2"
       dest: "./prep-ebs-source.sh"
+      force: yes
+
+  - name: template detach source ebs source
+    vars:
+      ebs_name: "{{ ebs_tag_name }}"
+      region: "{{ region }}"
+    template:
+      src: "./templates/detach-source-ebs.sh.j2"
+      dest: "./detach-source-ebs.sh"
       force: yes
 
   - name: provisioning temp instance
@@ -96,7 +105,7 @@
             volume_size: "{{ volume_size }}"
       vpc_subnet_id: "{{ public_subnet_id }}"
       tags:
-        Environment: "{{ env }}"
+        Environment: "{{ lookup( 'env', 'ENVIRONMENT') }}"
         Service: "{{ service }}"
         Owner: "Digital Services"
         CreatedBy: "ansible"
@@ -124,8 +133,8 @@
       hostname: "{{ instance_public_ip }}"
       groups: ec2hosts
       ansible_user: ec2-user
-      remote_user: ec2-user
-      ansible_ssh_private_key_file: "/tmp/temp-pg-ebs-source-key"
+#      remote_user: ec2-user
+      ansible_ssh_private_key_file: "/tmp/{{ key_name }}"
       gather_facts: no
 
   - name: wait for SSH service to bind on new instance

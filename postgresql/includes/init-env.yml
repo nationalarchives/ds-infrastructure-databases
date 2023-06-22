@@ -1,7 +1,7 @@
 ---
   - name: set credential key
     ansible.builtin.set_fact:
-      credential_key: 'devops/' + {{ lookup('env', 'SERVICE_NAME') }} + '/credentials/postgres'
+      credential_key: "devops/{{ lookup('env', 'SERVICE_NAME') }}/credentials/postgres"
 
   - name: get db secrets
     ansible.builtin.set_fact:
@@ -33,7 +33,7 @@
       access_key: "{{ assumed_role.sts_creds.access_key }}"
       secret_key: "{{ assumed_role.sts_creds.secret_key }}"
       session_token: "{{ assumed_role.sts_creds.session_token }}"
-      policy_name: "{{ deployment_policy_name }}"
+      policy_name: "{{ deployment_policy_name }}-{{ target_ebs }}"
       policy: "{{ lookup('file', './instance-role-policy.json') }}"
       state: "present"
     register: s3_policy
@@ -43,7 +43,7 @@
       access_key: "{{ assumed_role.sts_creds.access_key }}"
       secret_key: "{{ assumed_role.sts_creds.secret_key }}"
       session_token: "{{ assumed_role.sts_creds.session_token }}"
-      name: "{{ iam_role_name }}"
+      name: "{{ iam_role_name }}-{{ target_ebs }}"
       region: "{{ region }}"
       assume_role_policy_document: "{{ lookup('file', './templates/ec2-role-policy.json') }}"
       managed_policies: ["{{ s3_policy.policy.arn }}", "arn:aws:iam::aws:policy/SecretsManagerReadWrite"]
@@ -58,7 +58,7 @@
       access_key: "{{ assumed_role.sts_creds.access_key }}"
       secret_key: "{{ assumed_role.sts_creds.secret_key }}"
       session_token: "{{ assumed_role.sts_creds.session_token }}"
-      name: "{{ ec2_sg_name }}"
+      name: "{{ ec2_sg_name }}-{{ target_ebs }}"
       description: "security group allowing updates and downloads"
       region: "{{ region }}"
       vpc_id: "{{ vpc_id }}"

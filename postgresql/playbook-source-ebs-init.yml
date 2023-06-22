@@ -1,28 +1,14 @@
 # EBS playbook
 ---
-- name: Initialise PostgreSQL EBS
+- name: Initialise PostgreSQL Source EBS
   hosts: localhost
   gather_facts: false
 
   tasks:
-  - name: set environment values for dev
+  - name: set var file name
     ansible.builtin.set_fact:
-      aws_account_id: "${{ secrets.AWS_ACCOUNT_ID_DEV }}"
-    when: {{ lookup('env', 'ENVIRONMENT') }} == "dev"
-
-  - name: set environment values for staging
-    ansible.builtin.set_fact:
-      aws_account_id: "${{ secrets.AWS_ACCOUNT_ID_STAGING }}"
-    when: {{ lookup('env', 'ENVIRONMENT') }} == "staging"
-
-  - name: set environment values for live
-    ansible.builtin.set_fact:
-      aws_account_id: "${{ secrets.AWS_ACCOUNT_ID_LIVE }}"
-    when: {{ lookup('env', 'ENVIRONMENT') }} == "live"
-
-  - name: set credential key
-    ansible.builtin.set_fact:
-      var_file: 'vars_' + {{ lookup('env', 'ENVIRONMENT') }} + '.yml'
+      var_file: "vars_{{ lookup('env', 'ENVIRONMENT') }}.yml"
+      target_ebs: "source"
 
   - name: load variables
     ansible.builtin.include_vars:
@@ -60,21 +46,20 @@
     ansible.builtin.include_tasks:
       file: ./includes/setup-temp-ec2.yml
 
-- name: switch to ec2hosts - checking if setup has finished
+- name: switch to ec2hosts
   hosts: ec2hosts
   gather_facts: false
 
   tasks:
   - name: load variables
     ansible.builtin.include_vars:
-      file: "{{ var_file }}"
+      file: "{{ hostvars['localhost']['var_file'] }}"
 
   - name: set variables for source ebs
     ansible.builtin.set_fact:
       ebs_target_zone: "{{ zone_source }}"
       ebs_tag_name: "{{ lookup ('env', 'EBS_PREFIX') }}-source-ebs"
       subnet_id: "{{ hostvars['localhost']['subnet_id_a'] }}"
-      ansible_ssh_private_key_file: "/tmp/{{ key_name }}"
 
   - ansible.builtin.debug:
       msg:
@@ -86,7 +71,7 @@
   - name: check if ec2 instance is ready
     ansible.builtin.stat:
       path: "/finish-init.txt"
-    remote_user: ec2-user
+#    remote_user: ec2-user
     register: init_finished
     until: "init_finished.stat.exists"
     retries: 15
@@ -103,5 +88,5 @@
   tasks:
   - name: remove resources
     ansible.builtin.include_tasks:
-      file: ./includes/cleanup.yml
+      file: ./includes/remove-resources.yml
 ...
