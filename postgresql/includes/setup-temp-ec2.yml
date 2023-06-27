@@ -17,7 +17,7 @@
 
   - name: create temp ssh key
     community.crypto.openssh_keypair:
-      path: "/tmp/{{ key_name }}"
+      path: "/tmp/{{ key_name }}-{{ target_ebs }}"
       size: 2048
       comment: "temp@nationalarchives.gov.uk"
       mode: '600'
