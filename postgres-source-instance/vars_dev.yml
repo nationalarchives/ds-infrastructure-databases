@@ -1,0 +1,17 @@
+---
+key_name: "temp-pg-ebs-ec2-key"
+region: "eu-west-2"
+zone_source: "eu-west-2a"
+zone_replica: "eu-west-2b"
+service: "postgresql"
+env: "dev"
+volume_size: 40
+s3_deployment_root: "postgresql"
+
+# secrets
+prefix_network_keys: "/infrastructure/network/base"
+
+deployment_policy_name: "ansible-postgres-s3-policy"
+iam_role_name: "ansible-postgres-role"
+ec2_sg_name: "ansible-postgres-sg"
+...

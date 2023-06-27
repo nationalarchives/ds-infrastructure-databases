@@ -33,7 +33,7 @@ on:
 
 jobs:
   ebs-initialise-source:
-    if: ${{ inputs.deploy-environment  == 'dev' && (inputs.ebs-set == "source" || inputs.ebs-set == "source-replica-set") }}
+    if: ${{ inputs.deploy-environment  == 'dev' && (inputs.ebs-set == 'source' || inputs.ebs-set == 'source-replica-set') }}
     runs-on: ubuntu-latest
     environment: dev
     steps:
