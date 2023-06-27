@@ -60,7 +60,7 @@
       ebs_target_zone: "{{ zone_source }}"
       ebs_tag_name: "{{ lookup ('env', 'EBS_PREFIX') }}-source-ebs"
       subnet_id: "{{ hostvars['localhost']['subnet_id_a'] }}"
-      ansible_ssh_private_key_file: "{{ key_name }}-{{ hostvars['localhost']['target_ebs'] }}"
+      ansible_ssh_private_key_file: "/tmp/{{ key_name }}-{{ hostvars['localhost']['target_ebs'] }}"
 
   - ansible.builtin.debug:
       msg:
