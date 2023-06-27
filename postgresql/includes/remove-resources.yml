@@ -31,7 +31,7 @@
       access_key: "{{ assumed_role.sts_creds.access_key }}"
       secret_key: "{{ assumed_role.sts_creds.secret_key }}"
       session_token: "{{ assumed_role.sts_creds.session_token }}"
-      name: "{{ iam_role_name }}"
+      name: "{{ iam_role_name }}-{{ target_ebs }}"
       region: "{{ region }}"
       delete_instance_profile: yes
       purge_policies: yes

@@ -56,10 +56,14 @@
       file: "{{ hostvars['localhost']['var_file'] }}"
 
   - name: set variables for source ebs
-    ansible.builtin.set_fact:
+    set_fact:
       ebs_target_zone: "{{ zone_source }}"
       ebs_tag_name: "{{ lookup ('env', 'EBS_PREFIX') }}-source-ebs"
-      subnet_id: "{{ hostvars['localhost']['subnet_id_a'] }}"
+      subnet_id: "{{ subnet_id_a }}"
+
+  - name: set variables for source ebs
+    ansible.builtin.set_fact:
+      ansible_ssh_private_key_file: "{{ key_name }}-{{ target_ebs }}"
 
   - ansible.builtin.debug:
       msg:

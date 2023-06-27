@@ -266,6 +266,7 @@
           instance_ids: ["{{ id }}"]
           region: "{{ region }}"
           state: "absent"
+
       - name: remove security group
         amazon.aws.ec2_group:
           aws_access_key: "{{ assumed_role.sts_creds.access_key }}"
