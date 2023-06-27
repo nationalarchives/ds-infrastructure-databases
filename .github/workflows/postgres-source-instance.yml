@@ -1,0 +1,36 @@
+---
+name: Initialise PostgreSQL EC2
+
+permissions:
+  id-token: write
+  contents: write
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy-environment:
+        type: choice
+        description: Environment
+        required: true
+        options:
+          - dev
+          - staging
+          - live
+      ebs-set:
+        type: choice
+        description: Source or Source/Replica set
+        required: true
+        options:
+          - source
+          - replica
+          - source-replica-set
+      prefix:
+        description: Prefix used for ebs (-source-ebs or -replica-ebs)
+        required: true
+      service:
+        description: service name
+        required: true
+
+jobs:
+
+...
