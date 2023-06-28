@@ -1,4 +1,24 @@
 ---
+  - name: set credential key
+    ansible.builtin.set_fact:
+      credential_key: "devops/{{ lookup('env', 'SERVICE_NAME') }}/credentials/postgres"
+
+  - name: get db secrets
+    ansible.builtin.set_fact:
+      root_password: "{{ lookup('amazon.aws.aws_secret', credential_key + '.root_password', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, nested=true, on_denied='error') }}"
+      admin_user: "{{ lookup('amazon.aws.aws_secret', credential_key + '.admin_user', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, nested=true, on_denied='error') }}"
+      admin_pass: "{{ lookup('amazon.aws.aws_secret', credential_key + '.admin_pass', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, nested=true, on_denied='error') }}"
+      repl_user: "{{ lookup('amazon.aws.aws_secret', credential_key + '.repl_user', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, nested=true, on_denied='error') }}"
+      repl_pass: "{{ lookup('amazon.aws.aws_secret', credential_key + '.repl_pass', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, nested=true, on_denied='error') }}"
+      network_cidr: "{{ lookup('amazon.aws.aws_secret', credential_key + '.network_cidr', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, nested=true, on_denied='error') }}"
+
+  - name: get network information
+    ansible.builtin.set_fact:
+      vpc_id: "{{ lookup('amazon.aws.ssm_parameter', prefix_network_keys + '/vpc_id', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, on_denied='error') }}"
+      subnet_id_a: "{{ lookup('amazon.aws.ssm_parameter', prefix_network_keys + '/private_db_subnet_2a_id', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, on_denied='error') }}"
+      subnet_id_b: "{{ lookup('amazon.aws.ssm_parameter', prefix_network_keys + '/private_db_subnet_2b_id', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, on_denied='error') }}"
+      public_subnet_id: "{{ lookup('amazon.aws.ssm_parameter', prefix_network_keys + '/public_subnet_2a_id', access_key=assumed_role.sts_creds.access_key, secret_key=assumed_role.sts_creds.secret_key, session_token=assumed_role.sts_creds.session_token, on_denied='error') }}"
+
   - name: template instance role source
     vars:
       s3_deployment_bucket: "ds-{{ lookup( 'env', 'ENVIRONMENT') }}-deployment-source"
