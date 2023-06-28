@@ -30,36 +30,36 @@
       dest: "./userdata-{{ target_ebs }}.sh"
       force: yes
 
-  - name: template attach source ebs source
-    vars:
-      ebs_name: "{{ ebs_tag_name }}"
-      region: "{{ region }}"
-    template:
-      src: "./templates/attach-{{ target_ebs }}-ebs.sh.j2"
-      dest: "./attach-{{ target_ebs }}-ebs.sh"
-      force: yes
-
-  - name: template prepare ebs source source
-    vars:
-      root_password: "{{ root_password }}"
-      adm_user: "{{ admin_user }}"
-      adm_password: "{{ admin_pass }}"
-      rep_user: "{{ repl_user }}"
-      rep_password: "{{ repl_pass }}"
-      network_cidr: "{{ network_cidr }}"
-    template:
-      src: "./templates/prep-ebs-source.sh.j2"
-      dest: "./prep-ebs-source.sh"
-      force: yes
-
-  - name: template detach source ebs source
-    vars:
-      ebs_name: "{{ ebs_tag_name }}"
-      region: "{{ region }}"
-    template:
-      src: "./templates/detach-source-ebs.sh.j2"
-      dest: "./detach-source-ebs.sh"
-      force: yes
+#  - name: template attach source ebs source
+#    vars:
+#      ebs_name: "{{ ebs_tag_name }}"
+#      region: "{{ region }}"
+#    template:
+#      src: "./templates/attach-{{ target_ebs }}-ebs.sh.j2"
+#      dest: "./attach-{{ target_ebs }}-ebs.sh"
+#      force: yes
+#
+#  - name: template prepare ebs source source
+#    vars:
+#      root_password: "{{ root_password }}"
+#      adm_user: "{{ admin_user }}"
+#      adm_password: "{{ admin_pass }}"
+#      rep_user: "{{ repl_user }}"
+#      rep_password: "{{ repl_pass }}"
+#      network_cidr: "{{ network_cidr }}"
+#    template:
+#      src: "./templates/prep-ebs-source.sh.j2"
+#      dest: "./prep-ebs-source.sh"
+#      force: yes
+#
+#  - name: template detach source ebs source
+#    vars:
+#      ebs_name: "{{ ebs_tag_name }}"
+#      region: "{{ region }}"
+#    template:
+#      src: "./templates/detach-source-ebs.sh.j2"
+#      dest: "./detach-source-ebs.sh"
+#      force: yes
 
   - name: provisioning temp instance
     amazon.aws.ec2_instance:
