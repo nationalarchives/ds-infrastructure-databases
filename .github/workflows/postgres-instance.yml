@@ -25,7 +25,7 @@ on:
           - replica
           - source-replica-set
       prefix:
-        description: EC2 & EBS Prefix (-source-ebs or -replica-ebs)
+        description: EC2 & EBS Prefix (-source or -replica)
         required: true
       service:
         description: service name
