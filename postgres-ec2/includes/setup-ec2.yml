@@ -66,7 +66,7 @@
       aws_access_key: "{{ assumed_role.sts_creds.access_key }}"
       aws_secret_key: "{{ assumed_role.sts_creds.secret_key }}"
       session_token: "{{ assumed_role.sts_creds.session_token }}"
-      key_name: "{{ key_name }}-{{ target_ebs }}"
+      key_name: "{{ key_name }}"
       image_id: "{{ latest_ami.image_id }}"#
       instance_role: "{{ iam_role_name }}-{{ target_ebs }}"
       instance_type: "t3a.small"
