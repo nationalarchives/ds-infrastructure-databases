@@ -20,6 +20,11 @@
       s3_deployment_bucket: "ds-{{ lookup( 'env', 'ENVIRONMENT') }}-deployment-source"
       service: "{{ s3_deployment_root }}"
       network_cidr: "{{ network_cidr }}"
+      root_password: "{{ root_password }}"
+      adm_user: "{{ admin_user }}"
+      adm_password: "{{ admin_pass }}"
+      rep_user: "{{ repl_user }}"
+      rep_password: "{{ repl_pass }}"
     template:
       src: "./templates/userdata-{{ target_ebs }}.sh.j2"
       dest: "./userdata-{{ target_ebs }}.sh"
