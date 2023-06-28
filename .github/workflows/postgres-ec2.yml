@@ -65,6 +65,6 @@ jobs:
           export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_EBS }}
           export AWS_DEFAULT_REGION=eu-west-2
           export ANSIBLE_HOST_KEY_CHECKING=False
-          ansible-playbook -vvv playbook-source-ec2-init.yml
+          ansible-playbook -vvv playbook-source-ec2.yml
 
 ...
