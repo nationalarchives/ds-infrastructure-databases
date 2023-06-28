@@ -53,7 +53,7 @@ psql -U postgres < ~/db_user.sql
 psql -U postgres < ~/secure_installation.sql
 
 # preparing network access and secure local postgres access
-sudo sed -i "s/listen_addresses=/c\\\nlisten_addresses='{{network_cidr}}'\n/g" /var/lib/pgsql/data/postgresql.conf
+sudo sed -i "s/listen_addresses =/c\\\nlisten_addresses = '*'\n/g" /var/lib/pgsql/data/postgresql.conf
 sudo sed -i "s|local all postgres trust|local all postgres md5" /var/lib/pgsql/data/pg_hba.conf
 
 sudo systemctl restart postgresql
