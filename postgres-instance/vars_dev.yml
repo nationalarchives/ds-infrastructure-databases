@@ -1,5 +1,5 @@
 ---
-key_name: "temp-pg-ebs-ec2-key"
+key_name: "private-beta-postgres-dev-eu-west-2"
 region: "eu-west-2"
 zone_source: "eu-west-2a"
 zone_replica: "eu-west-2b"

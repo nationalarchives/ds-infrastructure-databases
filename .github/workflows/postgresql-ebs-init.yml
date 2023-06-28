@@ -25,7 +25,7 @@ on:
           - replica
           - source-replica-set
       prefix:
-        description: Prefix used for ebs (-source-ebs or -replica-ebs)
+        description: EBS Prefix (-source-ebs or -replica-ebs)
         required: true
       service:
         description: service name
@@ -60,7 +60,7 @@ jobs:
           ENVIRONMENT: "${{ inputs.deploy-environment }}"
         run: |
           cur_dir=$(pwd)
-          cd $cur_dir/postgresql
+          cd $cur_dir/postgresql-ebs
           export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID_EBS }}
           export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_EBS }}
           export AWS_DEFAULT_REGION=eu-west-2

@@ -16,7 +16,7 @@ on:
           - dev
           - staging
           - live
-      ebs-set:
+      instance-set:
         type: choice
         description: Source or Source/Replica set
         required: true
@@ -25,7 +25,7 @@ on:
           - replica
           - source-replica-set
       prefix:
-        description: Prefix used for ebs (-source-ebs or -replica-ebs)
+        description: EC2 & EBS Prefix (-source-ebs or -replica-ebs)
         required: true
       service:
         description: service name
@@ -33,7 +33,7 @@ on:
 
 jobs:
   ec2-initialise-source:
-    if: ${{ inputs.deploy-environment  == 'dev' && (inputs.ebs-set == 'source' || inputs.ebs-set == 'source-replica-set') }}
+    if: ${{ inputs.deploy-environment  == 'dev' && (inputs.instance-set == 'source' || inputs.instance-set == 'source-replica-set') }}
     runs-on: ubuntu-latest
     environment: dev
     steps:
@@ -47,20 +47,20 @@ jobs:
         with:
           python-version: '3.10'
           cache: 'pip'
-          cache-dependency-path: '**/postgresql-ebs-req.txt'
+          cache-dependency-path: '**/postgresql-instance-req.txt'
 
-      - run: pip install -r ${{ github.workspace }}/.github/workflows/postgresql-source-instance-req.txt
+      - run: pip install -r ${{ github.workspace }}/.github/workflows/postgresql-instance-req.txt
 
       - name: run ansible playbook
         env:
           AWS_ACCOUNT_ID: "${{ secrets.AWS_ACCOUNT_ID_DEV }}"
           AWS_ROLE_ARN: "${{ secrets.AWS_ROLE_ARN_EBS_MGMT }}"
-          EBS_PREFIX: "${{ inputs.prefix }}"
+          PREFIX: "${{ inputs.prefix }}"
           SERVICE_NAME: "${{ inputs.service }}"
           ENVIRONMENT: "${{ inputs.deploy-environment }}"
         run: |
           cur_dir=$(pwd)
-          cd $cur_dir/postgresql
+          cd $cur_dir/postgresql-source-instance
           export AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID_EBS }}
           export AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY_EBS }}
           export AWS_DEFAULT_REGION=eu-west-2

@@ -1,22 +1,33 @@
 #!/bin/bash
 
+# Update yum
+sudo yum update -y
+
+# create swap file
+sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
+sudo chmod 0600 /var/swap.1
+sudo /sbin/mkswap /var/swap.1
+sudo /sbin/swapon /var/swap.1
+
+# Install Cloudwatch agent
+sudo yum install amazon-cloudwatch-agent -y
+sudo amazon-linux-extras install -y collectd
+sudo aws s3 cp s3://{{ s3_deployment_bucket }}/{{ service }}/cloudwatch/cloudwatch-agent-config.json /opt/aws/amazon-cloudwatch-agent/bin/config.json
+sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -s -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json
+
+# Install PostgreSQL
+sudo amazon-linux-extras enable postgresql14
+sudo yum install postgresql-server -y
+sudo postgresql-setup --initdb --unit postgresql
+
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+
 ROOT_DIR="/postgres"
 DATA_DIR="/postgres/data"
 LOG_DIR="/postgres/log"
 
 sudo systemctl stop postgresql
-
-if [ ! -d "$ROOT_DIR" ]; then
-  sudo mkdir "$ROOT_DIR"
-fi
-if [ ! -d "$DATA_DIR" ]; then
-  sudo mkdir "$DATA_DIR"
-fi
-if [ ! -d "$LOG_DIR" ]; then
-  sudo mkdir "$LOG_DIR"
-fi
-
-sudo cp -r /var/lib/pgsql/data /postgres
 
 # Configure PostgreSQL for replication
 # the directories are specific for the version of postgres and linux 2 from AWS
@@ -39,9 +50,6 @@ cat << EOF > ~/secure_installation.sql
 ALTER USER postgres PASSWORD '{{root_password}}';
 EOF
 
-sudo chown -R postgres:postgres /postgres
-sudo chmod -R 0700 /postgres/data
-
 cat << EOF > ~/db_user.sql
 CREATE ROLE {{adm_user}} WITH SUPERUSER LOGIN PASSWORD '{{adm_password}}';
 CREATE ROLE {{rep_user}} WITH REPLICATION LOGIN PASSWORD '{{rep_password}}';
@@ -49,8 +57,8 @@ EOF
 
 sudo systemctl start postgresql
 
-psql -U postgres < ~/secure_installation.sql
 psql -U postgres < ~/db_user.sql
+psql -U postgres < ~/secure_installation.sql
 
 # preparing network access and secure local postgres access
 sudo sed -i "s/listen_addresses=/c\\\nlisten_addresses='{{network_cidr}}'\n/g" /var/lib/pgsql/data/postgresql.conf
@@ -58,7 +66,7 @@ sudo sed -i "s|local all postgres trust|local all postgres md5" /var/lib/pgsql/d
 
 sudo systemctl restart postgresql
 
-cat << EOF > ~/prep-ebs.txt
+cat << EOF > /finish-init.txt
 [status]
 finished = true
 EOF
