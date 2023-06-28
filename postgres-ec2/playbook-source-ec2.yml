@@ -28,13 +28,6 @@
       role_session_name: "s-devops"
     register: assumed_role
 
-  - name: copy key file from S3
-    amazon.aws.s3_object:
-      bucket: "ds-{{ lookup('env', 'ENVIRONMENT') }}-kpf-administration"
-      object: "{{ key_name }}"
-      dest: "{{ key_name }}"
-      mode: get
-
   - name: initialise environment
     ansible.builtin.include_tasks:
       file: ./includes/init-env.yml
