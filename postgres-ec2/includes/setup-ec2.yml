@@ -73,7 +73,7 @@
       metadata_options:
         http_endpoint: "enabled"
         http_tokens: "required"
-      name : "postgres-temp-instance"
+      name : "postgres-temp-source-ec2"
       network:
         assign_public_ip: yes
         delete_on_termination: yes
