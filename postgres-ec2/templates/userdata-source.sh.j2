@@ -33,8 +33,8 @@ sudo sed -i "s|#archive_command = ''|archive_command = 'test ! -f /postgres/serv
 
 # Set up access to postgres from a list of IP CIDRs
 # allowed separators are in IFS
-IFS=',;: ' read -a cidrs <<< '{{netword_cidrs}}'
-for cidr in "${cidrs[@]}"
+IFS=',;: ' read -a cidrs <<< '{{network_cidrs}}'
+for cidr in "${cidrs[@]}
 do
     sudo sed -i "/# TYPE/a host all all $cidr md5\n" /var/lib/pgsql/data/pg_hba.conf
 done
