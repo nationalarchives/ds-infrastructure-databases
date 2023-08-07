@@ -1,11 +1,8 @@
 ---
-key_name: "private-beta-postgres-dev-eu-west-2"
 region: "eu-west-2"
-zone_source: "eu-west-2a"
-zone_replica: "eu-west-2b"
 service: "postgresql"
 env: "dev"
-volume_size: 40
+volume_size: 20
 s3_deployment_root: "postgresql"
 
 # secrets

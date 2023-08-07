@@ -17,6 +17,7 @@ sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-c
 
 # Install PostgreSQL
 sudo amazon-linux-extras enable postgresql14
+yum clean metadata
 sudo yum install postgresql-server -y
 sudo postgresql-setup --initdb --unit postgresql
 

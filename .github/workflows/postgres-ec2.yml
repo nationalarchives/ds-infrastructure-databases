@@ -1,5 +1,5 @@
 ---
-name: Initialise PostgreSQL EC2
+name: Create PostgreSQL AMI
 
 permissions:
   id-token: write
@@ -16,20 +16,12 @@ on:
           - dev
           - staging
           - live
-      instance-set:
-        type: choice
-        description: Source or Source/Replica set
+      secrets-path:
+        description: path of secret in AWS Secrets Manager
         required: true
-        options:
-          - source
-          - replica
-          - source-replica-set
-      prefix:
-        description: EC2 & EBS Prefix (-source or -replica)
-        required: true
-      service:
-        description: service name
-        required: true
+      key-file:
+        description: key file used for accessing cluster using ssh
+        require: true
 
 jobs:
   ec2-initialise-source:
@@ -55,8 +47,8 @@ jobs:
         env:
           AWS_ACCOUNT_ID: "${{ secrets.AWS_ACCOUNT_ID_DEV }}"
           AWS_ROLE_ARN: "${{ secrets.AWS_ROLE_ARN_EBS_MGMT }}"
-          PREFIX: "${{ inputs.prefix }}"
-          SERVICE_NAME: "${{ inputs.service }}"
+          SECRETS_PATH: "${{ inputs.secrets-path }}"
+          KEY_FILE: "${{ inputs.key-file }}"
           ENVIRONMENT: "${{ inputs.deploy-environment }}"
         run: |
           cur_dir=$(pwd)
