@@ -25,7 +25,7 @@ on:
 
 jobs:
   ec2-initialise-source:
-    if: ${{ inputs.deploy-environment  == 'dev' && (inputs.instance-set == 'source' || inputs.instance-set == 'source-replica-set') }}
+    if: ${{ inputs.deploy-environment  == 'dev' }}
     runs-on: ubuntu-latest
     environment: dev
     steps:
