@@ -13,7 +13,7 @@
       access_key: "{{ assumed_role.sts_creds.access_key }}"
       secret_key: "{{ assumed_role.sts_creds.secret_key }}"
       session_token: "{{ assumed_role.sts_creds.session_token }}"
-      name: "{{ key_name }}-{{ target_ebs }}"
+      name: "{{ key_name }}"
       state: "absent"
 
   - name: remove security group
@@ -31,7 +31,7 @@
       access_key: "{{ assumed_role.sts_creds.access_key }}"
       secret_key: "{{ assumed_role.sts_creds.secret_key }}"
       session_token: "{{ assumed_role.sts_creds.session_token }}"
-      name: "{{ iam_role_name }}-{{ target_ebs }}"
+      name: "{{ iam_role_name }}"
       region: "{{ region }}"
       delete_instance_profile: yes
       purge_policies: yes

@@ -17,7 +17,7 @@
 
   - name: create temp ssh key
     community.crypto.openssh_keypair:
-      path: "/tmp/{{ key_name }}-{{ target_ebs }}"
+      path: "/tmp/{{ key_name }}"
       size: 2048
       comment: "temp@nationalarchives.gov.uk"
       mode: '600'
@@ -29,8 +29,8 @@
       access_key: "{{ assumed_role.sts_creds.access_key }}"
       secret_key: "{{ assumed_role.sts_creds.secret_key }}"
       session_token: "{{ assumed_role.sts_creds.session_token }}"
-      name: "{{ key_name }}-{{ target_ebs }}"
-      key_material: "{{ lookup('file', '/tmp/' + key_name +'-' + target_ebs + '.pub') }}"
+      name: "{{ key_name }}"
+      key_material: "{{ lookup('file', '/tmp/' + key_name + '.pub') }}"
       state: "present"
 
   - name: template userdata source
@@ -39,8 +39,8 @@
       service: "{{ s3_deployment_root }}"
       network_cidr: "{{ network_cidr }}"
     template:
-      src: "./templates/userdata-{{ target_ebs }}.sh.j2"
-      dest: "./userdata-{{ target_ebs }}.sh"
+      src: "./templates/userdata.sh.j2"
+      dest: "./userdata.sh"
       force: yes
 
   - name: template attach source ebs source
@@ -48,8 +48,8 @@
       ebs_name: "{{ ebs_tag_name }}"
       region: "{{ region }}"
     template:
-      src: "./templates/attach-{{ target_ebs }}-ebs.sh.j2"
-      dest: "./attach-{{ target_ebs }}-ebs.sh"
+      src: "./templates/attach-ebs.sh.j2"
+      dest: "./attach-ebs.sh"
       force: yes
 
   - name: template prepare ebs source source
@@ -79,9 +79,9 @@
       aws_access_key: "{{ assumed_role.sts_creds.access_key }}"
       aws_secret_key: "{{ assumed_role.sts_creds.secret_key }}"
       session_token: "{{ assumed_role.sts_creds.session_token }}"
-      key_name: "{{ key_name }}-{{ target_ebs }}"
+      key_name: "{{ key_name }}"
       image_id: "{{ latest_ami.image_id }}"#
-      instance_role: "{{ iam_role_name }}-{{ target_ebs }}"
+      instance_role: "{{ iam_role_name }}"
       instance_type: "t3a.small"
       metadata_options:
         http_endpoint: "enabled"

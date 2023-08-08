@@ -23,6 +23,7 @@
     vars:
       s3_deployment_bucket: "ds-{{ lookup( 'env', 'ENVIRONMENT') }}-deployment-source"
       s3_deployment_root: "{{ s3_deployment_root }}"
+      s3_kpf_bucket: "ds-{{ lookup( 'env', 'ENVIRONMENT') }}-kpf-administration"
     template:
       src: "./templates/instance-role-policy.json.j2"
       dest: "./instance-role-policy.json"
@@ -33,7 +34,7 @@
       access_key: "{{ assumed_role.sts_creds.access_key }}"
       secret_key: "{{ assumed_role.sts_creds.secret_key }}"
       session_token: "{{ assumed_role.sts_creds.session_token }}"
-      policy_name: "{{ deployment_policy_name }}-{{ target_ebs }}"
+      policy_name: "{{ deployment_policy_name }}"
       policy: "{{ lookup('file', './instance-role-policy.json') }}"
       state: "present"
     register: s3_policy
@@ -43,7 +44,7 @@
       access_key: "{{ assumed_role.sts_creds.access_key }}"
       secret_key: "{{ assumed_role.sts_creds.secret_key }}"
       session_token: "{{ assumed_role.sts_creds.session_token }}"
-      name: "{{ iam_role_name }}-{{ target_ebs }}"
+      name: "{{ iam_role_name }}"
       region: "{{ region }}"
       assume_role_policy_document: "{{ lookup('file', './templates/ec2-role-policy.json') }}"
       managed_policies: ["{{ s3_policy.policy.arn }}"]
@@ -58,7 +59,7 @@
       access_key: "{{ assumed_role.sts_creds.access_key }}"
       secret_key: "{{ assumed_role.sts_creds.secret_key }}"
       session_token: "{{ assumed_role.sts_creds.session_token }}"
-      name: "{{ ec2_sg_name }}-{{ target_ebs }}"
+      name: "{{ ec2_sg_name }}"
       description: "security group allowing updates and downloads"
       region: "{{ region }}"
       vpc_id: "{{ vpc_id }}"

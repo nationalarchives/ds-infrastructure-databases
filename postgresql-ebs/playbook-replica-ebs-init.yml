@@ -8,7 +8,6 @@
   - name: set var file name
     ansible.builtin.set_fact:
       var_file: "vars_{{ lookup('env', 'ENVIRONMENT') }}.yml"
-      target_ebs: "replica"
 
   - name: load variables
     ansible.builtin.include_vars:
