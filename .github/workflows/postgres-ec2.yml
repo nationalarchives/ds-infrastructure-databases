@@ -19,8 +19,8 @@ on:
       secrets-path:
         description: path of secret in AWS Secrets Manager
         required: true
-      key-file:
-        description: key file used for accessing cluster using ssh
+      key-name:
+        description: ssh key name used for accessing cluster
         require: true
 
 jobs:
@@ -48,7 +48,7 @@ jobs:
           AWS_ACCOUNT_ID: "${{ secrets.AWS_ACCOUNT_ID_DEV }}"
           AWS_ROLE_ARN: "${{ secrets.AWS_ROLE_ARN_EBS_MGMT }}"
           SECRETS_PATH: "${{ inputs.secrets-path }}"
-          KEY_FILE: "${{ inputs.key-file }}"
+          KEY_NAME: "${{ inputs.key-name }}"
           ENVIRONMENT: "${{ inputs.deploy-environment }}"
         run: |
           cur_dir=$(pwd)
