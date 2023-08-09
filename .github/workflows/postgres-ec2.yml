@@ -16,6 +16,9 @@ on:
           - dev
           - staging
           - live
+      prefix:
+        description: AMI prefix
+        required: true
       secrets-path:
         description: path of secret in AWS Secrets Manager
         required: true
