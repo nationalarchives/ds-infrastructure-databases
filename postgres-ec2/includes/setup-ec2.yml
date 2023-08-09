@@ -72,7 +72,7 @@
       metadata_options:
         http_endpoint: "enabled"
         http_tokens: "required"
-      name : "postgres-temp-ec2"
+      name : "postgres-base-ec2-primer"
       network:
         assign_public_ip: yes
         delete_on_termination: yes
@@ -119,8 +119,7 @@
       hostname: "{{ instance_public_ip }}"
       groups: ec2hosts
       ansible_user: ec2-user
-#      remote_user: ec2-user
-      ansible_ssh_private_key_file: "/tmp/{{ key_name }}"
+      ansible_ssh_private_key_file: "{{ lookup('env', 'KEY_NAME') }}"
       gather_facts: no
 
   - name: wait for SSH service to bind on new instance
