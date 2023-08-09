@@ -1,9 +1,9 @@
 # source EC2 playbook
 ---
-- name: Initialise PostgreSQL Source EBS
+- name: Initialise PostgreSQL AMI
   hosts: localhost
   gather_facts: false
-  module_default:
+  module_defaults:
     group/aws:
       access_key: "{{ session_credentials.sts_creds.access_key }}"
       secret_key: "{{ session_credentials.sts_creds.secret_key }}"
