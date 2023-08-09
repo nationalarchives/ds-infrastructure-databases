@@ -62,8 +62,8 @@
 
   - name: provisioning temp instance
     amazon.aws.ec2_instance:
-      aws_access_key: "{{ assumed_role.sts_creds.access_key }}"
-      aws_secret_key: "{{ assumed_role.sts_creds.secret_key }}"
+      access_key: "{{ assumed_role.sts_creds.access_key }}"
+      secret_key: "{{ assumed_role.sts_creds.secret_key }}"
       session_token: "{{ assumed_role.sts_creds.session_token }}"
       key_name: "{{ lookup('env', 'KEY_NAME') }}"
       image_id: "{{ latest_ami.image_id }}"#
@@ -72,7 +72,7 @@
       metadata_options:
         http_endpoint: "enabled"
         http_tokens: "required"
-      name : "postgres-temp-source-ec2"
+      name : "postgres-temp-ec2"
       network:
         assign_public_ip: yes
         delete_on_termination: yes
