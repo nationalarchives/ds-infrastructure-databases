@@ -7,7 +7,6 @@
     group/aws:
       access_key: "{{ session_credentials.sts_creds.access_key }}"
       secret_key: "{{ session_credentials.sts_creds.secret_key }}"
-      session_token: "{{ session_credentials.sts_creds.session_token }}"
       region: "{{ region }}"
 
   tasks:
@@ -28,7 +27,7 @@
     community.aws.sts_assume_role:
 #      access_key: "{{ session_credentials.sts_creds.access_key }}"
 #      secret_key: "{{ session_credentials.sts_creds.secret_key }}"
-#      session_token: "{{ session_credentials.sts_creds.session_token }}"
+      session_token: "{{ session_credentials.sts_creds.session_token }}"
       role_arn: "{{ lookup ('env', 'AWS_ROLE_ARN') }}"
       role_session_name: "s-devops"
     register: assumed_role
