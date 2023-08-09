@@ -3,11 +3,6 @@
 - name: Initialise PostgreSQL AMI
   hosts: localhost
   gather_facts: false
-  module_defaults:
-    group/aws:
-      access_key: "{{ session_credentials.sts_creds.access_key }}"
-      secret_key: "{{ session_credentials.sts_creds.secret_key }}"
-      region: "{{ region }}"
 
   tasks:
   - name: set var file name
@@ -25,8 +20,8 @@
 
   - name: switch role credentials
     community.aws.sts_assume_role:
-#      access_key: "{{ session_credentials.sts_creds.access_key }}"
-#      secret_key: "{{ session_credentials.sts_creds.secret_key }}"
+      access_key: "{{ session_credentials.sts_creds.access_key }}"
+      secret_key: "{{ session_credentials.sts_creds.secret_key }}"
       session_token: "{{ session_credentials.sts_creds.session_token }}"
       role_arn: "{{ lookup ('env', 'AWS_ROLE_ARN') }}"
       role_session_name: "s-devops"
