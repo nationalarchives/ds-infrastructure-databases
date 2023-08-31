@@ -5,7 +5,11 @@ The AMI only contains an image of an EC2 with basic setup for administrative use
 For more details read sections underneath.
 
 ## Creating an general PostgreSQL AMI
-Setup is minimal and only contains the postgres 14 server, network and database administrator accounts with the appropriate permissions.
+Setup is minimal and only contains the postgres server, network settings and database administrator accounts with the appropriate permissions.
+### postgres server
+This is the standard installation of postgres14 using amazon-linux-extras. It is recommended that the available are monitored and update if and when required.
+### network settings
+The instance will be placed in a private db subnet. To define the subnets in postgres from which incoming traffic is allowed, the secret
 
 ## Setup Replication for PostgreSQL
 The required steps to create a replication setup are done manually but uses two or more instances which can be installed with the base AMI. **Install standby servers in different AZs.**  
