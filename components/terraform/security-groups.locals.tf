@@ -1,4 +1,4 @@
-locals = {
+locals {
     private_beta_ingress = [
         {
             "cidr_ipv4"   = data.aws_ssm_parameter.private_subnet_a_cidr
