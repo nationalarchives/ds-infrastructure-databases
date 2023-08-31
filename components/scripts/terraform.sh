@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Terraform Wrapper Bash Scripts
 
-tfenv use 1.1.7
+tfenv use 1.5.6
 export AWS_ACCOUNT="968803923593"
 export AWS_DEFAULT_REGION="eu-west-2"
 

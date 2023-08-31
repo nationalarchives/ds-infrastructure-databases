@@ -4,7 +4,7 @@ module "private-beta-sgs" {
     name        = "private-beta-postgres-sg"
     description = "access to postgres"
 
-    vpc_id = data.aws_ssm_parameter.vpc_id
+    vpc_id = data.aws_ssm_parameter.vpc_id.value
 
     ingress    = local.private_beta_ingress
     ingress_sg = local.private_beta_ingress_sg

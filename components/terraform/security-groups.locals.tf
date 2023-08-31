@@ -1,14 +1,14 @@
 locals {
     private_beta_ingress = [
         {
-            "cidr_ipv4"   = data.aws_ssm_parameter.private_subnet_a_cidr
+            "cidr_ipv4"   = data.aws_ssm_parameter.private_subnet_a_cidr.value
             "description" = "access from private a subnets"
             "from_port"   = 5432
             "ip_protocol" = "tcp"
             "to_port"     = 5432
         },
         {
-            "cidr_ipv4"   = data.aws_ssm_parameter.private_subnet_b_cidr
+            "cidr_ipv4"   = data.aws_ssm_parameter.private_subnet_b_cidr.value
             "description" = "access from private b subnets"
             "from_port"   = 5432
             "ip_protocol" = "tcp"
