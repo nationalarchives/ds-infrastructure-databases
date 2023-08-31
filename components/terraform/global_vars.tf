@@ -1,5 +1,5 @@
 locals {
-    tags {
+    tags = {
         Terraform   = "true"
         Product     = "website"
         Environment = var.environment
