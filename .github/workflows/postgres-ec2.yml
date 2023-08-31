@@ -16,7 +16,7 @@ on:
           - dev
           - staging
           - live
-      prefix:
+      ami-prefix:
         description: AMI prefix
         required: true
       secrets-path:
@@ -52,6 +52,7 @@ jobs:
           AWS_ROLE_ARN: "${{ secrets.AWS_ROLE_ARN_EBS_MGMT }}"
           SECRETS_PATH: "${{ inputs.secrets-path }}"
           KEY_NAME: "${{ inputs.key-name }}"
+          AMI_PREFIX: "${{ inputs.ami-prefix }}"
           ENVIRONMENT: "${{ inputs.deploy-environment }}"
         run: |
           cur_dir=$(pwd)
@@ -61,5 +62,4 @@ jobs:
           export AWS_DEFAULT_REGION=eu-west-2
           export ANSIBLE_HOST_KEY_CHECKING=False
           ansible-playbook -vvv playbook-source-ec2.yml
-
 ...
