@@ -7,7 +7,7 @@ resource "aws_iam_policy" "private_beta_s3_deployment_access_policy" {
 
     policy = templatefile("${path.root}/templates/s3-deployment-access-policy.json",
         {
-            s3_deployment_bucket = var.s3_deployment_bucket.value
+            s3_deployment_bucket = var.s3_deployment_bucket
             folder               = var.private_beta_s3_folder
         }
     )
