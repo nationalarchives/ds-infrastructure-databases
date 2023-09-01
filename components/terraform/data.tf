@@ -6,7 +6,7 @@ data "aws_ami" "private_beta_db_ami" {
     filter {
         name   = "name"
         values = [
-            "private-beta-postgres-primer-${var.environment}*"
+            "private-beta-postgres-primer-*"
         ]
     }
 
