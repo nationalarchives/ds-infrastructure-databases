@@ -21,11 +21,11 @@ resource "aws_vpc_security_group_ingress_rule" "cidrs" {
 
     for_each    = var.ingress
 
-    cidr_ipv4   = lookup(each.value, "cidr_ipv4", null)
-    description = lookup(each.value, "description", "")
-    from_port   = lookup(each.value, "from_port", "")
-    ip_protocol = lookup(each.value, "ip_protocol", "tcp")
-    to_port     = lookup(each.value, "to_port", "")
+    cidr_ipv4   = each.value["cidr_ipv4"]
+    description = each.value["description"]
+    from_port   = each.value["from_port"]
+    ip_protocol = each.value["ip_protocol"]
+    to_port     = each.value["to_port"]
 }
 
 resource "aws_vpc_security_group_ingress_rule" "self" {
