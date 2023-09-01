@@ -6,9 +6,9 @@ module "private-beta-sgs" {
 
     vpc_id = data.aws_ssm_parameter.vpc_id.value
 
-    ingress    = local.private_beta_ingress
-    ingress_sg = local.private_beta_ingress_sg
-    egress     = local.private_beta_egress
+    ingress      = local.private_beta_ingress_cidr
+    ingress_self = local.private_beta_ingress_self
+    egress       = local.private_beta_egress_cidr
 
     tags = local.tags
 }
