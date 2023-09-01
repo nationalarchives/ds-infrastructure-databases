@@ -71,6 +71,4 @@ resource "aws_launch_template" "private_beta_db_launch_tpl" {
             Name = "private-beta-db"
         })
     }
-
-    user_data = filebase64("${path.module}/example.sh")
 }
