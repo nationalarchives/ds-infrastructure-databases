@@ -42,9 +42,9 @@ resource "aws_vpc_security_group_egress_rule" "cidr" {
     security_group_id = aws_security_group.postgres.id
 
     for_each = var.egress
-    cidr_ipv4   = lookup(each.value, "cidr_ipv4", "")
-    description = lookup(each.value, "description", "")
-    from_port   = lookup(each.value, "from_port", "")
-    ip_protocol = lookup(each.value, "ip_protocol", "")
-    to_port     = lookup(each.value, "to_port", "")
+    cidr_ipv4   = each.value["cidr_ipv4"]
+    description = each.value["description"]
+    from_port   = each.value["from_port"]
+    ip_protocol = each.value["ip_protocol"]
+    to_port     = each.value["to_port"]
 }
