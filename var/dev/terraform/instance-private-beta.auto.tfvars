@@ -1,0 +1,10 @@
+private_beta_volume_size             = 20
+private_beta_disable_api_stop        = false
+private_beta_disable_api_termination = false
+private_beta_image_id                = ""
+private_beta_availability_zone       = "eu-west-2"
+private_beta_ebs_delete_on_termination = false
+private_beta_volume_type               = "standard"
+private_beta_description               = "private beta db launch configuration"
+private_beta_instance_type             = "t3a.small"
+private_beta_key_name                  = "private-beta-db-dev-eu-west-2"
