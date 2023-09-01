@@ -1,4 +1,4 @@
-variable "s3_deployment_bucket_arn" {}
+variable "s3_deployment_bucket" {}
 variable "private_beta_s3_folder" {}
 
 resource "aws_iam_policy" "private_beta_s3_deployment_access_policy" {
@@ -7,8 +7,8 @@ resource "aws_iam_policy" "private_beta_s3_deployment_access_policy" {
 
     policy = templatefile("${path.root}/templates/s3-deployment-access-policy.json",
         {
-            s3_deployment_source_arn = var.s3_deployment_bucket_arn.value
-            folder                   = var.private_beta_s3_folder
+            s3_deployment_bucket = var.s3_deployment_bucket.value
+            folder               = var.private_beta_s3_folder
         }
     )
 }
