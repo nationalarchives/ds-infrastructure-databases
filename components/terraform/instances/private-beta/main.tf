@@ -72,3 +72,10 @@ resource "aws_launch_template" "private_beta_db_launch_tpl" {
         })
     }
 }
+
+resource "aws_instance" "private_beta_postgres_instance" {
+    launch_template {
+        id = aws_launch_template.private_beta_db_launch_tpl.id
+        version = "$$Latest"
+    }
+}
