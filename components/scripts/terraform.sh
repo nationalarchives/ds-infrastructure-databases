@@ -61,7 +61,7 @@ tf_dir=${components_dir}/terraform
 client_abbr=$(cat < "${tf_vars}/environment.tfvars" | grep "client_abbr" | awk -F"=" '{print $2}' | awk -F'"' '{print $2}')
 region="eu-west-2"
 s3_backend="ds-terraform-state-${region}-${AWS_ACCOUNT}"
-s3_backend_key="${base_dir_name}/tfstate.json"
+s3_backend_key="${base_dir_name}/terraform.tfstate"
 
 # ------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Check if the environment variables directory exists.
