@@ -22,6 +22,10 @@ variable "s3_folder" {}
 variable "tags" {}
 
 # --
+# DNS
+variable "mysql_dns" {}
+
+# --
 # network settings
 variable "vpc_id" {}
 variable "db_subnet_a_id" {}

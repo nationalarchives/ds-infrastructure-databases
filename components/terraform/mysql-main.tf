@@ -3,16 +3,18 @@ variable "mysql_main_replica" {}
 variable "mysql_main_prime_ebs" {}
 variable "mysql_main_replica_ebs" {}
 
+variable "mysql_main_prime_key_name" {}
+variable "mysql_main_replica_key_name" {}
+
 variable "mysql_main_instance_type" {}
 variable "mysql_main_volume_size" {}
 variable "mysql_main_disable_api_termination" {}
 variable "monitoring" {}
-variable "mysql_main_prime_key_name" {}
-variable "mysql_main_replica_key_name" {}
 
 variable "mysql_main_ebs_volume_size" {}
 
-variable "mysql_dns" {}
+variable "mysql_dns_prime" {}
+variable "mysql_dns_replica" {}
 
 module "mysql-main-prime" {
     source = "./mysql-main"
@@ -52,7 +54,7 @@ module "mysql-main-prime" {
     db_subnet_a_id = data.aws_ssm_parameter.private_db_subnet_a_id
     db_subnet_b_id = data.aws_ssm_parameter.private_db_subnet_b_id
 
-    mysql_dns = var.mysql_dns
+    mysql_dns = var.mysql_dns_prime
 
     tags = merge(local.tags, {
         Product = "MySQL"
@@ -94,6 +96,8 @@ module "mysql-main-replica" {
     ]
     db_subnet_a_id = data.aws_ssm_parameter.private_db_subnet_a_id
     db_subnet_b_id = data.aws_ssm_parameter.private_db_subnet_b_id
+
+    mysql_dns = var.mysql_dns_replica
 
     tags = merge(local.tags, {
         Product = "MySQL"
