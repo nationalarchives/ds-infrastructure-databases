@@ -1,6 +1,15 @@
 resource "aws_instance" "mysql_main" {
-    ami           = var.ami_id
-    instance_type = var.instance_type
+    ami                         = var.ami_id
+    associate_public_ip_address = false
+    availability_zone           = var.mysql_main_availability_zone
+    iam_instance_profile        = aws_iam_instance_profile.mysql_main_profile.name
+    instance_type               = var.instance_type
+    key_name                    = var.key_name
+    monitoring                  = var.monitoring
+    vpc_security_group_ids             = [
+        aws_security_group.mysql_main.id,
+    ]
+    subnet_id = var.db_subnet_a_id
 
     metadata_options {
         http_endpoint          = "enabled"
@@ -8,16 +17,12 @@ resource "aws_instance" "mysql_main" {
         instance_metadata_tags = "enabled"
     }
 
-    monitoring = var.monitoring
-
     root_block_device {
-        encrypted = true
+        encrypted   = true
         volume_size = var.volume_size
         volume_type = "standard"
-        tags = {}
+        tags        = {}
     }
-
-    subnet_id = var.db_subnet_a_id
 
     tags = merge(var.tags, {
         Name = "mysql-mai-${var.resource_identifier}"
