@@ -77,5 +77,5 @@ data "aws_ssm_parameter" "client_vpc_cidr" {
 }
 
 data "aws_ssm_parameter" "route53_zone_id" {
-    name = "/infrastructure/zone_id"
+    name = "/infrastructure/route53/private_zone_id"
 }

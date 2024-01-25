@@ -54,6 +54,7 @@ module "mysql-main-prime" {
     db_subnet_a_id = data.aws_ssm_parameter.private_db_subnet_a_id.value
     db_subnet_b_id = data.aws_ssm_parameter.private_db_subnet_b_id.value
 
+    zone_id = data.aws_ssm_parameter.route53_zone_id.value
     mysql_dns = var.mysql_dns_prime
 
     tags = merge(local.tags, {
@@ -97,6 +98,7 @@ module "mysql-main-replica" {
     db_subnet_a_id = data.aws_ssm_parameter.private_db_subnet_a_id.value
     db_subnet_b_id = data.aws_ssm_parameter.private_db_subnet_b_id.value
 
+    zone_id = data.aws_ssm_parameter.route53_zone_id.value
     mysql_dns = var.mysql_dns_replica
 
     tags = merge(local.tags, {

@@ -31,3 +31,7 @@ variable "vpc_id" {}
 variable "db_subnet_a_id" {}
 variable "db_subnet_b_id" {}
 variable "db_subnet_cidrs" {}
+
+# --
+# DNS
+variable "zone_id" {}
