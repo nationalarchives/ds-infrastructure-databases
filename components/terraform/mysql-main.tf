@@ -89,7 +89,7 @@ module "mysql-main-replica" {
     key_name      = var.mysql_main_replica_key_name
 
     mysql_main_disable_api_termination = var.mysql_main_disable_api_termination
-    monitoring                         = var.monitoring
+    monitoring                         = var.mysql_main_monitoring
 
     # ebs
     mysql_main_ebs_volume_size = var.mysql_main_ebs_volume_size
