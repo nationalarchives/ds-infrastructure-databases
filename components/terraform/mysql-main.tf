@@ -43,7 +43,7 @@ module "mysql-main-prime" {
     mysql_main_ebs_volume_size = var.mysql_main_ebs_volume_size
 
     # network
-    vpc_id          = data.aws_ssm_parameter.vpc_id
+    vpc_id          = data.aws_ssm_parameter.vpc_id.value
     db_subnet_cidrs = [
         data.aws_ssm_parameter.private_db_subnet_a_cidr.value,
         data.aws_ssm_parameter.private_db_subnet_b_cidr.value,
@@ -88,7 +88,7 @@ module "mysql-main-replica" {
     mysql_main_ebs_volume_size = var.mysql_main_ebs_volume_size
 
     # network
-    vpc_id          = data.aws_ssm_parameter.vpc_id
+    vpc_id          = data.aws_ssm_parameter.vpc_id.value
     db_subnet_cidrs = [
         data.aws_ssm_parameter.private_db_subnet_a_cidr.value,
         data.aws_ssm_parameter.private_db_subnet_b_cidr.value,
