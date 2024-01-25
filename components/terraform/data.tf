@@ -57,19 +57,19 @@ data "aws_ssm_parameter" "private_subnet_b_cidr" {
 }
 
 data "aws_ssm_parameter" "private_db_subnet_a_cidr" {
-    name = "/infrastructure/private_db_subnet_2a_cidr"
+    name = "/infrastructure/network/base/private_db_subnet_2a_cidr"
 }
 
 data "aws_ssm_parameter" "private_db_subnet_a_id" {
-    name = "/infrastructure/private_db_subnet_2a_id"
+    name = "/infrastructure/network/base/private_db_subnet_2a_id"
 }
 
 data "aws_ssm_parameter" "private_db_subnet_b_cidr" {
-    name = "/infrastructure/private_db_subnet_2b_cidr"
+    name = "/infrastructure/network/base/private_db_subnet_2b_cidr"
 }
 
 data "aws_ssm_parameter" "private_db_subnet_b_id" {
-    name = "/infrastructure/private_db_subnet_2b_id"
+    name = "/infrastructure/network/base/private_db_subnet_2b_id"
 }
 
 data "aws_ssm_parameter" "client_vpc_cidr" {
