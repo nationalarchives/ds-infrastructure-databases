@@ -73,7 +73,7 @@ data "aws_ssm_parameter" "private_db_subnet_b_id" {
 }
 
 data "aws_ssm_parameter" "client_vpc_cidr" {
-    name = "/infrastructure/vpc_cidr"
+    name = "/infrastructure/client_vpc_cidr"
 }
 
 data "aws_ssm_parameter" "route53_zone_id" {
