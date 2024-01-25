@@ -14,7 +14,7 @@ variable "mysql_main_ebs_volume_size" {}
 variable "mysql_dns" {}
 
 module "mysql-main-prime" {
-    source = "mysql-main"
+    source = "./mysql-main"
 
     count = var.mysql_main_prime == true ? 1 : 0
 
