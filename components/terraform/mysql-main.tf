@@ -45,14 +45,14 @@ module "mysql-main-prime" {
     # network
     vpc_id          = data.aws_ssm_parameter.vpc_id
     db_subnet_cidrs = [
-        data.aws_ssm_parameter.private_db_subnet_a_cidr,
-        data.aws_ssm_parameter.private_db_subnet_b_cidr,
-        data.aws_ssm_parameter.client_vpc_cidr,
-        data.aws_ssm_parameter.private_subnet_a_cidr,
-        data.aws_ssm_parameter.private_subnet_b_cidr,
+        data.aws_ssm_parameter.private_db_subnet_a_cidr.value,
+        data.aws_ssm_parameter.private_db_subnet_b_cidr.value,
+        data.aws_ssm_parameter.client_vpc_cidr.value,
+        data.aws_ssm_parameter.private_subnet_a_cidr.value,
+        data.aws_ssm_parameter.private_subnet_b_cidr.value,
     ]
-    db_subnet_a_id = data.aws_ssm_parameter.private_db_subnet_a_id
-    db_subnet_b_id = data.aws_ssm_parameter.private_db_subnet_b_id
+    db_subnet_a_id = data.aws_ssm_parameter.private_db_subnet_a_id.value
+    db_subnet_b_id = data.aws_ssm_parameter.private_db_subnet_b_id.value
 
     mysql_dns = var.mysql_dns_prime
 
@@ -90,12 +90,12 @@ module "mysql-main-replica" {
     # network
     vpc_id          = data.aws_ssm_parameter.vpc_id
     db_subnet_cidrs = [
-        data.aws_ssm_parameter.private_db_subnet_a_cidr,
-        data.aws_ssm_parameter.private_db_subnet_b_cidr,
-        data.aws_ssm_parameter.client_vpc_cidr,
+        data.aws_ssm_parameter.private_db_subnet_a_cidr.value,
+        data.aws_ssm_parameter.private_db_subnet_b_cidr.value,
+        data.aws_ssm_parameter.client_vpc_cidr.value,
     ]
-    db_subnet_a_id = data.aws_ssm_parameter.private_db_subnet_a_id
-    db_subnet_b_id = data.aws_ssm_parameter.private_db_subnet_b_id
+    db_subnet_a_id = data.aws_ssm_parameter.private_db_subnet_a_id.value
+    db_subnet_b_id = data.aws_ssm_parameter.private_db_subnet_b_id.value
 
     mysql_dns = var.mysql_dns_replica
 
