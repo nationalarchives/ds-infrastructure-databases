@@ -22,11 +22,11 @@ resource "aws_vpc_security_group_ingress_rule" "prime_self_ingress" {
 }
 
 resource "aws_vpc_security_group_ingress_rule" "prime_db_port_ingress" {
-    for_each = toset(var.db_subnet_cidrs)
+    count = length(var.db_subnet_cidrs)
 
     security_group_id = aws_security_group.mysql_main.id
 
-    cidr_ipv4   = "${each.value}"
+    cidr_ipv4   = "${var.db_subnet_cidrs[count.index]}"
     from_port   = 3306
     ip_protocol = "tcp"
     to_port     = 3306
