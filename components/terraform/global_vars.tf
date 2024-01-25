@@ -1,7 +1,6 @@
 locals {
     tags = {
         Terraform   = "true"
-        Product     = "website"
         Environment = var.environment
         CostCentre  = "53"
         Owner       = "Digital Services"

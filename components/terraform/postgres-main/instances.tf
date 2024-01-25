@@ -10,7 +10,7 @@ variable "private_beta_instance_type" {}
 variable "private_beta_key_name" {}
 
 module "private_beta_db" {
-    source = "./instances/private-beta"
+    source = "instances/private-beta"
 
     volume_size             = var.private_beta_volume_size
     disable_api_stop        = var.private_beta_disable_api_stop

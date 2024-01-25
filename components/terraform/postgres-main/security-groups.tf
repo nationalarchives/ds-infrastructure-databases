@@ -1,5 +1,5 @@
 module "private-beta-sgs" {
-    source = "./security-groups/private-beta"
+    source = "security-groups/private-beta"
 
     name        = "private-beta-postgres-sg"
     description = "access to postgres"

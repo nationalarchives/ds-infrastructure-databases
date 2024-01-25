@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.5.6"
+  required_version = ">= 1.6"
 
   # TODO Consider if this is the correct provider version
   required_providers {
