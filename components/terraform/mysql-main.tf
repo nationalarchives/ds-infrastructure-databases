@@ -107,6 +107,9 @@ module "mysql-main-replica" {
     zone_id   = data.aws_ssm_parameter.route53_zone_id.value
     mysql_dns = var.mysql_dns_replica
 
+    auto_switch_on  = var.mysql_main_auto_switch_on
+    auto_switch_off = var.mysql_main_auto_switch_off
+
     tags = merge(local.tags, {
         Product = "MySQL"
     })
