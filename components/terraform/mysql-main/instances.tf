@@ -25,6 +25,6 @@ resource "aws_instance" "mysql_main" {
     }
 
     tags = merge(var.tags, {
-        Name = "mysql-mai-${var.resource_identifier}"
+        Name = "mysql-main-${var.resource_identifier}"
     })
 }
