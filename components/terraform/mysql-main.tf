@@ -9,9 +9,12 @@ variable "mysql_main_replica_key_name" {}
 variable "mysql_main_instance_type" {}
 variable "mysql_main_volume_size" {}
 variable "mysql_main_disable_api_termination" {}
-variable "monitoring" {}
+variable "mysql_main_monitoring" {}
 
 variable "mysql_main_ebs_volume_size" {}
+
+variable "mysql_main_auto_switch_on" {}
+variable "mysql_main_auto_switch_off" {}
 
 variable "mysql_dns_prime" {}
 variable "mysql_dns_replica" {}
@@ -37,7 +40,7 @@ module "mysql-main-prime" {
     key_name      = var.mysql_main_prime_key_name
 
     mysql_main_disable_api_termination = var.mysql_main_disable_api_termination
-    monitoring                         = var.monitoring
+    monitoring                         = var.mysql_main_monitoring
 
     # ebs
     mysql_main_ebs_volume_size = var.mysql_main_ebs_volume_size
@@ -54,8 +57,11 @@ module "mysql-main-prime" {
     db_subnet_a_id = data.aws_ssm_parameter.private_db_subnet_a_id.value
     db_subnet_b_id = data.aws_ssm_parameter.private_db_subnet_b_id.value
 
-    zone_id = data.aws_ssm_parameter.route53_zone_id.value
+    zone_id   = data.aws_ssm_parameter.route53_zone_id.value
     mysql_dns = var.mysql_dns_prime
+
+    auto_switch_on  = var.mysql_main_auto_switch_on
+    auto_switch_off = var.mysql_main_auto_switch_off
 
     tags = merge(local.tags, {
         Product = "MySQL"
@@ -98,7 +104,7 @@ module "mysql-main-replica" {
     db_subnet_a_id = data.aws_ssm_parameter.private_db_subnet_a_id.value
     db_subnet_b_id = data.aws_ssm_parameter.private_db_subnet_b_id.value
 
-    zone_id = data.aws_ssm_parameter.route53_zone_id.value
+    zone_id   = data.aws_ssm_parameter.route53_zone_id.value
     mysql_dns = var.mysql_dns_replica
 
     tags = merge(local.tags, {

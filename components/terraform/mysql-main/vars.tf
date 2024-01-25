@@ -15,6 +15,9 @@ variable "volume_size" {}
 variable "mysql_main_disable_api_termination" {}
 variable "monitoring" {}
 
+variable "auto_switch_on" {}
+variable "auto_switch_off" {}
+
 # --
 # iam
 variable "s3_deployment_bucket" {}

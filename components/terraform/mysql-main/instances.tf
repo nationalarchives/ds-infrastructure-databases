@@ -6,7 +6,7 @@ resource "aws_instance" "mysql_main" {
     instance_type               = var.instance_type
     key_name                    = var.key_name
     monitoring                  = var.monitoring
-    vpc_security_group_ids             = [
+    vpc_security_group_ids      = [
         aws_security_group.mysql_main.id,
     ]
     subnet_id = var.db_subnet_a_id
@@ -25,6 +25,8 @@ resource "aws_instance" "mysql_main" {
     }
 
     tags = merge(var.tags, {
-        Name = "mysql-main-${var.resource_identifier}"
+        Name          = "mysql-main-${var.resource_identifier}"
+        AutoSwitchOn  = "true"
+        AutoSwitchOff = "true"
     })
 }
