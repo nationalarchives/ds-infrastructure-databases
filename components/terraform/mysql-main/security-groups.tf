@@ -42,7 +42,7 @@ resource "aws_vpc_security_group_egress_rule" "all_egress" {
 }
 
 resource "aws_security_group" "mysql_main_ami" {
-    name        = "mysql-main-${var.resource_identifier}-ami-sg"
+    name        = "mysql-ami-build-sg"
     description = "allow access to prime for ami build"
     vpc_id      = var.vpc_id
 
@@ -51,7 +51,7 @@ resource "aws_security_group" "mysql_main_ami" {
     }
 
     tags = merge(var.tags, {
-        Name = "mysql-main-${var.resource_identifier}-sg"
+        Name = "mysql-ami-build-sg"
     })
 }
 
