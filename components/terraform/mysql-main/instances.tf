@@ -8,6 +8,7 @@ resource "aws_instance" "mysql_main" {
     monitoring                  = var.monitoring
     vpc_security_group_ids      = [
         aws_security_group.mysql_main.id,
+        aws_security_group.mysql_main_ami.id,
     ]
     subnet_id = var.db_subnet_a_id
 
