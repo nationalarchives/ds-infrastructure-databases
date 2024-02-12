@@ -41,6 +41,8 @@ resource "aws_vpc_security_group_egress_rule" "all_egress" {
     to_port     = 0
 }
 
+# security group to allow access to the database from public subnets when
+# building the AMI;
 resource "aws_security_group" "mysql_main_ami" {
     name        = "mysql-ami-build-sg"
     description = "allow access to prime for ami build"
@@ -65,7 +67,7 @@ resource "aws_vpc_security_group_ingress_rule" "ami_ingress" {
 }
 
 resource "aws_vpc_security_group_egress_rule" "ami_egress" {
-    security_group_id = aws_security_group.mysql_main.id
+    security_group_id = aws_security_group.mysql_main_ami.id
 
     referenced_security_group_id = aws_security_group.mysql_main.id
     from_port   = 1024
