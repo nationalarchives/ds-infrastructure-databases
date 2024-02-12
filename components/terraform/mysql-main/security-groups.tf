@@ -36,9 +36,9 @@ resource "aws_vpc_security_group_egress_rule" "all_egress" {
     security_group_id = aws_security_group.mysql_main.id
 
     cidr_ipv4   = "0.0.0.0/0"
-    from_port   = 0
+    from_port   = -1
     ip_protocol = "-1"
-    to_port     = 0
+    to_port     = -1
 }
 
 # security group to allow access to the database from public subnets when
