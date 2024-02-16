@@ -117,5 +117,5 @@ module "mysql-main-replica" {
     })
 }
 output "yyy" {
-    value = module.mysql-main-prime.xxx
+    value = module.mysql-main-prime[0].xxx
 }
