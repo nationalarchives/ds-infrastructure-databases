@@ -94,8 +94,8 @@ data "aws_ssm_parameter" "private_db_subnet_b_id" {
     name = "/infrastructure/network/base/private_db_subnet_2b_id"
 }
 
-data "aws_ssm_parameter" "client_vpc_cidr" {
-    name = "/infrastructure/client_vpc_cidr"
+data "aws_ssm_parameter" "client_vpn_cidr" {
+    name = "/infrastructure/client_vpn_cidr"
 }
 
 data "aws_ssm_parameter" "route53_zone_id" {
