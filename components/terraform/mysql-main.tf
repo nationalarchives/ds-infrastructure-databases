@@ -48,11 +48,11 @@ module "mysql-main-prime" {
     # network
     vpc_id          = data.aws_ssm_parameter.vpc_id.value
     db_subnet_cidrs = [
-        data.aws_ssm_parameter.private_db_subnet_a_cidr.value,
-        data.aws_ssm_parameter.private_db_subnet_b_cidr.value,
-        data.aws_ssm_parameter.client_vpn_cidr.value,
-        data.aws_ssm_parameter.private_subnet_a_cidr.value,
-        data.aws_ssm_parameter.private_subnet_b_cidr.value,
+        "${ data.aws_ssm_parameter.private_db_subnet_a_cidr.value }",
+        "${ data.aws_ssm_parameter.private_db_subnet_b_cidr.value }",
+        "${ data.aws_ssm_parameter.client_vpn_cidr.value }",
+        "${ data.aws_ssm_parameter.private_subnet_a_cidr.value }",
+        "${ data.aws_ssm_parameter.private_subnet_b_cidr.value }",
     ]
     db_subnet_a_id = data.aws_ssm_parameter.private_db_subnet_a_id.value
     db_subnet_b_id = data.aws_ssm_parameter.private_db_subnet_b_id.value
