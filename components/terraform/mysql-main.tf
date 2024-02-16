@@ -118,5 +118,5 @@ module "mysql-main-replica" {
 }
 output "yyy" {
     value = module.mysql-main-prime[0].xxx
-    sensitive = false
+    sensitive = true
 }
