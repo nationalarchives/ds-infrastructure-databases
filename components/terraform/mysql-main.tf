@@ -97,8 +97,8 @@ module "mysql-main-replica" {
     # network
     vpc_id          = data.aws_ssm_parameter.vpc_id.value
     db_subnet_cidrs = [
-        data.aws_ssm_parameter.private_subnet_a_cidr,
-        data.aws_ssm_parameter.private_subnet_b_cidr,
+        data.aws_ssm_parameter.private_subnet_a_cidr.value,
+        data.aws_ssm_parameter.private_subnet_b_cidr.value,
         data.aws_ssm_parameter.private_db_subnet_a_cidr.value,
         data.aws_ssm_parameter.private_db_subnet_b_cidr.value,
         data.aws_ssm_parameter.client_vpn_cidr.value,
@@ -115,8 +115,4 @@ module "mysql-main-replica" {
     tags = merge(local.tags, {
         Product = "MySQL"
     })
-}
-output "yyy" {
-    value = module.mysql-main-prime[0].xxx
-    sensitive = true
 }
