@@ -50,7 +50,7 @@ module "mysql-main-prime" {
     db_subnet_cidrs = [
         data.aws_ssm_parameter.private_db_subnet_a_cidr.value,
         data.aws_ssm_parameter.private_db_subnet_b_cidr.value,
-        data.aws_ssm_parameter.client_vpc_cidr.value,
+        data.aws_ssm_parameter.client_vpn_cidr.value,
         data.aws_ssm_parameter.private_subnet_a_cidr.value,
         data.aws_ssm_parameter.private_subnet_b_cidr.value,
     ]
