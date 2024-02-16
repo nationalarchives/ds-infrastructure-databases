@@ -1,5 +1,5 @@
 resource "aws_iam_policy" "mysql_main_deployment_source_access_policy" {
-    name        = "mysql-main-deployment-source-access-${var.resource_identifier}-policy"
+    name        = "mysql-${var.resource_identifier}-deployment-source-access-policy"
     description = "access to deployment source"
 
     policy = templatefile("${path.root}/templates/s3-deployment-access-policy.json",
@@ -11,7 +11,7 @@ resource "aws_iam_policy" "mysql_main_deployment_source_access_policy" {
 }
 
 resource "aws_iam_role" "mysql_main_role" {
-    name               = "mysql-main-${var.resource_identifier}-role"
+    name               = "mysql-${var.resource_identifier}-role"
     assume_role_policy = file("${path.root}/templates/assume-role-ec2-policy.json")
 
     managed_policy_arns = [
@@ -24,7 +24,7 @@ resource "aws_iam_role" "mysql_main_role" {
 }
 
 resource "aws_iam_instance_profile" "mysql_main_profile" {
-    name = "mysql-main-${var.resource_identifier}-profile"
+    name = "mysql-${var.resource_identifier}-profile"
     role = aws_iam_role.mysql_main_role.name
 
     tags = var.tags

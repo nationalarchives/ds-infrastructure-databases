@@ -26,7 +26,7 @@ resource "aws_instance" "mysql_main" {
     }
 
     tags = merge(var.tags, {
-        Name          = "mysql-main-${var.resource_identifier}"
+        Name          = "mysql-${var.resource_identifier}"
         AutoSwitchOn  = "true"
         AutoSwitchOff = "true"
     })

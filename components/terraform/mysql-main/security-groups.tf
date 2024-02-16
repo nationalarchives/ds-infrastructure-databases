@@ -1,5 +1,5 @@
 resource "aws_security_group" "mysql_main" {
-    name        = "mysql-main-${var.resource_identifier}-sg"
+    name        = "mysql-${var.resource_identifier}-sg"
     description = "allow access to prime over mysql port"
     vpc_id      = var.vpc_id
 
@@ -8,7 +8,7 @@ resource "aws_security_group" "mysql_main" {
     }
 
     tags = merge(var.tags, {
-        Name = "mysql-main-${var.resource_identifier}-sg"
+        Name = "mysql-${var.resource_identifier}-sg"
     })
 }
 

@@ -24,7 +24,7 @@ module "mysql-main-prime" {
 
     count = var.mysql_main_prime == true ? 1 : 0
 
-    resource_identifier = "prime"
+    resource_identifier = "main-prime"
 
     mysql_main_ebs               = alltrue([var.mysql_main_prime, var.mysql_main_prime_ebs]) ? 1 : 0
     mysql_main_availability_zone = "eu-west-2a"
@@ -73,7 +73,7 @@ module "mysql-main-replica" {
 
     count = alltrue([var.mysql_main_prime, var.mysql_main_replica]) ? 1 : 0
 
-    resource_identifier = "replica"
+    resource_identifier = "main-replica"
 
     mysql_main_ebs               = var.mysql_main_replica_ebs == true ? 1 : 0
     mysql_main_availability_zone = "eu-west-2b"

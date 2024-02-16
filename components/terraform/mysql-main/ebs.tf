@@ -5,6 +5,6 @@
 #    size              = var.mysql_main_ebs_volume_size
 #
 #    tags = {
-#        Name = "mysql-main-ebs-${var.resource_identifier}"
+#        Name = "mysql-${var.resource_identifier}-ebs"
 #    }
 #}
