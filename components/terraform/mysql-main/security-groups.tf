@@ -26,7 +26,7 @@ resource "aws_vpc_security_group_ingress_rule" "db_port_ingress" {
 
     security_group_id = aws_security_group.mysql_main.id
 
-    cidr_ipv4   = "${var.db_subnet_cidrs[count.index]}"
+    cidr_ipv4   = var.db_subnet_cidrs[count.index]
     from_port   = 3306
     ip_protocol = "tcp"
     to_port     = 3306
