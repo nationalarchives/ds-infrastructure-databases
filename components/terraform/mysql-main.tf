@@ -116,3 +116,6 @@ module "mysql-main-replica" {
         Product = "MySQL"
     })
 }
+output "yyy" {
+    value = module.mysql-main-prime.xxx
+}
