@@ -1,5 +1,5 @@
 mysql_main_prime   = true
-mysql_main_replica = false
+mysql_main_replica = true
 
 mysql_main_prime_ebs   = false
 mysql_main_replica_ebs = false
