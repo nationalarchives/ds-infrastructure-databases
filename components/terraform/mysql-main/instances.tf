@@ -10,7 +10,7 @@ resource "aws_instance" "mysql_main" {
         aws_security_group.mysql_main.id,
         var.mysql_ami_build_sg_id,
     ]
-    subnet_id = var.db_subnet_a_id
+    subnet_id = var.db_subnet_id
 
     metadata_options {
         http_endpoint          = "enabled"

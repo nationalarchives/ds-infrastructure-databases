@@ -33,8 +33,7 @@ variable "mysql_dns" {}
 # --
 # network settings
 variable "vpc_id" {}
-variable "db_subnet_a_id" {}
-variable "db_subnet_b_id" {}
+variable "db_subnet_id" {}
 variable "db_subnet_cidrs" {}
 
 # --
