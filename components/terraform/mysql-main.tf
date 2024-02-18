@@ -88,6 +88,8 @@ module "mysql-main-replica" {
     volume_size   = var.mysql_main_volume_size
     key_name      = var.mysql_main_replica_key_name
 
+    mysql_ami_build_sg_id = module.security-groups.mysql_ami_build_sg_id
+
     mysql_main_disable_api_termination = var.mysql_main_disable_api_termination
     monitoring                         = var.mysql_main_monitoring
 

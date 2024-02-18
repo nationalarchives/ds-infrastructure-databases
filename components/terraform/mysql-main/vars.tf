@@ -15,6 +15,8 @@ variable "volume_size" {}
 variable "mysql_main_disable_api_termination" {}
 variable "monitoring" {}
 
+variable "mysql_ami_build_sg_id" {}
+
 variable "auto_switch_on" {}
 variable "auto_switch_off" {}
 
