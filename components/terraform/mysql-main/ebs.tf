@@ -5,6 +5,7 @@ resource "aws_ebs_volume" "mysql_main_ebs_prime" {
     encrypted         = true
     final_snapshot    = true
     size              = var.mysql_main_ebs_volume_size
+    type              = var.mysql_main_ebs_volume_type
 
     tags = {
         Name = "mysql-${var.resource_identifier}-ebs"

@@ -11,6 +11,7 @@ variable "mysql_main_disable_api_termination" {}
 variable "mysql_main_monitoring" {}
 
 variable "mysql_main_ebs_volume_size" {}
+variable "mysql_main_ebs_volume_type" {}
 
 variable "mysql_main_auto_switch_on" {}
 variable "mysql_main_auto_switch_off" {}
@@ -45,6 +46,7 @@ module "mysql-main-prime" {
 
     # ebs
     mysql_main_ebs_volume_size = var.mysql_main_ebs_volume_size
+    mysql_main_ebs_volume_type = var.mysql_main_ebs_volume_type
 
     # network
     vpc_id          = data.aws_ssm_parameter.vpc_id.value
