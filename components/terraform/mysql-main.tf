@@ -12,6 +12,7 @@ variable "mysql_main_monitoring" {}
 
 variable "mysql_main_ebs_volume_size" {}
 variable "mysql_main_ebs_volume_type" {}
+variable "mysql_main_ebs_final_snapshot" {}
 
 variable "mysql_main_auto_switch_on" {}
 variable "mysql_main_auto_switch_off" {}
@@ -45,8 +46,9 @@ module "mysql-main-prime" {
     monitoring                         = var.mysql_main_monitoring
 
     # ebs
-    mysql_main_ebs_volume_size = var.mysql_main_ebs_volume_size
-    mysql_main_ebs_volume_type = var.mysql_main_ebs_volume_type
+    mysql_main_ebs_volume_size    = var.mysql_main_ebs_volume_size
+    mysql_main_ebs_volume_type    = var.mysql_main_ebs_volume_type
+    mysql_main_ebs_final_snapshot = var.mysql_main_ebs_final_snapshot
 
     # network
     vpc_id          = data.aws_ssm_parameter.vpc_id.value
@@ -96,7 +98,9 @@ module "mysql-main-replica" {
     monitoring                         = var.mysql_main_monitoring
 
     # ebs
-    mysql_main_ebs_volume_size = var.mysql_main_ebs_volume_size
+    mysql_main_ebs_volume_size    = var.mysql_main_ebs_volume_size
+    mysql_main_ebs_volume_type    = var.mysql_main_ebs_volume_type
+    mysql_main_ebs_final_snapshot = var.mysql_main_ebs_final_snapshot
 
     # network
     vpc_id          = data.aws_ssm_parameter.vpc_id.value
