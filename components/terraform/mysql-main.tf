@@ -1,6 +1,5 @@
 variable "mysql_main_prime" {}
 variable "mysql_main_replica" {}
-variable "mysql_main_ebs" {}
 
 variable "mysql_main_prime_key_name" {}
 variable "mysql_main_replica_key_name" {}
@@ -27,7 +26,6 @@ module "mysql-main-prime" {
 
     resource_identifier = "main-prime"
 
-    mysql_main_ebs               = alltrue([var.mysql_main_prime, var.mysql_main_ebs]) ? true : false
     mysql_main_availability_zone = "eu-west-2a"
 
     # iam
@@ -79,7 +77,6 @@ module "mysql-main-replica" {
 
     resource_identifier = "main-replica"
 
-    mysql_main_ebs               = alltrue([var.mysql_main_replica, var.mysql_main_ebs]) ? true : false
     mysql_main_availability_zone = "eu-west-2b"
 
     # iam

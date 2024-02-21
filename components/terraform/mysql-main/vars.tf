@@ -1,12 +1,10 @@
 variable "resource_identifier" {}
-variable "mysql_main_ebs" {}
 variable "mysql_main_availability_zone" {}
 
 # --
 # ebs
 variable "mysql_main_ebs_volume_size" {}
 variable "mysql_main_ebs_volume_type" {}
-variable "mysql_main_ebs_final_snapshot" {}
 
 # --
 # instance

@@ -1,4 +1,0 @@
-#!/bin/bash
-
-# set up server as prime
-sudo sed -i "/\[mysqld\]/a server-id=101\n" /etc/my.cnf
