@@ -1,5 +1,5 @@
 resource "aws_ebs_volume" "mysql_main_ebs_prime" {
-    count = var.mysql_main_ebs ? 1 : 0
+    count = var.mysql_main_ebs == true ? 1 : 0
 
     availability_zone = var.mysql_main_availability_zone
     encrypted         = true
