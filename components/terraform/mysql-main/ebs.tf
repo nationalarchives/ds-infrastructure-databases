@@ -3,7 +3,6 @@ resource "aws_ebs_volume" "mysql_main_ebs_prime" {
 
     availability_zone = var.mysql_main_availability_zone
     encrypted         = true
-    final_snapshot    = true
     size              = var.mysql_main_ebs_volume_size
     type              = var.mysql_main_ebs_volume_type
     final_snapshot    = var.mysql_main_ebs_final_snapshot
