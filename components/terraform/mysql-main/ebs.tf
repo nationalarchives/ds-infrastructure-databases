@@ -1,4 +1,4 @@
-resource "aws_ebs_volume" "mysql_main_ebs_prime" {
+resource "aws_ebs_volume" "mysql_main_ebs" {
     availability_zone = var.mysql_main_availability_zone
     encrypted         = true
     size              = var.mysql_main_ebs_volume_size
