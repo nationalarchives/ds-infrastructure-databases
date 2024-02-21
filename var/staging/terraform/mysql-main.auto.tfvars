@@ -1,7 +1,7 @@
 mysql_main_prime   = true
 mysql_main_replica = true
 
-mysql_main_ebs = false
+mysql_main_ebs = true
 
 mysql_main_disable_api_termination = true
 mysql_main_monitoring              = true
