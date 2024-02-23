@@ -61,4 +61,7 @@ jobs:
       ebs_size: "${{ github.event.inputs.ebs-size }}"
       ebs_type: "${{ github.event.inputs.ebs-type }}"
       key_name: "mysql-${{ github.event.inputs.project-name }}-${{ github.event.inputs.account }}-eu-west-2"
+    secrets:
+      vpc_id: ${{ secrets.VPC_ID_DEV }}
+      subnet_id: ${{ secrets.SUBNET_ID_2A_DEV }}
 ...
