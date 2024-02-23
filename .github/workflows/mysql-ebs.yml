@@ -34,9 +34,13 @@ on:
         description: EBS size
         required: true
       ebs-type:
-        type: string
-        description: EBS size
+        type: choice
+        description: EBS type
         required: true
+        options:
+          - gp3
+          - gp2
+          - io1
 
 
 jobs:
@@ -45,7 +49,7 @@ jobs:
 # ------------------------------------------------------------------------------
   mysql-base-ami-dev:
     if: github.event.inputs.account == 'dev'
-    uses: nationalarchives/ds-github-actions/.github/workflows/mysql-ami-build.yml@main
+    uses: nationalarchives/ds-github-actions/.github/workflows/mysql-ebs-build.yml@main
     with:
       base_role: "arn:aws:iam::846769538626:role/GithubOIDCProviderIAMRolePermissions-Role-I80RXHT6O1PL"
       playbook_role: "arn:aws:iam::846769538626:role/s-devops-ansible-amis"
@@ -54,7 +58,7 @@ jobs:
       account: "${{ github.event.inputs.account }}"
       project_name: "${{ github.event.inputs.project-name }}"
       zone: "${{ github.event.inputs.zone }}"
-      ebs-size: "${{ github.event.inputs.ebs-size }}"
-      ebs-type: "${{ github.event.inputs.ebs-type }}"
+      ebs_size: "${{ github.event.inputs.ebs-size }}"
+      ebs_type: "${{ github.event.inputs.ebs-type }}"
       key_name: "mysql-${{ github.event.inputs.project-name }}-${{ github.event.inputs.account }}-eu-west-2"
 ...
