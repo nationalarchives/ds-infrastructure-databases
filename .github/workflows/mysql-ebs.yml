@@ -47,7 +47,7 @@ jobs:
 # ------------------------------------------------------------------------------
 # dev deployment
 # ------------------------------------------------------------------------------
-  mysql-base-ami-dev:
+  ebs-dev:
     if: github.event.inputs.account == 'dev'
     uses: nationalarchives/ds-github-actions/.github/workflows/mysql-ebs-build.yml@main
     with:
