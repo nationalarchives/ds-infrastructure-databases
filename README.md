@@ -1,4 +1,15 @@
 # ds-infrastructure-databases
+## General Infrastructure Architecture
+![general-database-architecture](documentation/general-database-architecture.drawio.png)
+There are three different way how databases are run. Dependent of complexity of setup and maintenance.
+OpenSearch is run as a service (installation is not done in this repository).
+Microsoft SQL server is using RDS (installation is not done in this repository).
+
+PostgresSQL and MySQL are installed on self-maintained EC2 instances.
+Databases are replicated in staging and live and the data is kept on an attached EBS.
+
+
+
 ## Initialising AMI for MySQL and PostgreSQL.
 Use GitHub Actions to create a general purpose AMI for MySQL or PostgreSQL.
 The AMI only contains an image of an EC2 with basic setup for administrative users and network access defined in Secrets Manager and can be deployed and configured to fit the needs.
