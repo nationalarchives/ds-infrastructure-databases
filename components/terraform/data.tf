@@ -6,7 +6,7 @@ data "aws_ami" "mysql_main_prime_ami" {
     filter {
         name   = "name"
         values = [
-            "mysql-main-prime-primer-*"
+            "mysql-main-primer-*"
         ]
     }
 
@@ -22,27 +22,27 @@ data "aws_ami" "mysql_main_prime_ami" {
     ]
 }
 
-data "aws_ami" "mysql_main_replica_ami" {
-    most_recent = true
-
-    filter {
-        name   = "name"
-        values = [
-            "mysql-main-replica-primer-*"
-        ]
-    }
-
-    filter {
-        name   = "virtualization-type"
-        values = [
-            "hvm"
-        ]
-    }
-
-    owners = [
-        data.aws_caller_identity.current.account_id,
-    ]
-}
+#data "aws_ami" "mysql_main_replica_ami" {
+#    most_recent = true
+#
+#    filter {
+#        name   = "name"
+#        values = [
+#            "mysql-main-replica-primer-*"
+#        ]
+#    }
+#
+#    filter {
+#        name   = "virtualization-type"
+#        values = [
+#            "hvm"
+#        ]
+#    }
+#
+#    owners = [
+#        data.aws_caller_identity.current.account_id,
+#    ]
+#}
 
 #data "aws_ami" "private_beta_db_ami" {
 #    most_recent = true
