@@ -16,8 +16,7 @@ resource "aws_iam_policy" "mysql_main_prime_backup_policy" {
 
     policy = templatefile("${path.root}/templates/database-backup-policy.json",
         {
-            s3_deployment_bucket = var.backup_bucket
-            folder               = var.backup_folder
+            s3_bucket = var.backup_bucket
         }
     )
 }

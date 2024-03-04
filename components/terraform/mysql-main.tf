@@ -31,7 +31,7 @@ module "mysql-main-prime" {
     # iam
     s3_deployment_bucket = "ds-${var.environment}-deployment-source"
     s3_folder            = "databases/mysql"
-    backup_bucket = "ds-${var.environment}-backup"
+    backup_bucket        = "ds-${var.environment}-backup"
 
     # instances
     ami_id        = data.aws_ami.mysql_main_prime_ami.id
@@ -83,7 +83,7 @@ module "mysql-main-replica" {
     # iam
     s3_deployment_bucket = "ds-${var.environment}-deployment-source"
     s3_folder            = "databases/mysql"
-    backup_bucket = "ds-${var.environment}-backup"
+    backup_bucket        = "ds-${var.environment}-backup"
 
     # instances
     ami_id        = data.aws_ami.mysql_main_replica_ami.id
