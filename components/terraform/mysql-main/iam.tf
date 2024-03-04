@@ -10,6 +10,18 @@ resource "aws_iam_policy" "mysql_main_deployment_source_access_policy" {
     )
 }
 
+resource "aws_iam_policy" "mysql_main_prime_backup_policy" {
+    name        = "mysql-main-prime-backup-policy"
+    description = "write access for backups"
+
+    policy = templatefile("${path.root}/templates/database-backup-policy.json",
+        {
+            s3_deployment_bucket = var.backup_bucket
+            folder               = var.backup_folder
+        }
+    )
+}
+
 resource "aws_iam_policy" "attach_ebs_volume_policy" {
     name        = "attach-ebs-volume-policy"
     description = "access to deployment source"

@@ -1,0 +1,26 @@
+{
+    "Statement": [
+        {
+            "Sid": "GeneralBucketAccess",
+            "Action": [
+                "s3:GetBucketLocation",
+                "s3:ListBucket"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:::${s3_bucket}"
+            ]
+        },
+        {
+            "Sid": "FolderAccess",
+            "Action": [
+                "s3:PutObject"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:::${s3_bucket}/${folder}/*"
+            ]
+        }
+    ],
+    "Version": "2012-10-17"
+}
