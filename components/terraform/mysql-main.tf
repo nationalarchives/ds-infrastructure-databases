@@ -86,7 +86,7 @@ module "mysql-main-replica" {
     backup_bucket        = "ds-${var.environment}-backup"
 
     # instances
-    ami_id        = data.aws_ami.mysql_main_replica_ami.id
+    ami_id        = data.aws_ami.mysql_main_prime_ami.id
     instance_type = var.mysql_main_instance_type
     volume_size   = var.mysql_main_volume_size
     key_name      = var.mysql_main_replica_key_name
