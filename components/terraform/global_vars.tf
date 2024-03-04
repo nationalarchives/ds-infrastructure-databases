@@ -9,3 +9,4 @@ locals {
 }
 
 variable "environment" {}
+variable "s3_deployment_bucket" {}

@@ -18,7 +18,7 @@
             ],
             "Effect": "Allow",
             "Resource": [
-                "arn:aws:s3:::${s3_bucket}/${folder}/*"
+                "arn:aws:s3:::${s3_bucket}/*"
             ]
         }
     ],
