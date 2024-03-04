@@ -25,6 +25,7 @@ variable "auto_switch_off" {}
 # iam
 variable "s3_deployment_bucket" {}
 variable "s3_folder" {}
+variable "backup_bucket" {}
 variable "tags" {}
 
 # --
