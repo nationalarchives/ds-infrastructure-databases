@@ -8,4 +8,6 @@ variable "private_beta_availability_zone" {}
 variable "private_beta_ebs_delete_on_termination" {}
 variable "private_beta_volume_type" {}
 variable "private_beta_key_name" {}
+
+variable "private_beta_route53_name" {}
 variable "private_beta_route53_type" {}
