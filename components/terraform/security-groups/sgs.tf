@@ -14,6 +14,20 @@ resource "aws_security_group" "mysql_main_ami" {
     })
 }
 
+resource "aws_security_group" "postgres_main_ami" {
+    name        = "postgres-ami-build-sg"
+    description = "allow access to prime for ami build"
+    vpc_id      = var.vpc_id
+
+    lifecycle {
+        create_before_destroy = true
+    }
+
+    tags = merge(var.tags, {
+        Name = "postgres-ami-build-sg"
+    })
+}
+
 resource "aws_vpc_security_group_ingress_rule" "ami_ingress" {
     security_group_id = aws_security_group.mysql_main_ami.id
 

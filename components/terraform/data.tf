@@ -1,12 +1,34 @@
 data "aws_caller_identity" "current" {}
 
-data "aws_ami" "mysql_main_prime_ami" {
+data "aws_ami" "mysql_main_ami" {
     most_recent = true
 
     filter {
         name   = "name"
         values = [
             "mysql-main-primer-*"
+        ]
+    }
+
+    filter {
+        name   = "virtualization-type"
+        values = [
+            "hvm"
+        ]
+    }
+
+    owners = [
+        data.aws_caller_identity.current.account_id,
+    ]
+}
+
+data "aws_ami" "postgres_main_ami" {
+    most_recent = true
+
+    filter {
+        name   = "name"
+        values = [
+            "postgres-main-primer-*"
         ]
     }
 

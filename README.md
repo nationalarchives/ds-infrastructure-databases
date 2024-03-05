@@ -8,7 +8,13 @@ Microsoft SQL server is using RDS (installation is not done in this repository).
 PostgresSQL and MySQL are installed on self-maintained EC2 instances.
 Databases are replicated in staging and live and the data is kept on an attached EBS.
 
-
+## Steps
+1. Create an EBS for main instance and repeat for replica (optional).
+2. Create an AMI and repeat for replica (optional).
+3. Deploy main EC2 from AMI (2) and attach EBS (3).
+4. Deploy replica EC2 from AMI (2) and attach EBS (3).
+5. Setup replication (optional).
+6. Create/restore databases.
 
 ## Initialising AMI for MySQL and PostgreSQL.
 Use GitHub Actions to create a general purpose AMI for MySQL or PostgreSQL.

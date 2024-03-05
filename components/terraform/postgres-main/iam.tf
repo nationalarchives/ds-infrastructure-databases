@@ -1,17 +1,50 @@
-variable "s3_deployment_bucket" {}
-variable "private_beta_s3_folder" {}
+resource "aws_iam_policy" "postgres_main_deployment_source_access_policy" {
+    name        = "postgres-${var.resource_identifier}-deployment-source-access-policy"
+    description = "access to deployment source"
 
-module "policies" {
-    source = "iam/policies"
-
-    s3_deployment_bucket   = var.s3_deployment_bucket
-    private_beta_s3_folder = var.private_beta_s3_folder
+    policy = templatefile("${path.root}/templates/s3-deployment-access-policy.json",
+        {
+            s3_deployment_bucket = var.s3_deployment_bucket
+            folder               = var.s3_folder
+        }
+    )
 }
 
-module "roles" {
-    source = "iam/roles"
+resource "aws_iam_policy" "postgres_main_prime_backup_policy" {
+    name        = "postgres-main-prime-backup-policy"
+    description = "write access for backups"
 
-    private_beta_s3_deployment_access_policy_arn = module.policies.private_beta_s3_deployment_access_policy_arn
+    policy = templatefile("${path.root}/templates/database-backup-policy.json",
+        {
+            s3_bucket = var.backup_bucket
+        }
+    )
+}
 
-    tags = local.tags
+resource "aws_iam_policy" "attach_ebs_volume_policy" {
+    name        = "attach-ebs-volume-policy"
+    description = "access to deployment source"
+
+    policy = file("${path.root}/templates/attach-ebs-volume-policy.json")
+}
+
+resource "aws_iam_role" "postgres_main_role" {
+    name               = "postgres-${var.resource_identifier}-role"
+    assume_role_policy = file("${path.root}/templates/assume-role-ec2-policy.json")
+
+    managed_policy_arns = [
+        "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
+        "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
+        aws_iam_policy.postgres_main_deployment_source_access_policy.arn,
+        aws_iam_policy.attach_ebs_volume_policy.arn
+    ]
+
+    tags = var.tags
+}
+
+resource "aws_iam_instance_profile" "postgres_main_profile" {
+    name = "postgres-${var.resource_identifier}-profile"
+    role = aws_iam_role.postgres_main_role.name
+
+    tags = var.tags
 }

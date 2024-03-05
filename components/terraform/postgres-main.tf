@@ -1,13 +1,63 @@
-variable "private_beta_description" {}
-variable "private_beta_volume_size" {}
-variable "private_beta_instance_type" {}
-variable "private_beta_s3_folder" {}
-variable "private_beta_disable_api_stop" {}
-variable "private_beta_disable_api_termination" {}
-variable "private_beta_availability_zone" {}
-variable "private_beta_ebs_delete_on_termination" {}
-variable "private_beta_volume_type" {}
-variable "private_beta_key_name" {}
+variable "postgres_main_prime" {}
+variable "postgres_main_replica" {}
 
-variable "private_beta_route53_name" {}
-variable "private_beta_route53_type" {}
+variable "postgres_main_prime_key_name" {}
+variable "postgres_main_replica_key_name" {}
+
+variable "postgres_main_instance_type" {}
+variable "postgres_main_volume_size" {}
+variable "postgres_main_disable_api_termination" {}
+variable "postgres_main_monitoring" {}
+
+variable "postgres_main_auto_switch_on" {}
+variable "postgres_main_auto_switch_off" {}
+
+variable "postgres_dns_main_prime" {}
+variable "postgres_dns_main_replica" {}
+
+module "postgres-main-prime" {
+    source = "./postgres-main"
+
+    count = var.postgres_main_prime == true ? 1 : 0
+
+    resource_identifier = "main-prime"
+
+    availability_zone = "eu-west-2a"
+
+    # iam
+    s3_deployment_bucket = "ds-${var.environment}-deployment-source"
+    s3_folder            = "databases/postgres"
+    backup_bucket        = "ds-${var.environment}-backup"
+
+    # instances
+    ami_id        = data.aws_ami.postgres_main_ami.id
+    instance_type = var.postgres_main_instance_type
+    volume_size   = var.postgres_main_volume_size
+    key_name      = var.postgres_main_prime_key_name
+
+    postgres_ami_build_sg_id = module.security-groups.postgres_ami_build_sg_id
+
+    disable_api_termination = var.postgres_main_disable_api_termination
+    monitoring              = var.postgres_main_monitoring
+
+    # network
+    vpc_id          = data.aws_ssm_parameter.vpc_id.value
+    db_subnet_cidrs = [
+        data.aws_ssm_parameter.private_subnet_a_cidr.value,
+        data.aws_ssm_parameter.private_subnet_b_cidr.value,
+        data.aws_ssm_parameter.private_db_subnet_a_cidr.value,
+        data.aws_ssm_parameter.private_db_subnet_b_cidr.value,
+        data.aws_ssm_parameter.client_vpn_cidr.value,
+    ]
+    db_subnet_id = data.aws_ssm_parameter.private_db_subnet_b_id.value
+
+    zone_id      = data.aws_ssm_parameter.route53_zone_id.value
+    postgres_dns = var.postgres_dns_main_prime
+
+    auto_switch_on  = var.postgres_main_auto_switch_on
+    auto_switch_off = var.postgres_main_auto_switch_off
+
+    tags = merge(local.tags, {
+        Product = "Postgres"
+    })
+}

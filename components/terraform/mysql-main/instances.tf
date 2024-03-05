@@ -12,6 +12,8 @@ resource "aws_instance" "mysql_main" {
     ]
     subnet_id = var.db_subnet_id
 
+    disable_api_termination = var.disable_api_termination
+
     metadata_options {
         http_endpoint          = "enabled"
         http_tokens            = "required"

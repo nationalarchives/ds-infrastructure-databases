@@ -34,15 +34,15 @@ module "mysql-main-prime" {
     backup_bucket        = "ds-${var.environment}-backup"
 
     # instances
-    ami_id        = data.aws_ami.mysql_main_prime_ami.id
+    ami_id        = data.aws_ami.mysql_main_ami.id
     instance_type = var.mysql_main_instance_type
     volume_size   = var.mysql_main_volume_size
     key_name      = var.mysql_main_prime_key_name
 
     mysql_ami_build_sg_id = module.security-groups.mysql_ami_build_sg_id
 
-    mysql_main_disable_api_termination = var.mysql_main_disable_api_termination
-    monitoring                         = var.mysql_main_monitoring
+    disable_api_termination = var.mysql_main_disable_api_termination
+    monitoring              = var.mysql_main_monitoring
 
     # ebs
     mysql_main_ebs_volume_size    = var.mysql_main_ebs_volume_size
@@ -86,14 +86,14 @@ module "mysql-main-replica" {
     backup_bucket        = "ds-${var.environment}-backup"
 
     # instances
-    ami_id        = data.aws_ami.mysql_main_prime_ami.id
+    ami_id        = data.aws_ami.mysql_main_ami.id
     instance_type = var.mysql_main_instance_type
     volume_size   = var.mysql_main_volume_size
     key_name      = var.mysql_main_replica_key_name
 
     mysql_ami_build_sg_id = module.security-groups.mysql_ami_build_sg_id
 
-    mysql_main_disable_api_termination = var.mysql_main_disable_api_termination
+    disable_api_termination = var.mysql_main_disable_api_termination
     monitoring                         = var.mysql_main_monitoring
 
     # ebs
