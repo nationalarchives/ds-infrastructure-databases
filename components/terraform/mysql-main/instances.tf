@@ -31,3 +31,11 @@ resource "aws_instance" "mysql_main" {
         AutoSwitchOff = "true"
     })
 }
+
+resource "aws_volume_attachment" "ebs_attachment" {
+    device_name = "/dev/xvdf"
+    volume_id   = aws_ebs_volume.mysql_main_ebs.id
+    instance_id = aws_instance.mysql_main.id
+
+    skip_destroy = true
+}
