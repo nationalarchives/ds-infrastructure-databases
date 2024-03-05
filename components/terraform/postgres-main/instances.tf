@@ -36,7 +36,7 @@ resource "aws_instance" "postgres_main" {
 
 resource "aws_volume_attachment" "ebs_attachment" {
     device_name = "/dev/xvdf"
-    volume_id   = aws_ebs_volume.postgres_main_ebs.id
+    volume_id   = "vol-0f55b2d26897c293c"
     instance_id = aws_instance.postgres_main.id
 
     skip_destroy = true

@@ -26,7 +26,7 @@ variable "tags" {}
 # --
 # DNS
 variable "zone_id" {}
-variable "postgres_dns" {}
+variable "postgres_dns_main_prime" {}
 
 # --
 # network settings
