@@ -17,6 +17,6 @@ postgres_main_replica_key_name = "postgres-main-dev-eu-west-2"
 postgres_main_auto_switch_on  = "true"
 postgres_main_auto_switch_off = "true"
 
-postgres_dns_prime   = "postgres-main-prime.dev.local"
-postgres_dns_replica = "postgres-main-replica.dev.local"
+postgres_dns_main_prime   = "postgres-main-prime.dev.local"
+postgres_dns_main_replica = "postgres-main-replica.dev.local"
 
