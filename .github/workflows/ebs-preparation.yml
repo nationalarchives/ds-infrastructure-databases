@@ -1,6 +1,6 @@
 ---
 name: EBS Preparation
-run-name: Deploy formatted EBS ${{ github.event.inputs.project-name }}-ebs to ${{ inputs.account }} by @${{ github.actor }}
+run-name: Deploy formatted EBS ${{ github.event.inputs.project-name }}-${{ github.event.inputs.function }}-ebs to ${{ inputs.account }} by @${{ github.actor }}
 
 permissions:
   id-token: write
