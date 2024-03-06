@@ -36,7 +36,7 @@ resource "aws_instance" "mysql_main" {
 
 resource "aws_volume_attachment" "ebs_attachment" {
     device_name = "/dev/xvdf"
-    volume_id   = aws_ebs_volume.mysql_main_ebs.id
+    volume_id   = var.attached_ebs_volume_id
     instance_id = aws_instance.mysql_main.id
 
     skip_destroy = true
