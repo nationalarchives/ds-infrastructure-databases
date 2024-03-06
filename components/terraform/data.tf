@@ -125,8 +125,8 @@ data "aws_ssm_parameter" "route53_zone_id" {
 }
 
 data "aws_ssm_parameter" "mysql_main_prime_volume_id" {
-    name = "/infrastructure/mysql/main-prime/volume_id"
+    name = "/infrastructure/databases/mysql-main-prime/volume_id"
 }
 data "aws_ssm_parameter" "mysql_main_replica_volume_id" {
-    name = "/infrastructure/mysql/main-replica/volume_id"
+    name = "/infrastructure/databases/mysql-main-replica/volume_id"
 }
