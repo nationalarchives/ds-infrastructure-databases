@@ -44,7 +44,7 @@ module "mysql-main-prime" {
     disable_api_termination = var.mysql_main_disable_api_termination
     monitoring              = var.mysql_main_monitoring
 
-    attached_ebs_volume_id = data.aws_ssm_parameter.mysql_main_prime_volume_id
+    attached_ebs_volume_id = data.aws_ssm_parameter.mysql_main_prime_volume_id.value
 
     # ebs
     mysql_main_ebs_volume_size    = var.mysql_main_ebs_volume_size
@@ -98,7 +98,7 @@ module "mysql-main-replica" {
     disable_api_termination = var.mysql_main_disable_api_termination
     monitoring                         = var.mysql_main_monitoring
 
-    attached_ebs_volume_id = data.aws_ssm_parameter.mysql_main_replica_volume_id
+    attached_ebs_volume_id = data.aws_ssm_parameter.mysql_main_replica_volume_id.value
 
     # ebs
     mysql_main_ebs_volume_size    = var.mysql_main_ebs_volume_size
