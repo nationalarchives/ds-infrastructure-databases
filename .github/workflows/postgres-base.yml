@@ -72,4 +72,25 @@ jobs:
       asm_key: "/infrastructure/credentials/postgres-${{ github.event.inputs.project-name }}-${{ github.event.inputs.function }}"
       s3_deployment_bucket: "ds-staging-deployment-source"
       s3_deployment_root: "postgres"
+
+# ------------------------------------------------------------------------------
+# live deployment
+# ------------------------------------------------------------------------------
+  postgres-base-ami-live:
+    if: github.event.inputs.account == 'live'
+    uses: nationalarchives/ds-github-actions/.github/workflows/postgres-ami-build.yml@main
+    with:
+      base_role: "arn:aws:iam::968803923593:role/github-oidc-Role-1QSZDDE2NZQV0"
+      playbook_role: "arn:aws:iam::968803923593:role/s-devops-ansible-amis"
+      region: "eu-west-2"
+      account: "${{ github.event.inputs.account }}"
+      branch: "${{ github.event.inputs.branch }}"
+      project_name: "${{ github.event.inputs.project-name }}"
+      function: "${{ github.event.inputs.function }}"
+      key_name: "postgres-${{ github.event.inputs.project-name }}-${{ github.event.inputs.function }}-${{ github.event.inputs.account }}-eu-west-2"
+      instance_type: 't3a.large'
+      volume_size: 100
+      asm_key: "/infrastructure/credentials/postgres-${{ github.event.inputs.project-name }}-${{ github.event.inputs.function }}"
+      s3_deployment_bucket: "ds-live-deployment-source"
+      s3_deployment_root: "postgres"
 ...
