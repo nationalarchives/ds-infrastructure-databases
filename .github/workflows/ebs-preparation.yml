@@ -19,7 +19,7 @@ on:
         - live
       project-name:
         type: string
-        description: Project name
+        description: DB type-Project name
         required: true
       function:
         type: choice
