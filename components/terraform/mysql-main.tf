@@ -9,15 +9,11 @@ variable "mysql_main_volume_size" {}
 variable "mysql_main_disable_api_termination" {}
 variable "mysql_main_monitoring" {}
 
-variable "mysql_main_ebs_volume_size" {}
-variable "mysql_main_ebs_volume_type" {}
-variable "mysql_main_ebs_final_snapshot" {}
-
 variable "mysql_main_auto_switch_on" {}
 variable "mysql_main_auto_switch_off" {}
 
-variable "mysql_dns_prime" {}
-variable "mysql_dns_replica" {}
+variable "mysql_main_prime_dns" {}
+variable "mysql_main_replica_dns" {}
 
 module "mysql-main-prime" {
     source = "./mysql-main"
@@ -46,11 +42,6 @@ module "mysql-main-prime" {
 
     attached_ebs_volume_id = data.aws_ssm_parameter.mysql_main_prime_volume_id.value
 
-    # ebs
-    mysql_main_ebs_volume_size    = var.mysql_main_ebs_volume_size
-    mysql_main_ebs_volume_type    = var.mysql_main_ebs_volume_type
-    mysql_main_ebs_final_snapshot = var.mysql_main_ebs_final_snapshot
-
     # network
     vpc_id          = data.aws_ssm_parameter.vpc_id.value
     db_subnet_cidrs = [
@@ -63,7 +54,7 @@ module "mysql-main-prime" {
     db_subnet_id = data.aws_ssm_parameter.private_db_subnet_a_id.value
 
     zone_id   = data.aws_ssm_parameter.route53_zone_id.value
-    mysql_dns = var.mysql_dns_prime
+    mysql_dns = var.mysql_main_prime_dns
 
     auto_switch_on  = var.mysql_main_auto_switch_on
     auto_switch_off = var.mysql_main_auto_switch_off
@@ -100,11 +91,6 @@ module "mysql-main-replica" {
 
     attached_ebs_volume_id = data.aws_ssm_parameter.mysql_main_replica_volume_id.value
 
-    # ebs
-    mysql_main_ebs_volume_size    = var.mysql_main_ebs_volume_size
-    mysql_main_ebs_volume_type    = var.mysql_main_ebs_volume_type
-    mysql_main_ebs_final_snapshot = var.mysql_main_ebs_final_snapshot
-
     # network
     vpc_id          = data.aws_ssm_parameter.vpc_id.value
     db_subnet_cidrs = [
@@ -117,7 +103,7 @@ module "mysql-main-replica" {
     db_subnet_id = data.aws_ssm_parameter.private_db_subnet_b_id.value
 
     zone_id   = data.aws_ssm_parameter.route53_zone_id.value
-    mysql_dns = var.mysql_dns_replica
+    mysql_dns = var.mysql_main_replica_dns
 
     auto_switch_on  = var.mysql_main_auto_switch_on
     auto_switch_off = var.mysql_main_auto_switch_off

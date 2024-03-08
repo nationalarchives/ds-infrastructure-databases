@@ -12,8 +12,8 @@ variable "postgres_main_monitoring" {}
 variable "postgres_main_auto_switch_on" {}
 variable "postgres_main_auto_switch_off" {}
 
-variable "postgres_dns_main_prime" {}
-variable "postgres_dns_main_replica" {}
+variable "postgres_main_prime_dns" {}
+variable "postgres_main_replica_dns" {}
 
 module "postgres-main-prime" {
     source = "./postgres-main"
@@ -52,7 +52,7 @@ module "postgres-main-prime" {
     db_subnet_id = data.aws_ssm_parameter.private_db_subnet_b_id.value
 
     zone_id                 = data.aws_ssm_parameter.route53_zone_id.value
-    postgres_dns_main_prime = var.postgres_dns_main_prime
+    postgres_main_prime_dns = var.postgres_main_prime_dns
 
     auto_switch_on  = var.postgres_main_auto_switch_on
     auto_switch_off = var.postgres_main_auto_switch_off

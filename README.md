@@ -1,6 +1,6 @@
 # ds-infrastructure-databases
 ## General Infrastructure Architecture
-![general-database-architecture](documentation/general-database-architecture.drawio.png)
+![general-database-architecture](documentation/images/general-database-architecture.drawio.png)
 There are three different way how databases are run. Dependent of complexity of setup and maintenance.
 OpenSearch is run as a service (installation is not done in this repository).
 Microsoft SQL server is using RDS (installation is not done in this repository).
@@ -8,7 +8,50 @@ Microsoft SQL server is using RDS (installation is not done in this repository).
 PostgresSQL and MySQL are installed on self-maintained EC2 instances.
 Databases are replicated in staging and live and the data is kept on an attached EBS.
 
+## Prerequisites
+Create key pair:
+```
+ ssh-keygen -t rsa -b 4096 -f [key-name] -N "" -C "[email]" -m PEM
+ ```
+Import AWS key pair
+```
+aws ec2 import-key-pair --key-name [key-name] --public-key-material [key-name].pub --region eu-west-2
+```
+Copy key pair files to S3
+```
+aws s3 cp . S3://ds-[account]-kpf-adminstation/[target-folder]/ --exclude "*" --include "[key-name]*"
+```
+### EBS
+Installing an EBS for a database instance requires a particular key pair. This key pair is used to run a temporary instance responsible for initialising the EBS ready to be attached to the DB instance.
+The naming convention for this key is `ansible-build-[account]-[region]`, example _ansible-build-dev-eu-west-2_. \
+Copy the private and public key to `s3://ds-[account]-kpf-administration/ansible` and import the public key to EC2 - Network & Security - KeyPair using the naming of the key pair without any extension.
+### AMI for Database Instances
+#### Key Pair
+Each DB instance has its' own key pair. The naming convention for the key is `[db-type]-[project-name]-[db-function]-[account]-[region]`,
+example _mysql-main-replica-dev-eu-west-2_ \
+Copy key pair files to S3 bucket `ds-[account]-kpf-administration` in the appropriate folder named after the DB type,
+example _s3://ds-staging-kpf-administration/postgres_  and import the public key to EC2 - Network & Security - KeyPair using the naming of the key pair without any extension. \
+#### Database Secrets
+To create the DB instance several secrets need to be in place. In ASM (Amazon Secrets Manager) for each of the instances used a secret need to exist.
+the naming of the secret is as follow, `/infrastructure/credentials/[db-type]-[project-name][function]`. The content for Postgres and MySQL are the same but might change for other DB types.
+```
+{
+  "root_password":"[strong-password]",
+  "admin_user":"[remote-admin-user-name]",
+  "admin_password":"[strong-password]",
+  "repl_user":"[replication-user-name]",
+  "repl_password":"[strong-password]",
+  "network_cidr":"10.128.224.0/255.255.254.0"
+}
+```
+The permission settings are:
+- root user can only log in on local host;
+- admin_user is enabled to connect remotely from the given network CIDR range (usually the ClientVPN); please use the correct notification for the DB type;
+- repl_user and repl_password need to be in place even if no replication is set up;???
+- network_cidr for acces as remote administrator;
+
 ## Steps
+![Installation flow charts](documentation/images/database-flow-charts.drawio.png)
 1. Create an EBS for main instance and repeat for replica (optional).
 2. Create an AMI and repeat for replica (optional).
 3. Deploy main EC2 from AMI (2) and attach EBS (3).
@@ -16,6 +59,10 @@ Databases are replicated in staging and live and the data is kept on an attached
 5. Setup replication (optional).
 6. Create/restore databases.
 
+### Apply Terraform
+Terraform code assumes the existence of an EBS and an AMI accompanied by the key pair and, in case of the AMIs, the database secrets.
+Generally, the primary database instances are placed in AZ 2a and optional replicas in AZ 2b. The security groups allow traffic of the applicable ports from four private subnets and from ClientVPN.
+It will not install any databases or database users apart from administrative accounts. The replication setup and process need to be initiated manually. The internal endpoint URL can be set in terraform to expose the port to the private subnets. 
 ## Initialising AMI for MySQL and PostgreSQL.
 Use GitHub Actions to create a general purpose AMI for MySQL or PostgreSQL.
 The AMI only contains an image of an EC2 with basic setup for administrative users and network access defined in Secrets Manager and can be deployed and configured to fit the needs.
