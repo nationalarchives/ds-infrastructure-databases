@@ -21,13 +21,6 @@ resource "aws_iam_policy" "postgres_main_prime_backup_policy" {
     )
 }
 
-resource "aws_iam_policy" "attach_ebs_volume_policy" {
-    name        = "attach-ebs-volume-policy"
-    description = "access to deployment source"
-
-    policy = file("${path.root}/templates/attach-ebs-volume-policy.json")
-}
-
 resource "aws_iam_role" "postgres_main_role" {
     name               = "postgres-${var.resource_identifier}-role"
     assume_role_policy = file("${path.root}/templates/assume-role-ec2-policy.json")
