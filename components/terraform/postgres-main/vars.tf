@@ -15,6 +15,8 @@ variable "postgres_ami_build_sg_id" {}
 variable "auto_switch_on" {}
 variable "auto_switch_off" {}
 
+variable "attached_ebs_volume_id" {}
+
 # --
 # iam
 variable "s3_deployment_bucket" {}

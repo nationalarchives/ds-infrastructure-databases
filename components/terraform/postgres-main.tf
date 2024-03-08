@@ -41,6 +41,8 @@ module "postgres-main-prime" {
     disable_api_termination = var.postgres_main_disable_api_termination
     monitoring              = var.postgres_main_monitoring
 
+    attached_ebs_volume_id = data.aws_ssm_parameter.postgres_main_prime_volume_id.value
+
     # network
     vpc_id          = data.aws_ssm_parameter.vpc_id.value
     db_subnet_cidrs = [
