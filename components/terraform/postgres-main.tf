@@ -25,9 +25,9 @@ module "postgres-main-prime" {
     availability_zone = "eu-west-2a"
 
     # iam
-    s3_deployment_bucket = "ds-${var.environment}-deployment-source"
-    s3_folder            = "databases/postgres"
-    backup_bucket        = "ds-${var.environment}-backup"
+    s3_deployment_bucket         = "ds-${var.environment}-deployment-source"
+    s3_folder                    = "databases/postgres"
+    backup_bucket                = "ds-${var.environment}-backup"
     attach_ebs_volume_policy_arn = module.iam_policies.attach_volume_policy_arn
 
     # instances

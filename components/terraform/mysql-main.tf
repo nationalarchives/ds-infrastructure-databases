@@ -25,9 +25,10 @@ module "mysql-main-prime" {
     mysql_main_availability_zone = "eu-west-2a"
 
     # iam
-    s3_deployment_bucket = "ds-${var.environment}-deployment-source"
-    s3_folder            = "databases/mysql"
-    backup_bucket        = "ds-${var.environment}-backup"
+    s3_deployment_bucket         = "ds-${var.environment}-deployment-source"
+    s3_folder                    = "databases/mysql"
+    backup_bucket                = "ds-${var.environment}-backup"
+    attach_ebs_volume_policy_arn = module.iam_policies.attach_volume_policy_arn
 
     # instances
     ami_id        = data.aws_ami.mysql_main_ami.id
@@ -74,9 +75,10 @@ module "mysql-main-replica" {
     mysql_main_availability_zone = "eu-west-2b"
 
     # iam
-    s3_deployment_bucket = "ds-${var.environment}-deployment-source"
-    s3_folder            = "databases/mysql"
-    backup_bucket        = "ds-${var.environment}-backup"
+    s3_deployment_bucket         = "ds-${var.environment}-deployment-source"
+    s3_folder                    = "databases/mysql"
+    backup_bucket                = "ds-${var.environment}-backup"
+    attach_ebs_volume_policy_arn = module.iam_policies.attach_volume_policy_arn
 
     # instances
     ami_id        = data.aws_ami.mysql_main_ami.id
@@ -87,7 +89,7 @@ module "mysql-main-replica" {
     mysql_ami_build_sg_id = module.security-groups.mysql_ami_build_sg_id
 
     disable_api_termination = var.mysql_main_disable_api_termination
-    monitoring                         = var.mysql_main_monitoring
+    monitoring              = var.mysql_main_monitoring
 
     attached_ebs_volume_id = data.aws_ssm_parameter.mysql_main_replica_volume_id.value
 

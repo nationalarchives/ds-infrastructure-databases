@@ -21,13 +21,6 @@ resource "aws_iam_policy" "mysql_main_prime_backup_policy" {
     )
 }
 
-resource "aws_iam_policy" "attach_ebs_volume_policy" {
-    name        = "attach-ebs-volume-policy"
-    description = "access to deployment source"
-
-    policy = file("${path.root}/templates/attach-ebs-volume-policy.json")
-}
-
 resource "aws_iam_role" "mysql_main_role" {
     name               = "mysql-${var.resource_identifier}-role"
     assume_role_policy = file("${path.root}/templates/assume-role-ec2-policy.json")
@@ -36,7 +29,7 @@ resource "aws_iam_role" "mysql_main_role" {
         "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
         "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
         aws_iam_policy.mysql_main_deployment_source_access_policy.arn,
-        aws_iam_policy.attach_ebs_volume_policy.arn
+        var.attach_ebs_volume_policy_arn
     ]
 
     tags = var.tags

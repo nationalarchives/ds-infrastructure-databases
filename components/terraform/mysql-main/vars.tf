@@ -22,6 +22,8 @@ variable "attached_ebs_volume_id" {}
 variable "s3_deployment_bucket" {}
 variable "s3_folder" {}
 variable "backup_bucket" {}
+variable "attach_ebs_volume_policy_arn" {}
+
 variable "tags" {}
 
 # --
