@@ -34,7 +34,7 @@ if [ -z "${mounted}" ]; then
       echo "$(date '+%Y-%m-%d %T') - sync data to EBS" | sudo tee -a /var/log/start-up.log > /dev/null
       sudo systemctl stop postgres
       sudo rsync -av /var/lib/pgsql/data $BASE_DIR
-      #sudo rm -R /var/lib/pgsql/data
+      sudo rm -R /var/lib/pgsql/data/base
     else
       echo "$(date '+%Y-%m-%d %T') - data directory exists" | sudo tee -a /var/log/start-up.log > /dev/null
     fi

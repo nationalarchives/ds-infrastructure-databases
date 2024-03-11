@@ -7,7 +7,7 @@ resource "aws_instance" "postgres_main" {
     instance_type               = var.instance_type
     key_name                    = var.key_name
     monitoring                  = var.monitoring
-    user_data                   = base64encode(file("${path.module}/scripts/userdata.sh"))
+    user_data                   = file("${path.module}/scripts/userdata.sh")
 
     vpc_security_group_ids = [
         aws_security_group.postgres_main.id,
