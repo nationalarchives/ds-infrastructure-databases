@@ -31,9 +31,13 @@ if [ -z "${mounted}" ]; then
     sudo mount /dev/xvdf $BASE_DIR
     echo "$(date '+%Y-%m-%d %T') - check if data directory exists" | sudo tee -a /var/log/start-up.log > /dev/null
     if [ ! -d "$DATA_DIR" ]; then
+      echo "$(date '+%Y-%m-%d %T') - stop postgresssql" | sudo tee -a /var/log/start-up.log > /dev/null
+      sudo systemctl stop postgresql
       echo "$(date '+%Y-%m-%d %T') - sync data to EBS" | sudo tee -a /var/log/start-up.log > /dev/null
-      sudo systemctl stop postgres
-      sudo rsync -av /var/lib/pgsql/data $BASE_DIR
+      sudo rsync -av /var/lib/pgsql/data $DATA_DIR
+      echo "$(date '+%Y-%m-%d %T') - set environment var pgdata" | sudo tee -a /var/log/start-up.log > /dev/null
+      echo "PGDATA=$DATA_DIR" | sudo tee -a /etc/environment
+      echo "$(date '+%Y-%m-%d %T') - remove redundant data directory" | sudo tee -a /var/log/start-up.log > /dev/null
       sudo rm -R /var/lib/pgsql/data/base
     else
       echo "$(date '+%Y-%m-%d %T') - data directory exists" | sudo tee -a /var/log/start-up.log > /dev/null
