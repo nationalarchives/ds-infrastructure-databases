@@ -35,8 +35,6 @@ sudo touch /var/log/start-up.log
 #      sudo systemctl stop postgresql
 #      echo "$(date '+%Y-%m-%d %T') - sync data to EBS" | sudo tee -a /var/log/start-up.log > /dev/null
 #      sudo rsync -av /var/lib/pgsql/data $DATA_DIR
-#      echo "$(date '+%Y-%m-%d %T') - set environment var pgdata" | sudo tee -a /var/log/start-up.log > /dev/null
-#      echo "PGDATA=$DATA_DIR" | sudo tee -a /etc/environment
 #      echo "$(date '+%Y-%m-%d %T') - remove redundant data directory" | sudo tee -a /var/log/start-up.log > /dev/null
 #      sudo rm -R /var/lib/pgsql/data/base
 #    else
