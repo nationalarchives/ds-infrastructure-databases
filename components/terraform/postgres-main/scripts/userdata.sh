@@ -34,7 +34,7 @@ if [ -z "${mounted}" ]; then
       echo "$(date '+%Y-%m-%d %T') - stop postgresssql" | sudo tee -a /var/log/start-up.log > /dev/null
       sudo systemctl stop postgresql
       echo "$(date '+%Y-%m-%d %T') - sync data to EBS" | sudo tee -a /var/log/start-up.log > /dev/null
-      sudo rsync -av /var/lib/pgsql/data $DATA_DIR
+      sudo rsync -av /var/lib/pgsql/data $BASE_DIR
       echo "$(date '+%Y-%m-%d %T') - remove redundant data directory" | sudo tee -a /var/log/start-up.log > /dev/null
       sudo rm -R /var/lib/pgsql/data/base
     else
