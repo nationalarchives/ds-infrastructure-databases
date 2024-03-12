@@ -36,10 +36,10 @@ resource "aws_instance" "postgres_main" {
     })
 }
 
-resource "aws_volume_attachment" "ebs_attachment" {
-    device_name = "/dev/xvdf"
-    volume_id   = var.attached_ebs_volume_id
-    instance_id = aws_instance.postgres_main.id
-
-    skip_destroy = true
-}
+#resource "aws_volume_attachment" "ebs_attachment" {
+#    device_name = "/dev/xvdf"
+#    volume_id   = var.attached_ebs_volume_id
+#    instance_id = aws_instance.postgres_main.id
+#
+#    skip_destroy = true
+#}
