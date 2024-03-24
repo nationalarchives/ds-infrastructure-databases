@@ -94,7 +94,8 @@ jobs:
       key_name: "ansible-build-${{ github.event.inputs.account }}-eu-west-2"
     secrets:
       vpc_id: ${{ secrets.VPC_ID_STAGING }}
-      subnet_id: ${{ secrets.SUBNET_ID_2A_STAGING }}
+      subnet_id_a: ${{ secrets.SUBNET_ID_2A_STAGING }}
+      subnet_id_b: ${{ secrets.SUBNET_ID_2B_STAGING }}
 
 # ------------------------------------------------------------------------------
 # live deployment
@@ -116,5 +117,6 @@ jobs:
       key_name: "ansible-build-${{ github.event.inputs.account }}-eu-west-2"
     secrets:
       vpc_id: ${{ secrets.VPC_ID_LIVE }}
-      subnet_id: ${{ secrets.SUBNET_ID_2A_LIVE }}
+      subnet_id_a: ${{ secrets.SUBNET_ID_2A_LIVE }}
+      subnet_id_b: ${{ secrets.SUBNET_ID_2B_LIVE }}
 ...
