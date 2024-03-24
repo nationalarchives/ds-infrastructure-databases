@@ -1,6 +1,6 @@
 ---
 name: MySQL Base AMI
-run-name: Build MySQL AMI mysql-${{ github.event.inputs.project-name }}-primer-(date-time) to ${{ inputs.account }} by @${{ github.actor }}
+run-name: Build MySQL AMI mysql-${{ github.event.inputs.project-name }}-primer-(date-time) for ${{ inputs.account }} by @${{ github.actor }}
 
 permissions:
   id-token: write

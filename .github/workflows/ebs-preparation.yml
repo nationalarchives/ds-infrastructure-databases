@@ -71,7 +71,8 @@ jobs:
       key_name: "ansible-build-${{ github.event.inputs.account }}-eu-west-2"
     secrets:
       vpc_id: ${{ secrets.VPC_ID_DEV }}
-      subnet_id: ${{ secrets.SUBNET_ID_2A_DEV }}
+      subnet_id_a: ${{ secrets.SUBNET_ID_2A_DEV }}
+      subnet_id_b: ${{ secrets.SUBNET_ID_2B_DEV }}
 
 # ------------------------------------------------------------------------------
 # staging deployment
