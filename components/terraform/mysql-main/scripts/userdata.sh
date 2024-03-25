@@ -62,10 +62,10 @@ if [ -z "${mounted}" ]; then
     fi
 
     echo "$(date '+%Y-%m-%d %T') - prepare mysql config" | sudo tee -a /var/log/start-up.log > /dev/null
-    sed -i 's|datadir=/var/lib/mysql|datadir=/data/mysql|g' input.txt
-    sed -i 's|socket=/var/lib/mysql/mysql.sock|socket=/data/mysql/mysql.sock' input.txt
-    sed -i 's|#[client]|[client]' input.txt
-    sed -i 's|#socket=/var/lib/mysql/mysql.sock|socket=/data/mysql/mysql.sock' input.txt
+    sed -i 's|datadir=/var/lib/mysql|datadir=/data/mysql|g' /etc/my.cnf
+    sed -i 's|socket=/var/lib/mysql/mysql.sock|socket=/data/mysql/mysql.sock' /etc/my.cnf
+    sed -i 's|#[client]|[client]' /etc/my.cnf
+    sed -i 's|#socket=/var/lib/mysql/mysql.sock|socket=/data/mysql/mysql.sock' /etc/my.cnf
 
     echo "$(date '+%Y-%m-%d %T') - start mysql" | sudo tee -a /var/log/start-up.log > /dev/null
     sudo systemctl start mysqld
