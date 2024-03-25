@@ -2,17 +2,18 @@ resource "aws_instance" "mysql_main" {
     ami                         = var.ami_id
     associate_public_ip_address = false
     availability_zone           = var.mysql_main_availability_zone
+    disable_api_termination     = var.disable_api_termination
     iam_instance_profile        = aws_iam_instance_profile.mysql_main_profile.name
     instance_type               = var.instance_type
     key_name                    = var.key_name
     monitoring                  = var.monitoring
-    vpc_security_group_ids      = [
+    subnet_id                   = var.db_subnet_id
+    user_data                   = file("${path.module}/scripts/userdata.sh")
+
+    vpc_security_group_ids = [
         aws_security_group.mysql_main.id,
         var.mysql_ami_build_sg_id,
     ]
-    subnet_id = var.db_subnet_id
-
-    disable_api_termination = var.disable_api_termination
 
     metadata_options {
         http_endpoint          = "enabled"
