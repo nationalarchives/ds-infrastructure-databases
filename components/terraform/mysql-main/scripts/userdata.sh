@@ -25,6 +25,7 @@ sudo dnf update -y
 
 BASE_DIR="/data"
 DATA_DIR="/data/mysql"
+LOG_DIR="/data/log"
 
 # mounting process for ebs
 echo "$(date '+%Y-%m-%d %T') - check if mysql directory exist" | sudo tee -a /var/log/start-up.log > /dev/null
@@ -61,11 +62,20 @@ if [ -z "${mounted}" ]; then
       echo "$(date '+%Y-%m-%d %T') - data directory exists" | sudo tee -a /var/log/start-up.log > /dev/null
     fi
 
+    echo "$(date '+%Y-%m-%d %T') - check if logfile directory exist" | sudo tee -a /var/log/start-up.log > /dev/null
+    if [ ! -d "LOG_DIR" ]; then
+      echo "$(date '+%Y-%m-%d %T') - create mysql directory" | sudo tee -a /var/log/start-up.log > /dev/null
+      sudo mkdir LOG_DIR
+      sudo chown -R mysql:mysql LOG_DIR
+    else
+      echo "$(date '+%Y-%m-%d %T') - logfile directory found" | sudo tee -a /var/log/start-up.log > /dev/null
+    fi
+
     echo "$(date '+%Y-%m-%d %T') - prepare mysql config" | sudo tee -a /var/log/start-up.log > /dev/null
-    sed -i 's|datadir=/var/lib/mysql|datadir=/data/mysql|g' /etc/my.cnf
-    sed -i 's|socket=/var/lib/mysql/mysql.sock|socket=/data/mysql/mysql.sock' /etc/my.cnf
-    sed -i 's|#[client]|[client]' /etc/my.cnf
-    sed -i 's|#socket=/var/lib/mysql/mysql.sock|socket=/data/mysql/mysql.sock' /etc/my.cnf
+    sudo sed -i 's|datadir=/var/lib/mysql|datadir=/data/mysql|g' /etc/my.cnf
+    sudo sed -i 's|log-error=/var/log/mysql.log|datadir=/data/log/mysql.log|g' /etc/my.cnf
+    sudo sed -i 's|#\[client\]|\[client\]|g' /etc/my.cnf
+    sudo sed -i 's|#socket=/data/mysql.sock|socket=/data/mysql.sock|g' /etc/my.cnf
 
     echo "$(date '+%Y-%m-%d %T') - start mysql" | sudo tee -a /var/log/start-up.log > /dev/null
     sudo systemctl start mysqld
