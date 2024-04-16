@@ -1,6 +1,23 @@
 ## Setting up MySQL for Replication
 When using GitHub Actions and creating MySQL base AMIs most of the configuration is done when using an AMI to launch a EC2 instance. To set up replication some steps need to be manually. \
-If using existing EC2 instances jump to [Main setup manually](#Main-setup-manually) 
+If using existing EC2 instances jump to [Main setup manually](#Main-setup-manually)
+### Creating an AMI
+1. Create an EBS \
+Select Action _EBS Preparation_ and run workflow. \
+![ebs-preparation.png](documentation%2Fimages%2Febs-preparation.png) \
+The naming of the EBS is important to allow the resulting EBS to be connected to the correct EC2 instance. An example for it would be __mysql-services__ indicating that the EBS will be attached to an instance running MySQL server and belongs to the project _services_. \
+The project name _services_ will be used later for the AMI build and for deployment of the EC2 instance. \
+The selected function will also influence the name of the EBS. As an example, choosing __replica__ and with __mysql-services__ the resulting name of the EBS would be __mysql-services-prime-ebs__.
+This makes it easier to identify the connected parts of the installation. \
+After a successful run you will have a formatted, empty and ready-to-go EBS.
+2. Database AMI
+Select Action _MySQL Base AMI_ and run workflow. 
+![ami-mysql-action-1.png](documentation%2Fimages%2Fami-mysql-action-1.png) \
+Add the project name (without the DB type) and choose the function to line up with the name of the EBS created in step #1 \
+__services__ and __replica__ which results in an AMI with the name __mysql-services-replica-[date time]__. \
+A successful run will create a deployable AMI which has the rudimental settings in place ready to be deployed.
+3. Deployment of AMI
+The deployment of the EC2 instance will be done with terraform.
 ### Main setup manually
 1. Attach EBS to EC2 instance \
 Data should be stored on an EBS drive attached to the EC2 instance allowing the replacement of the instance without deleting the data. \
