@@ -1,7 +1,7 @@
 ## Setting up MySQL for Replication
 When using GitHub Actions and creating MySQL base AMIs most of the configuration is done when using an AMI to launch a EC2 instance. To set up replication some steps need to be manually. \
-If using existing EC2 instances jump to [Main setup manually](#Main_setup_manually) 
-### <a name="Main_setup_manually"></a>Main setup manually
+If using existing EC2 instances jump to [Main setup manually](#Main-setup-manually) 
+### Main setup manually
 1. Attach EBS to EC2 instance \
 Data should be stored on an EBS drive attached to the EC2 instance allowing the replacement of the instance without deleting the data. \
 ``` df | grep "/data" ``` should show you something similar to ``` /dev/nvme1n1      20905984 1503004  19402980   8% /data ``` if EBS has been attached. \
