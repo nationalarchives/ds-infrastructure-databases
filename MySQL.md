@@ -11,7 +11,7 @@ The selected function will also influence the name of the EBS. As an example, ch
 This makes it easier to identify the connected parts of the installation. \
 After a successful run you will have a formatted, empty and ready-to-go EBS.
 2. Database AMI
-Select Action _MySQL Base AMI_ and run workflow. 
+Select Action _MySQL Base AMI_ and run workflow. \
 ![ami-mysql-action-1.png](documentation%2Fimages%2Fami-mysql-action-1.png) \
 Add the project name (without the DB type) and choose the function to line up with the name of the EBS created in step #1 \
 __services__ and __replica__ which results in an AMI with the name __mysql-services-replica-[date time]__. \
