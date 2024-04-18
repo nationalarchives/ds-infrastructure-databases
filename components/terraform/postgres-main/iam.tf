@@ -11,7 +11,7 @@ resource "aws_iam_policy" "postgres_main_deployment_source_access_policy" {
 }
 
 resource "aws_iam_policy" "postgres_main_prime_backup_policy" {
-    name        = "postgres-main-prime-backup-policy"
+    name        = "postgres-${var.resource_identifier}-backup-policy"
     description = "write access for backups"
 
     policy = templatefile("${path.root}/templates/database-backup-policy.json",
