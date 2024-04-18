@@ -2,7 +2,7 @@
 # main shared postgres database instance
 #
 postgres_main_prime   = true
-postgres_main_replica = false
+postgres_main_replica = true
 
 postgres_main_disable_api_termination = true
 postgres_main_monitoring              = true
