@@ -54,8 +54,8 @@ module "postgres-main-prime" {
     ]
     db_subnet_id = data.aws_ssm_parameter.private_db_subnet_a_id.value
 
-    zone_id                 = data.aws_ssm_parameter.route53_zone_id.value
-    postgres_main_prime_dns = var.postgres_main_prime_dns
+    zone_id           = data.aws_ssm_parameter.route53_zone_id.value
+    postgres_main_dns = var.postgres_main_prime_dns
 
     auto_switch_on  = var.postgres_main_auto_switch_on
     auto_switch_off = var.postgres_main_auto_switch_off
