@@ -134,3 +134,7 @@ data "aws_ssm_parameter" "mysql_main_replica_volume_id" {
 data "aws_ssm_parameter" "postgres_main_prime_volume_id" {
     name = "/infrastructure/databases/postgres-main-prime/volume_id"
 }
+
+data "aws_ssm_parameter" "postgres_main_replica_volume_id" {
+    name = "/infrastructure/databases/postgres-main-replica/volume_id"
+}
