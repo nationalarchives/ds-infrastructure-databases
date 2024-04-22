@@ -48,7 +48,7 @@ The permission settings are:
 - root user can only log in on local host;
 - admin_user is enabled to connect remotely from the given network CIDR range (usually the ClientVPN); please use the correct notification for the DB type;
 - repl_user and repl_password need to be in place even if no replication is set up;???
-- network_cidr for acces as remote administrator;
+- network_cidr for access as remote administrator;
 
 ## Steps
 ![Installation flow charts](documentation/images/database-flow-charts.drawio.png)
