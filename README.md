@@ -71,7 +71,7 @@ For more details read sections underneath.
 ## Creating an general PostgreSQL AMI
 Setup is minimal and only contains the postgres server, network settings and database administrator accounts with the appropriate permissions.
 ### postgres server
-This is the standard installation of postgres14 using amazon-linux-extras. It is recommended that the available are monitored and update if and when required.
+This is the standard installation of postgres15 using amazon-linux-extras. It is recommended that the available are monitored and update if and when required.
 ### network settings
 The instance will be placed in a private db subnet. To define the subnets in postgres from which incoming traffic is allowed, the secret
 
