@@ -40,6 +40,10 @@ if [ -z "${mounted}" ]; then
       sudo rm -R /var/lib/pgsql
     else
       echo "$(date '+%Y-%m-%d %T') - data directory exists" | sudo tee -a /var/log/start-up.log > /dev/null
+      if [ ! -d "/var/lib/pgsql" ]; then
+        echo "$(date '+%Y-%m-%d %T') - remove initial data directory /var/lib/pgsql" | sudo tee -a /var/log/start-up.log > /dev/null
+        sudo rm -R /var/lib/pgsql
+      fi
     fi
     echo "$(date '+%Y-%m-%d %T') - check if log directory exists" | sudo tee -a /var/log/start-up.log > /dev/null
     if [ ! -d "$LOG_DIR" ]; then
