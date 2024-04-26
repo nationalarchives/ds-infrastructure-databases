@@ -37,7 +37,7 @@ if [ -z "${mounted}" ]; then
       sudo rsync -av /var/lib/pgsql/data $BASE_DIR
       echo "$(date '+%Y-%m-%d %T') - remove redundant data directory" | sudo tee -a /var/log/start-up.log > /dev/null
       #sudo rm -R /var/lib/pgsql/data/base
-      sudo rm -R /var/lib/pgsql/data
+      sudo rm -R /var/lib/pgsql
     else
       echo "$(date '+%Y-%m-%d %T') - data directory exists" | sudo tee -a /var/log/start-up.log > /dev/null
     fi
