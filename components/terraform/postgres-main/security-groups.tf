@@ -50,6 +50,17 @@ resource "aws_vpc_security_group_egress_rule" "https_egress" {
     to_port     = 443
 }
 
+resource "aws_vpc_security_group_egress_rule" "postgres_egress" {
+    count = length(var.db_subnet_cidrs)
+
+    security_group_id = aws_security_group.postgres_main.id
+
+    cidr_ipv4   = var.db_subnet_cidrs[count.index]
+    from_port   = 5432
+    ip_protocol = "tcp"
+    to_port     = 5432
+}
+
 resource "aws_vpc_security_group_egress_rule" "all_egress" {
     security_group_id = aws_security_group.postgres_main.id
 
