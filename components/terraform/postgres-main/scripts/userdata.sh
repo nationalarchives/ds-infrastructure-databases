@@ -7,6 +7,8 @@ sudo touch /var/log/start-up.log
 BASE_DIR="/postgres"
 DATA_DIR="/postgres/data"
 LOG_DIR="/postgres/log"
+ARCHIVE_DIR="/postgres/archive"
+
 # mounting process for ebs
 echo "$(date '+%Y-%m-%d %T') - check if postgres directory exist" | sudo tee -a /var/log/start-up.log > /dev/null
 if [ ! -d "$BASE_DIR" ]; then
@@ -20,6 +22,7 @@ fi
 echo "$(date '+%Y-%m-%d %T') - check if EBS is mounted" | sudo tee -a /var/log/start-up.log > /dev/null
 mounted=$(df -h --type=xfs | grep $BASE_DIR)
 if [ -z "${mounted}" ]; then
+  sudo systemctl stop postgresql
   echo "$(date '+%Y-%m-%d %T') - prepare system for persistent mounting of EBS" | sudo tee -a /var/log/start-up.log > /dev/null
   mntDriveID="$(sudo blkid /dev/xvdf | grep -oP 'UUID="(.*?)"' | grep -oP '"(.*?)"' | sed 's/"//g')"
   if [[ -z ${mntDriveID} ]]; then
@@ -45,6 +48,7 @@ if [ -z "${mounted}" ]; then
         sudo rm -R /var/lib/pgsql
       fi
     fi
+
     echo "$(date '+%Y-%m-%d %T') - check if log directory exists" | sudo tee -a /var/log/start-up.log > /dev/null
     if [ ! -d "$LOG_DIR" ]; then
       echo "$(date '+%Y-%m-%d %T') - set up log directory on EBS" | sudo tee -a /var/log/start-up.log > /dev/null
@@ -54,8 +58,19 @@ if [ -z "${mounted}" ]; then
     else
       echo "$(date '+%Y-%m-%d %T') - log directory exists" | sudo tee -a /var/log/start-up.log > /dev/null
     fi
-    sudo systemctl start postgresql
+
+    echo "$(date '+%Y-%m-%d %T') - check if archive directory exists" | sudo tee -a /var/log/start-up.log > /dev/null
+    if [ ! -d "$ARCHIVE_DIR" ]; then
+      echo "$(date '+%Y-%m-%d %T') - set up log directory on EBS" | sudo tee -a /var/log/start-up.log > /dev/null
+      sudo mkdir $ARCHIVE_DIR
+      sudo chown -R postgres:postgres $ARCHIVE_DIR
+      sudo chmod 0700 $ARCHIVE_DIR
+    else
+      echo "$(date '+%Y-%m-%d %T') - archive directory exists" | sudo tee -a /var/log/start-up.log > /dev/null
+    fi
   fi
+  sudo systemctl start postgresql
 else
   echo "$(date '+%Y-%m-%d %T') - EBS found)" | sudo tee -a /var/log/start-up.log > /dev/null
+  sudo systemctl start postgresql
 fi

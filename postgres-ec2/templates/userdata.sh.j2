@@ -33,11 +33,13 @@ sudo systemctl stop postgresql
 # the directories are specific for the version of postgres and linux 2 from AWS
 DATA_DIR="/postgres/data"
 LOG_DIR="/postgres/log"
+ARCHIVE_DIR="/postgres/archive"
+
 sudo sed -i "s|#listen_addresses = 'localhost'|listen_addresses = '*'|g" /var/lib/pgsql/data/postgresql.conf
 sudo sed -i "s|#data_directory = 'ConfigDir'|data_directory = '${DATA_DIR}'|" /var/lib/pgsql/data/postgresql.conf
 sudo sed -i "s|#log_directory = 'log'|log_directory = '${LOG_DIR}'|" /var/lib/pgsql/data/postgresql.conf
 sudo sed -i "s|#archive_mode = off|archive_mode = on|" /var/lib/pgsql/data/postgresql.conf
-sudo sed -i "s|#archive_command = ''|archive_command = 'test ! -f /postgres/server/archive/%f && cp %p /postgres/server/archive/%f'|" /var/lib/pgsql/data/postgresql.conf
+sudo sed -i "s|#archive_command = ''|archive_command = 'test ! -f ${ARCHIVE_DIR}/%f && cp %p ${ARCHIVE_DIR}/%f'|" /var/lib/pgsql/data/postgresql.conf
 sudo sed -i 's/#wal_level = replica/wal_level = logical/' /var/lib/pgsql/data/postgresql.conf
 sudo sed -i 's/#wal_log_hints = off/wal_log_hints = on/' /var/lib/pgsql/data/postgresql.conf
 sudo sed -i 's/#max_replication_slots = 10/max_replication_slots = 10/' /var/lib/pgsql/data/postgresql.conf
