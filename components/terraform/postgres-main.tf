@@ -26,7 +26,7 @@ module "postgres-main-prime" {
 
     # iam
     s3_deployment_bucket         = "ds-${var.environment}-deployment-source"
-    s3_folder                    = "databases/postgres"
+    s3_folder                    = "db-servers/postgres/main"
     backup_bucket                = "ds-${var.environment}-backup"
     attach_ebs_volume_policy_arn = module.iam_policies.attach_volume_policy_arn
 
@@ -76,7 +76,7 @@ module "postgres-main-replica" {
 
     # iam
     s3_deployment_bucket         = "ds-${var.environment}-deployment-source"
-    s3_folder                    = "databases/postgres"
+    s3_folder                    = "db-servers/postgres/main"
     backup_bucket                = "ds-${var.environment}-backup"
     attach_ebs_volume_policy_arn = module.iam_policies.attach_volume_policy_arn
 
