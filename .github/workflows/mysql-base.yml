@@ -28,14 +28,6 @@ on:
         options:
           - prime
           - replica
-      zone:
-        type: choice
-        description: Target zone
-        required: true
-        options:
-        - eu-west-2a
-        - eu-west-2b
-        - eu-west-2c
 
 jobs:
 # ------------------------------------------------------------------------------
@@ -55,7 +47,6 @@ jobs:
       key_name: "mysql-${{ github.event.inputs.project-name }}-${{ github.event.inputs.function }}-${{ github.event.inputs.account }}-eu-west-2"
       instance_type: 't3a.small'
       volume_size: 20
-      zone: "${{ github.event.inputs.zone }}"
       asm_key: "/infrastructure/credentials/mysql-${{ github.event.inputs.project-name }}-${{ github.event.inputs.function }}"
       s3_deployment_bucket: "ds-dev-deployment-source"
       s3_deployment_root: "mysql"
@@ -77,7 +68,6 @@ jobs:
       key_name: "mysql-${{ github.event.inputs.project-name }}-${{ github.event.inputs.function }}-${{ github.event.inputs.account }}-eu-west-2"
       instance_type: 't3a.small'
       volume_size: 40
-      zone: "${{ github.event.inputs.zone }}"
       asm_key: "/infrastructure/credentials/mysql-${{ github.event.inputs.project-name }}-${{ github.event.inputs.function }}"
       s3_deployment_bucket: "ds-staging-deployment-source"
       s3_deployment_root: "mysql"
@@ -99,7 +89,6 @@ jobs:
       key_name: "mysql-${{ github.event.inputs.project-name }}-${{ github.event.inputs.function }}-${{ github.event.inputs.account }}-eu-west-2"
       instance_type: 't3a.large'
       volume_size: 100
-      zone: "${{ github.event.inputs.zone }}"
       asm_key: "/infrastructure/credentials/mysql-${{ github.event.inputs.project-name }}-${{ github.event.inputs.function }}"
       s3_deployment_bucket: "ds-live-deployment-source"
       s3_deployment_root: "mysql"
