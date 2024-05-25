@@ -25,7 +25,9 @@ resource "aws_instance" "mysql_main" {
         encrypted   = true
         volume_size = var.volume_size
         volume_type = "standard"
-        tags        = {}
+        tags = {
+            Name = "mysql-${var.resource_identifier}-root"
+        }
     }
 
     tags = merge(var.tags, {
