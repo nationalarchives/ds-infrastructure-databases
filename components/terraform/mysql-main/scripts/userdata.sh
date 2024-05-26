@@ -58,15 +58,17 @@ if [ -z "${mounted}" ]; then
       sudo rsync -av /var/lib/mysql $BASE_DIR
       echo "$(date '+%Y-%m-%d %T') - remove redundant data directory" | sudo tee -a /var/log/start-up.log > /dev/null
       sudo rm -R /var/lib/mysql
+      echo "$(date '+%Y-%m-%d %T') - setup my.cnf files" | sudo tee -a /var/log/start-up.log > /dev/null
+      sudo mv --force /etc/my-inital.cnf /etc/my.cnf
     else
       echo "$(date '+%Y-%m-%d %T') - data directory exists" | sudo tee -a /var/log/start-up.log > /dev/null
     fi
 
     echo "$(date '+%Y-%m-%d %T') - check if logfile directory exist" | sudo tee -a /var/log/start-up.log > /dev/null
-    if [ ! -d "LOG_DIR" ]; then
-      echo "$(date '+%Y-%m-%d %T') - create mysql directory" | sudo tee -a /var/log/start-up.log > /dev/null
-      sudo mkdir LOG_DIR
-      sudo chown -R mysql:mysql LOG_DIR
+    if [ ! -d "$LOG_DIR" ]; then
+      echo "$(date '+%Y-%m-%d %T') - create logfile directory" | sudo tee -a /var/log/start-up.log > /dev/null
+      sudo mkdir $LOG_DIR
+      sudo chown -R mysql:mysql $LOG_DIR
     else
       echo "$(date '+%Y-%m-%d %T') - logfile directory found" | sudo tee -a /var/log/start-up.log > /dev/null
     fi
