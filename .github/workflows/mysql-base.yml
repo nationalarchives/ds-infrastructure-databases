@@ -21,13 +21,6 @@ on:
         type: string
         description: Project name
         required: true
-      function:
-        type: choice
-        description: Function of instance
-        required: true
-        options:
-          - prime
-          - replica
 
 jobs:
 # ------------------------------------------------------------------------------
@@ -43,7 +36,6 @@ jobs:
       branch: "${{ github.event.inputs.branch }}"
       account: "${{ github.event.inputs.account }}"
       project_name: "${{ github.event.inputs.project-name }}"
-      function: "${{ github.event.inputs.function }}"
       key_name: "mysql-${{ github.event.inputs.project-name }}-${{ github.event.inputs.function }}-${{ github.event.inputs.account }}-eu-west-2"
       instance_type: 't3a.small'
       volume_size: 20
@@ -64,7 +56,6 @@ jobs:
       account: "${{ github.event.inputs.account }}"
       branch: "${{ github.event.inputs.branch }}"
       project_name: "${{ github.event.inputs.project-name }}"
-      function: "${{ github.event.inputs.function }}"
       key_name: "mysql-${{ github.event.inputs.project-name }}-${{ github.event.inputs.function }}-${{ github.event.inputs.account }}-eu-west-2"
       instance_type: 't3a.small'
       volume_size: 20
@@ -85,7 +76,6 @@ jobs:
       account: "${{ github.event.inputs.account }}"
       branch: "${{ github.event.inputs.branch }}"
       project_name: "${{ github.event.inputs.project-name }}"
-      function: "${{ github.event.inputs.function }}"
       key_name: "mysql-${{ github.event.inputs.project-name }}-${{ github.event.inputs.function }}-${{ github.event.inputs.account }}-eu-west-2"
       instance_type: 't3a.large'
       volume_size: 40
