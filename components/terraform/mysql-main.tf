@@ -1,8 +1,7 @@
 variable "mysql_main_prime" {}
 variable "mysql_main_replica" {}
 
-variable "mysql_main_prime_key_name" {}
-variable "mysql_main_replica_key_name" {}
+variable "mysql_main_key_name" {}
 
 variable "mysql_main_instance_type" {}
 variable "mysql_main_volume_size" {}
@@ -34,7 +33,7 @@ module "mysql-main-prime" {
     ami_id        = data.aws_ami.mysql_main_ami.id
     instance_type = var.mysql_main_instance_type
     volume_size   = var.mysql_main_volume_size
-    key_name      = var.mysql_main_prime_key_name
+    key_name      = var.mysql_main_key_name
 
     mysql_ami_build_sg_id = module.security-groups.mysql_ami_build_sg_id
 
@@ -84,7 +83,7 @@ module "mysql-main-replica" {
     ami_id        = data.aws_ami.mysql_main_ami.id
     instance_type = var.mysql_main_instance_type
     volume_size   = var.mysql_main_volume_size
-    key_name      = var.mysql_main_replica_key_name
+    key_name      = var.mysql_main_key_name
 
     mysql_ami_build_sg_id = module.security-groups.mysql_ami_build_sg_id
 
