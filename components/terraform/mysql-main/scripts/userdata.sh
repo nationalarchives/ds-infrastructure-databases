@@ -71,11 +71,11 @@ if [ -z "${mounted}" ]; then
       echo "$(date '+%Y-%m-%d %T') - logfile directory found" | sudo tee -a /var/log/start-up.log > /dev/null
     fi
 
-    echo "$(date '+%Y-%m-%d %T') - prepare mysql config" | sudo tee -a /var/log/start-up.log > /dev/null
-    sudo sed -i 's|datadir=/var/lib/mysql|datadir=/data/mysql|g' /etc/my.cnf
-    sudo sed -i 's|log-error=/var/log/mysql.log|datadir=/data/log/mysql.log|g' /etc/my.cnf
-    sudo sed -i 's|#\[client\]|\[client\]|g' /etc/my.cnf
-    sudo sed -i 's|#socket=/data/mysql.sock|socket=/data/mysql.sock|g' /etc/my.cnf
+#    echo "$(date '+%Y-%m-%d %T') - prepare mysql config" | sudo tee -a /var/log/start-up.log > /dev/null
+#    sudo sed -i 's|datadir=/var/lib/mysql|datadir=/data/mysql|g' /etc/my.cnf
+#    sudo sed -i 's|log-error=/var/log/mysql.log|datadir=/data/log/mysql.log|g' /etc/my.cnf
+#    sudo sed -i 's|#\[client\]|\[client\]|g' /etc/my.cnf
+#    sudo sed -i 's|#socket=/data/mysql.sock|socket=/data/mysql.sock|g' /etc/my.cnf
 
     echo "$(date '+%Y-%m-%d %T') - start mysql" | sudo tee -a /var/log/start-up.log > /dev/null
     sudo systemctl start mysqld
