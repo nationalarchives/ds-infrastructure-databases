@@ -58,8 +58,6 @@ if [ -z "${mounted}" ]; then
       sudo rsync -av /var/lib/mysql $BASE_DIR
       echo "$(date '+%Y-%m-%d %T') - remove redundant data directory" | sudo tee -a /var/log/start-up.log > /dev/null
       sudo rm -R /var/lib/mysql
-      echo "$(date '+%Y-%m-%d %T') - setup my.cnf files" | sudo tee -a /var/log/start-up.log > /dev/null
-      sudo mv --force /etc/my-inital.cnf /etc/my.cnf
     else
       echo "$(date '+%Y-%m-%d %T') - data directory exists" | sudo tee -a /var/log/start-up.log > /dev/null
     fi
