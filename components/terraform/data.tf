@@ -53,7 +53,7 @@ data "aws_ssm_parameter" "public_subnet_a_cidr" {
 }
 
 data "aws_ssm_parameter" "public_subnet_b_cidr" {
-    name = "/infrastructure/public_subnet_2a_cidr"
+    name = "/infrastructure/public_subnet_2b_cidr"
 }
 
 data "aws_ssm_parameter" "private_subnet_a_cidr" {
