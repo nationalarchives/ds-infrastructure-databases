@@ -48,6 +48,14 @@ data "aws_ssm_parameter" "vpc_id" {
     name = "/infrastructure/network/base/vpc_id"
 }
 
+data "aws_ssm_parameter" "public_subnet_a_cidr" {
+    name = "/infrastructure/public_subnet_2a_cidr"
+}
+
+data "aws_ssm_parameter" "public_subnet_b_cidr" {
+    name = "/infrastructure/public_subnet_2a_cidr"
+}
+
 data "aws_ssm_parameter" "private_subnet_a_cidr" {
     name = "/infrastructure/private_subnet_2a_cidr"
 }
