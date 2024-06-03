@@ -17,9 +17,16 @@ on:
         - dev
         - staging
         - live
+      db-type:
+        type: choice
+        description: DB type
+        required: true
+        options:
+          - mysql
+          - postgres
       project-name:
         type: string
-        description: DB type-Project name
+        description: Project name
         required: true
       function:
         type: choice
@@ -63,7 +70,8 @@ jobs:
       region: "eu-west-2"
       branch: "${{ github.event.inputs.branch }}"
       account: "${{ github.event.inputs.account }}"
-      project_name: "${{ github.event.inputs.project-name }}"
+      db_type: "${{ github.event.inputs.db-type }}"
+      project_name: "${{ github.event.inputs.db-type }}-${{ github.event.inputs.project-name }}"
       function: "${{ github.event.inputs.function }}"
       zone: "${{ github.event.inputs.zone }}"
       ebs_size: "${{ github.event.inputs.ebs-size }}"
@@ -86,7 +94,8 @@ jobs:
       region: "eu-west-2"
       branch: "${{ github.event.inputs.branch }}"
       account: "${{ github.event.inputs.account }}"
-      project_name: "${{ github.event.inputs.project-name }}"
+      db_type: "${{ github.event.inputs.db-type }}"
+      project_name: "${{ github.event.inputs.db-type }}-${{ github.event.inputs.project-name }}"
       function: "${{ github.event.inputs.function }}"
       zone: "${{ github.event.inputs.zone }}"
       ebs_size: "${{ github.event.inputs.ebs-size }}"
@@ -109,7 +118,8 @@ jobs:
       region: "eu-west-2"
       branch: "${{ github.event.inputs.branch }}"
       account: "${{ github.event.inputs.account }}"
-      project_name: "${{ github.event.inputs.project-name }}"
+      db_type: "${{ github.event.inputs.db-type }}"
+      project_name: "${{ github.event.inputs.db-type }}-${{ github.event.inputs.project-name }}"
       function: "${{ github.event.inputs.function }}"
       zone: "${{ github.event.inputs.zone }}"
       ebs_size: "${{ github.event.inputs.ebs-size }}"
