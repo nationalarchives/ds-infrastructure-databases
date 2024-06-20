@@ -10,7 +10,7 @@ resource "aws_iam_policy" "mysql_main_deployment_source_access_policy" {
     )
 }
 
-resource "aws_iam_policy" "mysql_main_prime_backup_policy" {
+resource "aws_iam_policy" "mysql_main_backup_policy" {
     name        = "mysql-${var.resource_identifier}-backup-policy"
     description = "write access for backups"
 
@@ -29,6 +29,7 @@ resource "aws_iam_role" "mysql_main_role" {
         "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
         "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy",
         aws_iam_policy.mysql_main_deployment_source_access_policy.arn,
+        aws_iam_policy.mysql_main_backup_policy.arn,
         var.attach_ebs_volume_policy_arn
     ]
 

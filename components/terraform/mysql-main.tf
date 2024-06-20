@@ -26,7 +26,7 @@ module "mysql-main-prime" {
     # iam
     s3_deployment_bucket         = "ds-${var.environment}-deployment-source"
     s3_folder                    = "databases/mysql"
-    backup_bucket                = "ds-${var.environment}-backup"
+    backup_bucket                = "ds-${var.environment}-backups"
     attach_ebs_volume_policy_arn = module.iam_policies.attach_volume_policy_arn
 
     # instances
@@ -78,7 +78,7 @@ module "mysql-main-replica" {
     # iam
     s3_deployment_bucket         = "ds-${var.environment}-deployment-source"
     s3_folder                    = "databases/mysql"
-    backup_bucket                = "ds-${var.environment}-backup"
+    backup_bucket                = "ds-${var.environment}-backups"
     attach_ebs_volume_policy_arn = module.iam_policies.attach_volume_policy_arn
 
     # instances
