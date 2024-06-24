@@ -1,6 +1,8 @@
 variable "resource_identifier" {}
 variable "availability_zone" {}
 
+variable "account_id" {}
+
 # --
 # instance
 variable "ami_id" {}
@@ -16,6 +18,8 @@ variable "auto_switch_on" {}
 variable "auto_switch_off" {}
 
 variable "attached_ebs_volume_id" {}
+
+variable "postgres_secret_id" {}
 
 # --
 # iam

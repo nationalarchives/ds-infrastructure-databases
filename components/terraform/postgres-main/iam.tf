@@ -12,11 +12,13 @@ resource "aws_iam_policy" "postgres_main_deployment_source_access_policy" {
 
 resource "aws_iam_policy" "postgres_main_prime_backup_policy" {
     name        = "postgres-${var.resource_identifier}-backup-policy"
-    description = "write access for backups"
+    description = "permissions for backups"
 
     policy = templatefile("${path.root}/templates/database-backup-policy.json",
         {
             s3_bucket = var.backup_bucket
+            secret_id = var.postgres_secret_id
+            account_id = var.account_id
         }
     )
 }
