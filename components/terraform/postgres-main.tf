@@ -25,7 +25,7 @@ module "postgres-main-prime" {
     availability_zone = "eu-west-2a"
 
     account_id = data.aws_caller_identity.current.account_id
-    postgres_secret_id = "/infrastructure/credentials/postgres-main"
+    secret_id = "/infrastructure/credentials/postgres-main"
 
     # iam
     s3_deployment_bucket         = "ds-${var.environment}-deployment-source"
@@ -78,7 +78,7 @@ module "postgres-main-replica" {
     availability_zone = "eu-west-2b"
 
     account_id = data.aws_caller_identity.current.account_id
-    mysql_secret_id = "/infrastructure/credentials/postgres-main"
+    secret_id = "/infrastructure/credentials/postgres-main"
 
     # iam
     s3_deployment_bucket         = "ds-${var.environment}-deployment-source"

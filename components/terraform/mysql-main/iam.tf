@@ -17,7 +17,7 @@ resource "aws_iam_policy" "mysql_main_backup_policy" {
     policy = templatefile("${path.root}/templates/database-backup-policy.json",
         {
             s3_bucket = var.backup_bucket
-            secret_id = var.mysql_secret_id
+            secret_id = var.secret_id
             account_id = var.account_id
         }
     )

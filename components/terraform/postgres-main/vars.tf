@@ -23,7 +23,7 @@ variable "s3_deployment_bucket" {}
 variable "s3_folder" {}
 variable "backup_bucket" {}
 variable "attach_ebs_volume_policy_arn" {}
-variable "postgres_secret_id" {}
+variable "secret_id" {}
 variable "account_id" {}
 
 variable "tags" {}
