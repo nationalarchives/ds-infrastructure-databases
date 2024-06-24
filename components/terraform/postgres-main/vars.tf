@@ -1,8 +1,6 @@
 variable "resource_identifier" {}
 variable "availability_zone" {}
 
-variable "account_id" {}
-
 # --
 # instance
 variable "ami_id" {}
@@ -19,14 +17,14 @@ variable "auto_switch_off" {}
 
 variable "attached_ebs_volume_id" {}
 
-variable "postgres_secret_id" {}
-
 # --
 # iam
 variable "s3_deployment_bucket" {}
 variable "s3_folder" {}
 variable "backup_bucket" {}
 variable "attach_ebs_volume_policy_arn" {}
+variable "postgres_secret_id" {}
+variable "account_id" {}
 
 variable "tags" {}
 
