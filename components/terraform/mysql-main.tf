@@ -24,7 +24,7 @@ module "mysql-main-prime" {
     mysql_main_availability_zone = "eu-west-2a"
 
     account_id = data.aws_caller_identity.current.account_id
-    secret_id = "/infrastructure/credentials/mysql-main"
+    secret_id = "/infrastructure/credentials/mysql-main*"
 
     # iam
     s3_deployment_bucket         = "ds-${var.environment}-deployment-source"
@@ -79,7 +79,7 @@ module "mysql-main-replica" {
     mysql_main_availability_zone = "eu-west-2b"
 
     account_id = data.aws_caller_identity.current.account_id
-    secret_id = "/infrastructure/credentials/mysql-main"
+    secret_id = "/infrastructure/credentials/mysql-main*"
 
     # iam
     s3_deployment_bucket         = "ds-${var.environment}-deployment-source"
