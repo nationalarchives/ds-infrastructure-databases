@@ -16,7 +16,7 @@ The instance is named ```[DB type]-[project name]-[function]```
 1. Stop replication \
 ```STOP REPLICA;```
 2. ```RESET MASTER;```
-3. ```mysqldump --host mysql-main-prime.[environment].local --user bkup_admin --password="[bkup-admin-password]" -all-databases -lock-all-tables | mysql --host localhost --user root --password="[root_password]"```
+3. ```mysqldump --host mysql-main-prime.[environment].local --user bkup_admin --password="[bkup-admin-password]" --all-databases --lock-all-tables --triggers --routines --events --set-gtid-purged=OFF | mysql --host localhost --user root --password="[root_password]"```
 4. Start replication \
 ```START REPLICA;```
 
