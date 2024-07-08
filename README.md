@@ -1,12 +1,18 @@
-# ds-infrastructure-databases
-## General Infrastructure Architecture
-![general-database-architecture](documentation/images/general-database-architecture.drawio.png)
-There are three different way how databases are run. Dependent of complexity of setup and maintenance.
-OpenSearch is run as a service (installation is not done in this repository).
-Microsoft SQL server is using RDS (installation is not done in this repository).
+## Infrastructure Architecture
+![general-database-architecture](documentation/images/general-database-architecture.drawio.png) \
+The databases can be setup in three different ways which have various levels of complexity for setting up and maintenance of the systems. \
+- OpenSearch is run as a service (installation is not done in this repository). \
+- Microsoft SQL server is using RDS (installation is not done in this repository). \
+- PostgresSQL and MySQL are installed on self-maintained EC2 instances.
 
-PostgresSQL and MySQL are installed on self-maintained EC2 instances.
-Databases are replicated in staging and live and the data is kept on an attached EBS.
+The self-maintained setup is the most flexible and cost conscious approach but also the most involved one and requires a higher degree of database administration.
+The database server uses an attached EBS holding all data which allows for instance replacement without transferring data between instances.
+Instance replacement should be done a regular schedule updating the underlying OS and the database server. The database instances are not accessible from outside AWS directly and sitting in private subnets. For maintenance purposes. it is possible to access the servers using the ClientVPC in London. \
+The association between AMI, instance, parameters, security, DNS and EBS is done by project name. The primary and replica setup is handled by terraform.
+```[database-type]-[project name]-[function]``` or ```[database-type]-[project name]```
+
+
+
 
 ## Prerequisites
 Create key pair:
