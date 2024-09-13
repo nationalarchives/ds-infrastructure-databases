@@ -43,8 +43,8 @@ jobs:
       s3_deployment_bucket: "ds-dev-deployment-source"
       s3_deployment_root: "db-servers/postgres/${{ github.event.inputs.project-name }}"
     secrets:
-      vpc_id: ${{ secrets.VPC_ID_LIVE }}
-      subnet_id: ${{ secrets.SUBNET_ID_2A_LIVE }}
+      vpc_id: ${{ secrets.VPC_ID_DEV }}
+      subnet_id: ${{ secrets.SUBNET_ID_2A_DEV }}
 
 # ------------------------------------------------------------------------------
 # staging deployment
@@ -66,8 +66,8 @@ jobs:
       s3_deployment_bucket: "ds-staging-deployment-source"
       s3_deployment_root: "db-servers/postgres/${{ github.event.inputs.project-name }}"
     secrets:
-      vpc_id: ${{ secrets.VPC_ID_LIVE }}
-      subnet_id: ${{ secrets.SUBNET_ID_2A_LIVE }}
+      vpc_id: ${{ secrets.VPC_ID_STAGING }}
+      subnet_id: ${{ secrets.SUBNET_ID_2A_STAGING }}
 
 # ------------------------------------------------------------------------------
 # live deployment
