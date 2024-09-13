@@ -79,11 +79,11 @@ else
 fi
 
 echo "$(date '+%Y-%m-%d %T') - check systemd timer status)" | sudo tee -a /var/log/start-up.log > /dev/null
-timer_check=$(sudo systemctl list-timers | grep "mysql-daily-backup.timer")
+timer_check=$(sudo systemctl list-timers | grep "mysql-backup.timer")
 if [[ -z "$timer_check" ]]; then
-  echo "$(date '+%Y-%m-%d %T') - timer not found)" | sudo tee -a /var/log/start-up.log > /dev/null
-  sudo systemctl enable mysql-daily-backup.timer
-  sudo systemctl start mysql-daily-backup.timer
+  echo "$(date '+%Y-%m-%d %T') - backup timer not found)" | sudo tee -a /var/log/start-up.log > /dev/null
+  sudo systemctl enable mysql-backup.timer
+  sudo systemctl start mysql-backup.timer
 else
   echo "$(date '+%Y-%m-%d %T') - timer ok)" | sudo tee -a /var/log/start-up.log > /dev/null
 fi

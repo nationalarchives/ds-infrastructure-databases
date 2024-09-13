@@ -20,6 +20,23 @@ The instance is named ```[DB type]-[project name]-[function]```
 4. Start replication \
 ```START REPLICA;```
 
+
+## Replication Issues
+First steps to reset replication:
+On master database:
+```
+reset master;
+``` 
+On replica database:
+```
+stop replica;
+reset replica;
+reset master;
+start replica;
+```
+
+
+
 https://www.barryodonovan.com/2013/03/23/recovering-mysql-master-master-replication
 SELECT SERVICE_STATE FROM performance_schema.replication_connection_status;
 SELECT SERVICE_STATE FROM performance_schema.replication_applier_status;
