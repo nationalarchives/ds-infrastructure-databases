@@ -13,8 +13,8 @@ postgres_main_volume_size   = 100
 postgres_main_prime_key_name   = "postgres-main-live-eu-west-2"
 postgres_main_replica_key_name = "postgres-main-live-eu-west-2"
 
-postgres_main_auto_switch_on  = "true"
-postgres_main_auto_switch_off = "true"
+postgres_main_auto_switch_on  = "false"
+postgres_main_auto_switch_off = "false"
 
 postgres_main_prime_dns   = "postgres-main-prime.live.local"
 postgres_main_replica_dns = "postgres-main-replica.live.local"

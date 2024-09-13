@@ -42,6 +42,9 @@ jobs:
       asm_key: "/infrastructure/credentials/postgres-${{ github.event.inputs.project-name }}"
       s3_deployment_bucket: "ds-dev-deployment-source"
       s3_deployment_root: "db-servers/postgres/${{ github.event.inputs.project-name }}"
+    secrets:
+      vpc_id: ${{ secrets.VPC_ID_LIVE }}
+      subnet_id: ${{ secrets.SUBNET_ID_2A_LIVE }}
 
 # ------------------------------------------------------------------------------
 # staging deployment
@@ -62,6 +65,9 @@ jobs:
       asm_key: "/infrastructure/credentials/postgres-${{ github.event.inputs.project-name }}"
       s3_deployment_bucket: "ds-staging-deployment-source"
       s3_deployment_root: "db-servers/postgres/${{ github.event.inputs.project-name }}"
+    secrets:
+      vpc_id: ${{ secrets.VPC_ID_LIVE }}
+      subnet_id: ${{ secrets.SUBNET_ID_2A_LIVE }}
 
 # ------------------------------------------------------------------------------
 # live deployment
@@ -82,4 +88,7 @@ jobs:
       asm_key: "/infrastructure/credentials/postgres-${{ github.event.inputs.project-name }}"
       s3_deployment_bucket: "ds-live-deployment-source"
       s3_deployment_root: "db-servers/postgres/${{ github.event.inputs.project-name }}"
+    secrets:
+      vpc_id: ${{ secrets.VPC_ID_LIVE }}
+      subnet_id: ${{ secrets.SUBNET_ID_2A_LIVE }}
 ...
