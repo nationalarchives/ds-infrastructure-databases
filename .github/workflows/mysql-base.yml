@@ -44,6 +44,9 @@ jobs:
       asm_key: "/infrastructure/credentials/mysql-${{ github.event.inputs.project-name }}"
       s3_deployment_bucket: "ds-${{ github.event.inputs.account }}-deployment-source"
       s3_deployment_root: "mysql"
+    secrets:
+      vpc_id: ${{ secrets.VPC_ID_DEV }}
+      subnet_id: ${{ secrets.SUBNET_ID_2A_DEV }}
 
 # ------------------------------------------------------------------------------
 # staging deployment
@@ -65,6 +68,9 @@ jobs:
       asm_key: "/infrastructure/credentials/mysql-${{ github.event.inputs.project-name }}"
       s3_deployment_bucket: "ds-${{ github.event.inputs.account }}-deployment-source"
       s3_deployment_root: "mysql"
+    secrets:
+      vpc_id: ${{ secrets.VPC_ID_staging }}
+      subnet_id: ${{ secrets.SUBNET_ID_2A_STAGING }}
 
 # ------------------------------------------------------------------------------
 # live deployment
@@ -86,6 +92,9 @@ jobs:
       asm_key: "/infrastructure/credentials/mysql-${{ github.event.inputs.project-name }}"
       s3_deployment_bucket: "ds-${{ github.event.inputs.account }}-deployment-source"
       s3_deployment_root: "mysql"
+    secrets:
+      vpc_id: ${{ secrets.VPC_ID_LIVE }}
+      subnet_id: ${{ secrets.SUBNET_ID_2A_LIVE }}
 # ------------------------------------------------------------------------------
 # ds-backup deployment
 # ------------------------------------------------------------------------------
@@ -106,4 +115,7 @@ jobs:
       asm_key: "/infrastructure/credentials/mysql-${{ github.event.inputs.project-name }}"
       s3_deployment_bucket: "tna-backup-tooling"
       s3_deployment_root: "cloudwatch"
+    secrets:
+      vpc_id: ${{ secrets.VPC_ID_DS_BACKUP }}
+      subnet_id: ${{ secrets.SUBNET_ID_2A_DS_BACKUP }}
 ...
