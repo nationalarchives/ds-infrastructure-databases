@@ -96,7 +96,7 @@ jobs:
       base_role: "arn:aws:iam::637423167251:role/gha-oidc-role"
       playbook_role: "arn:aws:iam::637423167251:role/gha-devops-role"
       region: "eu-west-2"
-      account: "${{ github.event.inputs.account }}"
+      account: "backup"
       branch: "${{ github.event.inputs.branch }}"
       project_name: "${{ github.event.inputs.project-name }}"
       retention_days: "7"
