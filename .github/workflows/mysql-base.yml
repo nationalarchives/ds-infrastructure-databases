@@ -17,6 +17,7 @@ on:
         - dev
         - staging
         - live
+        - ds-backup
       project-name:
         type: string
         description: Project name
@@ -85,4 +86,24 @@ jobs:
       asm_key: "/infrastructure/credentials/mysql-${{ github.event.inputs.project-name }}"
       s3_deployment_bucket: "ds-${{ github.event.inputs.account }}-deployment-source"
       s3_deployment_root: "mysql"
+# ------------------------------------------------------------------------------
+# ds-backup deployment
+# ------------------------------------------------------------------------------
+  mysql-base-ami-ds-backup:
+    if: github.event.inputs.account == 'ds-backup'
+    uses: nationalarchives/ds-github-actions/.github/workflows/mysql-ami-build.yml@main
+    with:
+      base_role: "arn:aws:iam::637423167251:role/gha-oidc-role"
+      playbook_role: "arn:aws:iam::637423167251:role/gha-devops-role"
+      region: "eu-west-2"
+      account: "${{ github.event.inputs.account }}"
+      branch: "${{ github.event.inputs.branch }}"
+      project_name: "${{ github.event.inputs.project-name }}"
+      retention_days: "7"
+      key_name: "mysql-${{ github.event.inputs.project-name }}-${{ github.event.inputs.account }}-eu-west-2"
+      instance_type: 't3a.large'
+      volume_size: 100
+      asm_key: "/infrastructure/credentials/mysql-${{ github.event.inputs.project-name }}"
+      s3_deployment_bucket: "tna-backup-tooling"
+      s3_deployment_root: "cloudwatch"
 ...
