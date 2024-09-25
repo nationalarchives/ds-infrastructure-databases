@@ -141,7 +141,7 @@ jobs:
       playbook_role: "arn:aws:iam::637423167251:role/gha-devops-role"
       region: "eu-west-2"
       branch: "${{ github.event.inputs.branch }}"
-      account: "${{ github.event.inputs.account }}"
+      account: "backup"
       db_type: "${{ github.event.inputs.db-type }}"
       project_name: "${{ github.event.inputs.db-type }}-${{ github.event.inputs.project-name }}"
       function: "${{ github.event.inputs.function }}"
