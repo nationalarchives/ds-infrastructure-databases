@@ -1,0 +1,19 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+          "Action": [
+              "s3:Get*",
+              "s3:List*",
+              "s3:PutObject"
+          ],
+          "Effect": "Allow",
+          "Resource": [
+              "arn:aws:s3:::rds-import-export-${environment}ds",
+              "arn:aws:s3:::ds-${environment}-rds-import-export",
+              "arn:aws:s3:::ds-${environment}-rds-import-export/*",
+              "arn:aws:s3:::rds-import-export-${environment}ds/*"
+          ]
+      }
+  ]
+}
