@@ -147,7 +147,7 @@ resource "mongodbatlas_cloud_provider_access_authorization" "auth_role" {
    role_id    =  mongodbatlas_cloud_provider_access_setup.role.role_id
 
    aws {
-      iam_assumed_role_arn = aws_iam_role.mongodbatlas.arn
+      iam_assumed_role_arn = module.iam_roles.aws_iam_role.mongodbatlas.arn
    }
 }
 
