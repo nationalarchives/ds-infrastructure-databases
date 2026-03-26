@@ -80,7 +80,7 @@ variable "perform_backup_exports" {
 
 
 module "mongodb" {
-  source = "mongodb/"
+  source = "./mongodb/"
   account = "ds-${var.environment}"
   owner = "Digital Services"
   cost_centre = 53
