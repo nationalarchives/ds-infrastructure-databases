@@ -23,6 +23,7 @@ variable "backup_reference_hour_of_day" {}
 variable "daily_backup_retention_in_days" {}
 variable "monthly_backup_retention_in_months" {}
 variable "perform_backup_exports" {}
+variable "atlas_role_arn" {}
 locals {
     kew_developer_network    = data.aws_ssm_parameter.kew_developer_network.value
     kew_app_network          = data.aws_ssm_parameter.kew_app_network.value
@@ -147,7 +148,7 @@ resource "mongodbatlas_cloud_provider_access_authorization" "auth_role" {
    role_id    =  mongodbatlas_cloud_provider_access_setup.role.role_id
 
    aws {
-      iam_assumed_role_arn = module.iam_roles.aws_iam_role.mongodbatlas.arn
+      iam_assumed_role_arn = var.atlas_role_arn
    }
 }
 
