@@ -108,4 +108,9 @@ module "mongodb" {
   daily_backup_retention_in_days = var.daily_backup_retention_in_days
   monthly_backup_retention_in_months = var.monthly_backup_retention_in_months
   perform_backup_exports = var.perform_backup_exports
+
+  providers = {
+    aws.intersite   = aws.intersite
+    aws.environment = aws.environment
+  }
 }
