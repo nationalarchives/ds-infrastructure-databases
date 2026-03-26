@@ -92,6 +92,8 @@ module "mongodb" {
   vpc_id = data.aws_ssm_parameter.vpc_id.value
   private_subnet_a_cidr = data.aws_ssm_parameter.private_subnet_a_cidr.value
   private_subnet_b_cidr = data.aws_ssm_parameter.private_subnet_b_cidr.value
+  private_subnet_a_id = data.aws_ssm_parameter.private_subnet_a_id.value
+  private_subnet_b_id = data.aws_ssm_parameter.private_subnet_b_id.value
   mongodb_org_id = data.aws_ssm_parameter.mongodb_org_id.value
   mongo_db_major_version = var.mongo_db_major_version
   instance_size = var.instance_size

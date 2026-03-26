@@ -5,6 +5,8 @@ variable "environment" {}
 variable "vpc_id" {}
 variable "private_subnet_a_cidr" {}
 variable "private_subnet_b_cidr" {}
+variable "private_subnet_a_id" {}
+variable "private_subnet_b_id" {}
 variable "mongodb_org_id" {}
 variable "mongo_db_major_version" {}
 variable "instance_size" {}
@@ -100,8 +102,8 @@ resource "aws_vpc_endpoint" "mongo_service" {
     service_name        = mongodbatlas_privatelink_endpoint.endpoint.endpoint_service_name
     vpc_endpoint_type   = "Interface"
     subnet_ids          = [
-        data.aws_ssm_parameter.private_subnet_a_id.value,
-        data.aws_ssm_parameter.private_subnet_b_id.value
+        var.private_subnet_a_id,
+        var.private_subnet_b_id
     ]
     security_group_ids  = [aws_security_group.endpoint_security_group.id]
     private_dns_enabled = false
