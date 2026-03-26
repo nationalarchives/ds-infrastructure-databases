@@ -60,6 +60,10 @@ variable "cloud_backup" {
     default     = true
 }
 
+variable "backup_reference_hour_of_day" {
+    description = "When to run Mongo backups"
+    type        = string
+}
 variable "daily_backup_retention_in_days" {
     description = "The number of days to retain daily backups for the MongoDB cluster, e.g. 2"
     type        = number
