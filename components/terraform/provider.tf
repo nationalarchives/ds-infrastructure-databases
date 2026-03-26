@@ -5,8 +5,8 @@ terraform {
   required_providers {
       aws = ">= 5.14.0"
       mongodbatlas = {
-        source  = "mongodb/mongodbatlas"
-        version = "~> 2.0"
+          source  = "mongodb/mongodbatlas"
+          version = ">=1.22.0"
       }
   }
 }
