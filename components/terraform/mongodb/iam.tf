@@ -1,13 +1,11 @@
-variable "mongodbatlas_cloud_provider_access_setup_arn" {}
-variable "external_id" {}
 # ----------------------------------------------------------------------------------------------------------------------
 # Role for MongoDB Atlas to access AWS Resources in our account
 # ----------------------------------------------------------------------------------------------------------------------
 resource "aws_iam_role" "mongodbatlas" {
     name = "mongodbatlas-role"
     assume_role_policy = templatefile("${path.root}/templates/atlas-trust-policy.json", {
-        aws_account = var.mongodbatlas_cloud_provider_access_setup_arn
-        external_id = var.external_id
+        aws_account = mongodbatlas_cloud_provider_access_setup.role.aws_config[0].atlas_aws_account_arn
+        external_id = mongodbatlas_cloud_provider_access_setup.role.aws_config[0].atlas_assumed_role_external_id
     })
     tags = {
         Name       = "mongodbatlas-role"
