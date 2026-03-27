@@ -122,7 +122,7 @@ resource "aws_vpc_endpoint" "mongo_service" {
 }
 
 resource "mongodbatlas_privatelink_endpoint_service" "endpoint_service" {
-    project_id          = mongodbatlas_privatelink_endpoint.endpoint.project_id
+    project_id          = mongodbatlas_project.project.id
     private_link_id     = mongodbatlas_privatelink_endpoint.endpoint.id
     endpoint_service_id = aws_vpc_endpoint.mongo_service.id
     provider_name       = "AWS"
@@ -144,7 +144,7 @@ resource "mongodbatlas_cloud_provider_access_setup" "role" {
 # assume in other AWS accounts
 # NOTE: The below mongodbatlas_cloud_provider_access_authorization resource depends on aws_iam_role.mongodbatlas in iam.tf
 resource "mongodbatlas_cloud_provider_access_authorization" "auth_role" {
-   project_id =  mongodbatlas_cloud_provider_access_setup.role.project_id
+   project_id =  mongodbatlas_project.project.id
    role_id    =  mongodbatlas_cloud_provider_access_setup.role.role_id
 
    aws {
