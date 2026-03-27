@@ -85,6 +85,7 @@ variable "perform_backup_exports" {
 module "mongodb" {
   source = "./mongodb"
   account = "ds-${var.environment}"
+  account_number = data.aws_caller_identity.current.account_id
   owner = "Digital Services"
   cost_centre = 53
   environment = var.environment

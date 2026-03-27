@@ -1,4 +1,5 @@
 variable "account" {}
+variable "account_number" {}
 variable "owner" {}
 variable "cost_centre" {}
 variable "environment" {}
