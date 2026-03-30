@@ -28,7 +28,7 @@ locals {
     kew_developer_network    = data.aws_ssm_parameter.kew_developer_network.value
     kew_app_network          = data.aws_ssm_parameter.kew_app_network.value
     kew_new_test_app_network = data.aws_ssm_parameter.kew_new_test_app_network.value
-    kew_new_live_app_network = data.aws_ssm_parameter.kew_new_live_app_network
+    kew_new_live_app_network = data.aws_ssm_parameter.kew_new_live_app_network.value
     kew_wvd_network = data.aws_ssm_parameter.kew_wvd_network.value
     london_client_vpn_network = data.aws_ssm_parameter.london_client_vpn_network.value
 }
