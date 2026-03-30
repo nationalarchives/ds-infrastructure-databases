@@ -75,7 +75,7 @@ resource "mongodbatlas_team_project_assignment" "platform_team" {
 
 resource "mongodbatlas_team_project_assignment" "developer_team" {
     project_id = mongodbatlas_project.project.id
-    team_id    = mongodbatlas_team.developer_team
+    team_id    = mongodbatlas_team.developer_team.id
     role_names = ["GROUP_OWNER", "GROUP_DATA_ACCESS_ADMIN", "GROUP_CLUSTER_MANAGER"]
 }
 
