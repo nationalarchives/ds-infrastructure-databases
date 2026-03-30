@@ -56,16 +56,26 @@ resource "mongodbatlas_project" "project" {
     is_schema_advisor_enabled                        = true
 }
 
+resource "mongodbatlas_team" "platform_team" {
+    name   = "Platform Team"
+    org_id = var.mongodb_org_id
+}
+
+resource "mongodbatlas_team" "developer_team" {
+    name   = "Developer Team"
+    org_id = var.mongodb_org_id
+}
+
 # role permissions documented here: https://www.mongodb.com/docs/atlas/reference/user-roles/#project-roles
 resource "mongodbatlas_team_project_assignment" "platform_team" {
     project_id = mongodbatlas_project.project.id
-    team_id    = data.aws_ssm_parameter.atlas_platform_team_id.value
+    team_id    = mongodbatlas_team.platform_team.id
     role_names = ["GROUP_OWNER", "GROUP_DATA_ACCESS_ADMIN", "GROUP_CLUSTER_MANAGER"]
 }
 
 resource "mongodbatlas_team_project_assignment" "developer_team" {
     project_id = mongodbatlas_project.project.id
-    team_id    = data.aws_ssm_parameter.atlas_developer_team_id.value
+    team_id    = mongodbatlas_team.developer_team
     role_names = ["GROUP_OWNER", "GROUP_DATA_ACCESS_ADMIN", "GROUP_CLUSTER_MANAGER"]
 }
 

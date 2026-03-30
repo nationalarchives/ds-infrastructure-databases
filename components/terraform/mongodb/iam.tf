@@ -1,6 +1,9 @@
 # ----------------------------------------------------------------------------------------------------------------------
 # Role for MongoDB Atlas to access AWS Resources in our account
 # ----------------------------------------------------------------------------------------------------------------------
+
+# NOTE: I tried placing this code in {path.root}/iam/roles but it created a circular dependency
+#   which I couldn't resolve.
 resource "aws_iam_role" "mongodbatlas" {
     name = "mongodbatlas-role"
     assume_role_policy = templatefile("${path.root}/templates/atlas-trust-policy.json", {

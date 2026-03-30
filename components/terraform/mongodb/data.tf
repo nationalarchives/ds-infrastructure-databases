@@ -2,16 +2,6 @@
 # MongoDB sources
 # ------------------------------------------------------------------------------
 
-data "aws_ssm_parameter" "atlas_platform_team_id" {
-    provider = aws.intersite
-    name = "/infrastructure/databases/mongodb/atlas_platform_team_id"
-}
-
-data "aws_ssm_parameter" "atlas_developer_team_id" {
-    provider = aws.intersite
-    name = "/infrastructure/databases/mongodb/atlas_developer_team_id"
-}
-
 data "aws_ssm_parameter" "mongodb_org_id" {
     provider = aws.intersite
     name = "/infrastructure/databases/mongodb/atlas_org_id"
