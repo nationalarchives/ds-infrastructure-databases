@@ -133,7 +133,7 @@ resource "aws_vpc_endpoint" "mongo_service" {
 
 resource "mongodbatlas_privatelink_endpoint_service" "endpoint_service" {
     project_id          = mongodbatlas_project.project.id
-    private_link_id     = mongodbatlas_privatelink_endpoint.endpoint.id
+    private_link_id     = mongodbatlas_privatelink_endpoint.endpoint.private_link_id
     endpoint_service_id = aws_vpc_endpoint.mongo_service.id
     provider_name       = "AWS"
 }
