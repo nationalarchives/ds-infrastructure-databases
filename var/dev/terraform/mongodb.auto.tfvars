@@ -1,7 +1,7 @@
 environment = "dev"
 mongo_db_major_version = "8.0"
 instance_size  = "M20"
-disk_size_gb   = 128
+disk_size_gb   = 100
 # Note: the provider_disk_iops value below (3000) was chosen arbitrarily because it's the default IOPS
 # for the size of cluster we are using at the time of setting this value. A lower value is not possible.
 # A higher value may be more appropriate subject to testing. I previously set this to 0 but terraform
