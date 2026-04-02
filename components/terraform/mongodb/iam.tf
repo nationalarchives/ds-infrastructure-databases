@@ -13,6 +13,12 @@ resource "aws_iam_role" "mongodbatlas" {
     tags = {
         Name       = "mongodbatlas-role"
         Created_By = "steven.hirschorn@nationalarchives.gov.uk"
+        Account    = var.account
+        CostCentre  = var.cost_centre
+        Environment = var.environment
+        Owner      = var.owner
+        Region     =
+        Terraform = "true"
     }
 }
 
