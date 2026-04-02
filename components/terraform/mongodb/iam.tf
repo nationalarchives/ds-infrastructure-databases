@@ -17,7 +17,6 @@ resource "aws_iam_role" "mongodbatlas" {
         CostCentre  = var.cost_centre
         Environment = var.environment
         Owner      = var.owner
-        Region     =
         Terraform = "true"
     }
 }
