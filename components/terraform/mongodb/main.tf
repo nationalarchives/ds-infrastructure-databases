@@ -56,7 +56,7 @@ resource "mongodbatlas_project" "project" {
     is_schema_advisor_enabled                        = true
 
     lifecycle {
-      ignore_changes = ["teams"]
+      ignore_changes = [teams]
     }
 
 }
