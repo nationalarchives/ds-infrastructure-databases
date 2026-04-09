@@ -54,6 +54,11 @@ resource "mongodbatlas_project" "project" {
     is_realtime_performance_panel_enabled            = true
     # https://registry.terraform.io/providers/mongodb/mongodbatlas/latest/docs/resources/project#is_schema_advisor_enabled
     is_schema_advisor_enabled                        = true
+
+    lifecycle {
+      ignore_changes = ["teams"]
+    }
+
 }
 
 resource "mongodbatlas_team" "platform_team" {
