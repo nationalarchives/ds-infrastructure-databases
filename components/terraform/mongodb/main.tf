@@ -61,16 +61,6 @@ resource "mongodbatlas_project" "project" {
 
 }
 
-resource "mongodbatlas_team" "platform_team" {
-    name   = "Platform Team"
-    org_id = var.mongodb_org_id
-}
-
-resource "mongodbatlas_team" "developer_team" {
-    name   = "Developer Team"
-    org_id = var.mongodb_org_id
-}
-
 # role permissions documented here: https://www.mongodb.com/docs/atlas/reference/user-roles/#project-roles
 resource "mongodbatlas_team_project_assignment" "platform_team" {
     project_id = mongodbatlas_project.project.id
