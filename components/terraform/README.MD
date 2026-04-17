@@ -12,3 +12,6 @@ To create the common resources, run the following command from the root of the r
 ```terraform apply -target=module.mongodb-common```
 
 Do NOT run an untargetted apply of this repo.
+
+# Pre-requisite
+The MongoDB Atlas Organisation is not created in terraform. Create it manually and add the organisation ID to the parameter store (/infrastructure/databases/mongodb/atlas_org_id in the Intersite account)
