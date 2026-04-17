@@ -7,7 +7,7 @@ resource "aws_ssm_parameter" "mongodb_platform_team_id" {
     provider = aws.intersite
     name  = "/infrastructure/databases/mongodb/atlas_platform_team_id"
     type  = "String"
-    value = mongodbatlas_team.platform_team.id
+    value = mongodbatlas_team.platform_team.team_id
 }
 
 resource "mongodbatlas_team" "developer_team" {
@@ -19,6 +19,6 @@ resource "aws_ssm_parameter" "mongodb_developer_team_id" {
     provider = aws.intersite
     name  = "/infrastructure/databases/mongodb/atlas_developer_team_id"
     type  = "String"
-    value = mongodbatlas_team.developer_team.id
+    value = mongodbatlas_team.developer_team.team_id
 }
 
