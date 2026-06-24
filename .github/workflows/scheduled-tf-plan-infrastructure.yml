@@ -1,0 +1,89 @@
+name: TF scheduled plan infrastructure
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  plan-dev:
+    runs-on: ubuntu-latest
+    env:
+      working_dir: components/terraform
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: echo "role=arn:aws:iam::846769538626:role/GithubOIDCProviderIAMRolePermissions-Role-I80RXHT6O1PL" >> $GITHUB_ENV
+
+      - name: get AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: eu-west-2
+          role-to-assume: ${{ env.role }}
+          role-session-name: MySessionName
+
+      - name: setup runner
+        uses: ./.github/shared-actions/setup-runtime
+
+      - name: Terraform plan
+        id: tf_run
+        with:
+          account: "dev"
+        uses: ./.github/shared-actions/terraform-plan
+
+      - name: get slack credentials
+        uses: aws-actions/aws-secretsmanager-get-secrets@v2
+        with:
+          secret-ids: |
+            ,infrastructure/ds-infrastructure-notifications/slack
+          parse-json-secrets: true
+
+      - name: Slack notification
+        if: ${{ steps.tf_run.outputs.run_status == '1' }}
+        uses: slackapi/slack-github-action@v2.1.0
+        env:
+          tf_run_status: ${{ steps.tf_run.outputs.run_status }}
+        with:
+          method: chat.postMessage
+          token: ${{ env.SLACK_BOT_TOKEN }}
+          payload: |
+            channel: ${{ env.SLACK_CHANNEL_ID }}
+            text: "*ds-service-aws-backups*\n\n :x: Terraform plan encountered an Error\nAccount: ${{ inputs.account }}\nBranch: `${{ inputs.branch }}`\nRun ID: `${{ github.run_id }}`\nRun URL: `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`\n\n*Please check the run logs for more details.*"
+
+      - name: Slack notification
+        if: ${{ steps.tf_run.outputs.run_status == '2' }}
+        uses: slackapi/slack-github-action@v2.1.0
+        env:
+          tf_run_status: ${{ steps.tf_run.outputs.run_status }}
+        with:
+          method: chat.postMessage
+          token: ${{ env.SLACK_BOT_TOKEN }}
+          payload: |
+            channel: ${{ env.SLACK_CHANNEL_ID }}
+            text: "*ds-service-aws-backups*\n\n :git-requested-changes: Terraform indicates changes to the infrastructure or service\nAccount: ${{ inputs.account }}\nBranch: `${{ inputs.branch }}`\nRun ID: `${{ github.run_id }}`\nRun URL: `${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}`\n\n*Please check the run logs for more details.*"
+
+plan-staging:
+    runs-on: ubuntu-latest
+    env:
+      working_dir: components/terraform
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: echo "role=arn:aws:iam::337670467269:role/GitHubActionRole" >> $GITHUB_ENV
+        if: ${{ inputs.account  == 'staging' }}
+
+plan-live:
+    runs-on: ubuntu-latest
+    env:
+      working_dir: components/terraform
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+
+      - run: echo "role=arn:aws:iam::968803923593:role/github-oidc-Role-1QSZDDE2NZQV0" >> $GITHUB_ENV
+        if: ${{ inputs.account  == 'live' }}
+
