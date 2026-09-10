@@ -22,6 +22,17 @@
             ]
         },
         {
+            "Action": [
+                "s3:PutObject"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:eu-west-2:637423167251:accesspoint/ds-bkup-databases/object/digital-services/*",
+                "arn:aws:s3:::tna-backup-drop-zone/digital-services/*"
+            ],
+            "Sid": "APAccess"
+        },
+        {
             "Effect": "Allow",
             "Action": [
                 "secretsmanager:GetResourcePolicy",
