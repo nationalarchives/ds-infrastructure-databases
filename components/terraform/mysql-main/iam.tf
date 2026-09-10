@@ -10,7 +10,7 @@ resource "aws_iam_policy" "mysql_main_deployment_source_access_policy" {
     )
 }
 
-resource "aws_iam_policy" "mysql_main_backup_policy" {
+resource "aws_iam_policy" "mysql_main_prime_backup_policy" {
     name        = "mysql-${var.resource_identifier}-backup-policy"
     description = "permissions for backups"
 
