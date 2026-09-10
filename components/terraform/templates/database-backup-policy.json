@@ -12,7 +12,7 @@
             ]
         },
         {
-            "Sid": "FolderAccess",
+            "Sid": "LocalFolderAccess",
             "Action": [
                 "s3:PutObject"
             ],
