@@ -50,7 +50,7 @@ resource "aws_iam_role_policy_attachment" "deployment_source_access_policy" {
 }
 resource "aws_iam_role_policy_attachment" "backup_policy" {
     role       = aws_iam_role.mysql_main_role.name
-    policy_arn = aws_iam_policy.mysql_main_backup_policy.arn
+    policy_arn = aws_iam_policy.mysql_main_prime_backup_policy.arn
 }
 resource "aws_iam_role_policy_attachment" "attach_ebs_volume_policy" {
     role       = aws_iam_role.mysql_main_role.name
